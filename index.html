@@ -339,13 +339,14 @@ function renderMarkdown(md){
   let inList=false;
   for(const line of lines){
     const m=line.match(/^\s*\d+\.\s+(.+)$/);
+    const t=line.trim();
     if(m){
       if(!inList){result.push("<ol>");inList=true}
       result.push("<li>"+m[1]+"</li>");
+    }else if(!t){
+      continue;
     }else{
       if(inList){result.push("</ol>");inList=false}
-      const t=line.trim();
-      if(!t)continue;
       if(t.startsWith("<h")||t.startsWith("<ol")||t.startsWith("</")){
         result.push(t);
       }else{
