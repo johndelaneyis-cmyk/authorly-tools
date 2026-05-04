@@ -212,7 +212,7 @@ textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(
 <div class="modal-bg" id="settings-modal">
   <div class="modal-box">
     <h3>Anthropic API key</h3>
-    <p>Authorly's tools call <a href="https://console.anthropic.com/" target="_blank" rel="noopener">Anthropic's Claude API</a> directly from your browser. Your key is stored in this browser only - never sent to Authorly (we don't run servers).</p>
+    <p>Authorly's tools call <a href="https://console.anthropic.com/" target="_blank" rel="noopener noreferrer">Anthropic's Claude API</a> directly from your browser. Your key is stored in this browser only - never sent to Authorly (we don't run servers).</p>
     <label for="api-key-input">API key</label>
     <input type="password" id="api-key-input" placeholder="sk-ant-..." autocomplete="off">
     <div class="key-status" id="key-status">Not set</div>
@@ -273,7 +273,7 @@ btn.addEventListener("click",async()=>{
   try{
     const apiKey=getApiKey();
     if(!apiKey){
-      outBody.innerHTML='<div class="error">Add your Anthropic API key in Settings (top right) to use this tool. <a href="https://console.anthropic.com/" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">Get a key</a> - free signup, ~$0.01 per search.</div>';
+      outBody.innerHTML='<div class="error">Add your Anthropic API key in Settings (top right) to use this tool. <a href="https://console.anthropic.com/" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:underline">Get a key</a> - free signup, ~$0.01 per search.</div>';
       openSettingsModal();
       return;
     }
@@ -318,7 +318,10 @@ btn.addEventListener("click",async()=>{
     const data=await res.json();
     if(!res.ok){
       const m=(data.error&&data.error.message)?data.error.message:("API error ("+res.status+")");
-      outBody.innerHTML='<div class="error">'+m+'</div>';
+      const errDiv=document.createElement('div');
+      errDiv.className='error';
+      errDiv.textContent=m;
+      outBody.replaceChildren(errDiv);
     }else{
       const txt=(data.content&&data.content[0]&&data.content[0].text)||"";
       outBody.innerHTML=renderMarkdown(txt);
