@@ -105,26 +105,6 @@ textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 ::selection{background:var(--accent);color:var(--paper)}
 
-/* Settings modal */
-.settings-link{background:none;border:none;color:var(--ink-mute);font:inherit;font-size:15px;cursor:pointer;padding:0;border-bottom:1px solid transparent;transition:border-color .2s,color .2s}
-.settings-link:hover{border-bottom-color:var(--accent);color:var(--ink)}
-.modal-bg{display:none;position:fixed;inset:0;background:rgba(40,30,20,.5);align-items:center;justify-content:center;z-index:1000;padding:20px}
-.modal-bg.open{display:flex}
-.modal-box{background:var(--paper-2);border-radius:6px;max-width:480px;width:100%;padding:32px;box-shadow:0 20px 60px var(--shadow)}
-.modal-box h3{font-family:"Fraunces",serif;font-variation-settings:"opsz" 144,"SOFT" 30;font-size:26px;font-weight:500;margin:0 0 10px;line-height:1.15}
-.modal-box p{color:var(--ink-mute);font-size:15px;margin:0 0 18px;line-height:1.55}
-.modal-box p a{color:var(--ink)}
-.modal-box label{display:block;font-size:13px;font-weight:600;margin-bottom:8px;color:var(--ink)}
-.modal-box input{width:100%;padding:12px 14px;border:1px solid var(--rule);border-radius:4px;font-family:inherit;font-size:14px;background:#fff;box-sizing:border-box;color:var(--ink)}
-.modal-box input:focus{outline:none;border-color:var(--ink)}
-.modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:20px}
-.modal-actions button{padding:10px 18px;border-radius:4px;font:inherit;font-size:14px;font-weight:500;cursor:pointer;border:1px solid var(--rule);transition:background .2s,color .2s}
-.modal-actions .cancel{background:none;color:var(--ink-mute)}
-.modal-actions .cancel:hover{color:var(--ink)}
-.modal-actions .save{background:var(--ink);color:var(--paper);border-color:var(--ink)}
-.modal-actions .save:hover{background:var(--ink-2)}
-.key-status{font-size:12px;color:var(--ink-mute);margin-top:8px}
-.key-status.set{color:#2d6a4f}
 </style>
 </head>
 <body>
@@ -136,7 +116,6 @@ textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(
     <a href="#tool">Tool</a>
     <a href="#more">More</a>
     <a href="#about">About</a>
-    <button class="settings-link" id="open-settings" type="button" aria-label="Settings">Settings</button>
   </nav>
 </header>
 
@@ -198,7 +177,7 @@ textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(
   <div class="eyebrow">About</div>
   <h2 class="section-title">Built for indie authors.</h2>
   <p style="font-size:17px;line-height:1.7;color:var(--ink);margin:0 0 16px">Authorly is a small, growing collection of free tools for self-published authors. No accounts. No upload-your-manuscript. No paywalls on the basics. Just tools that work.</p>
-  <p style="font-size:17px;line-height:1.7;color:var(--ink-mute);margin:0">Powered by Anthropic''s Claude — the AI we found gives the highest-quality output for craft work like this. Authorly calls the Claude API directly from your browser using your own API key (free signup at console.anthropic.com, around $0.01 per search). Your key stays in your browser - we never see it.</p>
+  <p style="font-size:17px;line-height:1.7;color:var(--ink-mute);margin:0">Powered by Anthropic''s Claude — the AI we found gives the highest-quality output for craft work like this. Powered by Claude AI. Five free searches per day per visitor - more than enough for most authors. We pay the AI bill so you don't have to. Pro tier with unlimited searches coming soon.</p>
 </section>
 
 </main>
@@ -209,35 +188,7 @@ textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(
 
 </div>
 
-<div class="modal-bg" id="settings-modal">
-  <div class="modal-box">
-    <h3>Anthropic API key</h3>
-    <p>Authorly's tools call <a href="https://console.anthropic.com/" target="_blank" rel="noopener noreferrer">Anthropic's Claude API</a> directly from your browser. Your key is stored in this browser only - never sent to Authorly (we don't run servers).</p>
-    <label for="api-key-input">API key</label>
-    <input type="password" id="api-key-input" placeholder="sk-ant-..." autocomplete="off">
-    <div class="key-status" id="key-status">Not set</div>
-    <div class="modal-actions">
-      <button class="cancel" id="cancel-key" type="button">Cancel</button>
-      <button class="save" id="save-key" type="button">Save</button>
-    </div>
-  </div>
-</div>
 <script>
-const STORAGE_KEY="authorly_anthropic_key";
-function getApiKey(){return localStorage.getItem(STORAGE_KEY)||""}
-function setApiKey(v){if(v)localStorage.setItem(STORAGE_KEY,v);else localStorage.removeItem(STORAGE_KEY)}
-
-const settingsModal=document.getElementById("settings-modal");
-const apiInput=document.getElementById("api-key-input");
-const keyStatus=document.getElementById("key-status");
-function refreshKeyStatus(){const has=!!getApiKey();keyStatus.textContent=has?"Saved":"Not set";keyStatus.classList.toggle("set",has)}
-function openSettingsModal(){apiInput.value=getApiKey();refreshKeyStatus();settingsModal.classList.add("open");setTimeout(()=>apiInput.focus(),50)}
-function closeSettingsModal(){settingsModal.classList.remove("open")}
-document.getElementById("open-settings").addEventListener("click",openSettingsModal);
-document.getElementById("cancel-key").addEventListener("click",closeSettingsModal);
-document.getElementById("save-key").addEventListener("click",()=>{setApiKey(apiInput.value.trim());refreshKeyStatus();closeSettingsModal()});
-settingsModal.addEventListener("click",e=>{if(e.target===settingsModal)closeSettingsModal()});
-apiInput.addEventListener("keydown",e=>{if(e.key==="Enter"){setApiKey(apiInput.value.trim());refreshKeyStatus();closeSettingsModal()}});
 
 const ta=document.getElementById("book-desc");
 const cc=document.getElementById("cc");
@@ -271,61 +222,36 @@ btn.addEventListener("click",async()=>{
   out.classList.add("visible");
   out.scrollIntoView({behavior:"smooth",block:"nearest"});
   try{
-    const apiKey=getApiKey();
-    if(!apiKey){
-      outBody.innerHTML='<div class="error">Add your Anthropic API key in Settings (top right) to use this tool. <a href="https://console.anthropic.com/" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:underline">Get a key</a> - free signup, ~$0.01 per search.</div>';
-      openSettingsModal();
+
+    let res;
+    try {
+      res = await fetch("/api/comp", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({description: desc, genre: selectedGenre})
+      });
+    } catch (e) {
+      outBody.innerHTML = '<div class="error">Connection trouble. Check your internet and try again.</div>';
       return;
     }
-    const sysPrompt=[
-      "You are a literary scout for indie authors using Amazon KDP. Given a book description, suggest 5 published comp titles that share specific concrete elements - subgenre, tropes, tone, pacing, setting, target reader.",
-      "",
-      "Strict rules:",
-      "- Only suggest books published 2015 or later (older books dilute Amazon algorithm signal)",
-      "- Prefer mid-list and recent breakouts (5K-500K Goodreads ratings); avoid mega-bestsellers (1M+ ratings) unless directly subgenre-relevant",
-      "- Never invent a book - if you are not confident a title and author are real, omit it. Five strong is better than seven shaky.",
-      "- Each \"why\" must name 2+ specific overlapping elements (tropes, setting, tone, structure) - never generic phrases like \"fans of\" or \"perfect for\"",
-      "",
-      "Format your response as markdown:",
-      "",
-      "## 5 comp titles",
-      "1. **Title** by Author (Year) - Why: [2+ specific overlaps]",
-      "2. **Title** by Author (Year) - Why: [2+ specific overlaps]",
-      "3. **Title** by Author (Year) - Why: [2+ specific overlaps]",
-      "4. **Title** by Author (Year) - Why: [2+ specific overlaps]",
-      "5. **Title** by Author (Year) - Why: [2+ specific overlaps]",
-      "",
-      "IMPORTANT: do NOT put blank lines between the numbered items - they must be on consecutive lines.",
-      "",
-      "## Use these in",
-      "- Amazon book description: \"for readers who loved X and Y\"",
-      "- Amazon Ads: paste author names into the Authors targeting field",
-      "- Query letters and back-cover copy",
-      "",
-      "Always verify titles on Amazon before publishing - AI can get details wrong."
-    ].join("\n");
-    const userMsg="Book description:\n"+desc+(selectedGenre?("\n\nGenre: "+selectedGenre):"");
-    const res=await fetch("https://api.anthropic.com/v1/messages",{
-      method:"POST",
-      headers:{
-        "Content-Type":"application/json",
-        "x-api-key":apiKey,
-        "anthropic-version":"2023-06-01",
-        "anthropic-dangerous-direct-browser-access":"true"
-      },
-      body:JSON.stringify({model:"claude-sonnet-4-5",max_tokens:1500,system:sysPrompt,messages:[{role:"user",content:userMsg}]})
-    });
-    const data=await res.json();
-    if(!res.ok){
-      const m=(data.error&&data.error.message)?data.error.message:("API error ("+res.status+")");
-      const errDiv=document.createElement('div');
-      errDiv.className='error';
-      errDiv.textContent=m;
+    let data;
+    try { data = await res.json(); } catch { data = {}; }
+    if (!res.ok) {
+      const errDiv = document.createElement('div');
+      errDiv.className = 'error';
+      errDiv.textContent = data.error || ('Request failed (' + res.status + ').');
       outBody.replaceChildren(errDiv);
-    }else{
-      const txt=(data.content&&data.content[0]&&data.content[0].text)||"";
-      outBody.innerHTML=renderMarkdown(txt);
+    } else {
+      outBody.innerHTML = renderMarkdown(data.text || "");
       attachCopyButtons();
+      if (typeof data.remaining === 'number') {
+        const note = document.createElement('div');
+        note.style.cssText = 'margin-top:18px;padding:10px 14px;background:var(--rule-soft,#f3ede0);border-radius:6px;font-size:13px;color:var(--ink-mute);text-align:center';
+        note.textContent = data.remaining === 0
+          ? 'No free searches remaining today. Limit resets at midnight UTC.'
+          : data.remaining + ' free search' + (data.remaining === 1 ? '' : 'es') + ' remaining today.';
+        outBody.appendChild(note);
+      }
     }
   }catch(err){
     outBody.innerHTML="<div class=\"error\">Connection trouble. Check your internet and try again.</div>";
