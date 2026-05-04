@@ -208,6 +208,20 @@ textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(
 </footer>
 
 </div>
+
+<div class="modal-bg" id="settings-modal">
+  <div class="modal-box">
+    <h3>Anthropic API key</h3>
+    <p>Authorly's tools call <a href="https://console.anthropic.com/" target="_blank" rel="noopener">Anthropic's Claude API</a> directly from your browser. Your key is stored in this browser only - never sent to Authorly (we don't run servers).</p>
+    <label for="api-key-input">API key</label>
+    <input type="password" id="api-key-input" placeholder="sk-ant-..." autocomplete="off">
+    <div class="key-status" id="key-status">Not set</div>
+    <div class="modal-actions">
+      <button class="cancel" id="cancel-key" type="button">Cancel</button>
+      <button class="save" id="save-key" type="button">Save</button>
+    </div>
+  </div>
+</div>
 <script>
 const STORAGE_KEY="authorly_anthropic_key";
 function getApiKey(){return localStorage.getItem(STORAGE_KEY)||""}
@@ -365,19 +379,5 @@ function attachCopyButtons(){
   });
 }
 </script>
-
-<div class="modal-bg" id="settings-modal">
-  <div class="modal-box">
-    <h3>Anthropic API key</h3>
-    <p>Authorly's tools call <a href="https://console.anthropic.com/" target="_blank" rel="noopener">Anthropic's Claude API</a> directly from your browser. Your key is stored in this browser only - never sent to Authorly (we don't run servers).</p>
-    <label for="api-key-input">API key</label>
-    <input type="password" id="api-key-input" placeholder="sk-ant-..." autocomplete="off">
-    <div class="key-status" id="key-status">Not set</div>
-    <div class="modal-actions">
-      <button class="cancel" id="cancel-key" type="button">Cancel</button>
-      <button class="save" id="save-key" type="button">Save</button>
-    </div>
-  </div>
-</div>
 </body>
 </html>
