@@ -289,10 +289,13 @@ btn.addEventListener("click",async()=>{
       "Format your response as markdown:",
       "",
       "## 5 comp titles",
-      "",
       "1. **Title** by Author (Year) - Why: [2+ specific overlaps]",
       "2. **Title** by Author (Year) - Why: [2+ specific overlaps]",
-      "... (5 total)",
+      "3. **Title** by Author (Year) - Why: [2+ specific overlaps]",
+      "4. **Title** by Author (Year) - Why: [2+ specific overlaps]",
+      "5. **Title** by Author (Year) - Why: [2+ specific overlaps]",
+      "",
+      "IMPORTANT: do NOT put blank lines between the numbered items - they must be on consecutive lines.",
       "",
       "## Use these in",
       "- Amazon book description: \"for readers who loved X and Y\"",
@@ -339,13 +342,14 @@ function renderMarkdown(md){
   let inList=false;
   for(const line of lines){
     const m=line.match(/^\s*\d+\.\s+(.+)$/);
+    const t=line.trim();
     if(m){
       if(!inList){result.push("<ol>");inList=true}
       result.push("<li>"+m[1]+"</li>");
+    }else if(!t){
+      continue;
     }else{
       if(inList){result.push("</ol>");inList=false}
-      const t=line.trim();
-      if(!t)continue;
       if(t.startsWith("<h")||t.startsWith("<ol")||t.startsWith("</")){
         result.push(t);
       }else{
