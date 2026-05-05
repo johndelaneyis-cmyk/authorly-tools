@@ -8,3 +8,24 @@
   X-Permitted-Cross-Domain-Policies: none
   Cross-Origin-Opener-Policy: same-origin
   Cross-Origin-Resource-Policy: same-origin
+
+# HTML pages: short cache so updates ship fast, but stale-while-revalidate
+# lets repeat visitors render instantly while CF re-fetches in the background.
+/
+  Cache-Control: public, max-age=300, stale-while-revalidate=3600
+/*.html
+  Cache-Control: public, max-age=300, stale-while-revalidate=3600
+
+# Static assets that change rarely — cache aggressively at the edge.
+/favicon.svg
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/og.svg
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/feedback.js
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
+/robots.txt
+  Cache-Control: public, max-age=3600
+/sitemap.xml
+  Cache-Control: public, max-age=3600
+
+# API responses are already no-store from each function — no rule needed here.
