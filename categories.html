@@ -3,23 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Authorly — Free Tools for Indie Authors</title>
-<meta name="description" content="Free tools for indie authors. Find real comparable books, write better blurbs, research KDP keywords. Built for self-publishers — no manuscript upload required.">
+<title>Amazon category recommender — Authorly</title>
+<meta name="description" content="Free Amazon Kindle category recommender for indie authors. Three categories where your book can realistically rank top 100, with competition notes.">
 <meta name="theme-color" content="#faf6f0">
-<link rel="canonical" href="https://authorly.tools/">
+<link rel="canonical" href="https://authorly.tools/categories">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://authorly.tools/">
-<meta property="og:title" content="Authorly — Free Tools for Indie Authors">
-<meta property="og:description" content="Free tools for indie authors. Find real comparable books, write better blurbs, research KDP keywords. No manuscript upload required.">
+<meta property="og:url" content="https://authorly.tools/categories">
+<meta property="og:title" content="Amazon category recommender — Authorly">
+<meta property="og:description" content="Three Kindle Store categories where your book can rank top 100, with competition notes.">
 <meta property="og:image" content="https://authorly.tools/og.svg">
 <meta property="og:image:type" content="image/svg+xml">
 <meta property="og:site_name" content="Authorly">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Authorly — Free Tools for Indie Authors">
-<meta name="twitter:description" content="Find real comp titles for your book in seconds. Free, no signup, no manuscript upload.">
+<meta name="twitter:title" content="Amazon category recommender — Authorly">
+<meta name="twitter:description" content="Three Kindle categories you can realistically rank top 100 in.">
 <meta name="twitter:image" content="https://authorly.tools/og.svg">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -89,27 +89,21 @@ textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(
 .output-body{font-size:17px;line-height:1.7;color:var(--ink)}
 .output-body h2{font-family:"Fraunces",serif;font-weight:600;font-size:17px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-mute);margin:28px 0 14px}
 .output-body h2:first-child{margin-top:0}
+.output-body h3{font-family:"Fraunces",serif;font-variation-settings:"opsz" 144;font-weight:500;font-size:21px;margin:24px 0 10px;color:var(--ink);letter-spacing:-.005em}
 .output-body p{margin:0 0 14px}
 .output-body ol{padding-left:0;counter-reset:comp;list-style:none;margin:0 0 18px}
 .output-body ol li{counter-increment:comp;margin-bottom:18px;padding-left:36px;position:relative}
 .output-body ol li::before{content:counter(comp);position:absolute;left:0;top:0;font-family:"Fraunces",serif;font-style:italic;font-size:20px;color:var(--accent);font-weight:500;line-height:1.7}
 .output-body ul{padding-left:0;list-style:none;margin:0 0 18px}
-.output-body ul li{margin-bottom:12px;padding-left:20px;position:relative}
+.output-body ul li{margin-bottom:10px;padding-left:20px;position:relative}
 .output-body ul li::before{content:"§";position:absolute;left:0;top:0;font-family:"Fraunces",serif;font-style:italic;color:var(--accent);line-height:1.7}
 .output-body em{font-style:italic;color:var(--ink-2)}
 .output-body strong{font-weight:600;color:var(--ink)}
-.copy-btn{display:inline-block;margin-top:8px;padding:5px 11px;background:transparent;border:1px solid var(--rule);border-radius:3px;font-family:"Fraunces",serif;font-size:12px;color:var(--ink-mute);cursor:pointer;transition:all .2s}
+.copy-btn{display:inline-block;margin-left:6px;padding:3px 9px;background:transparent;border:1px solid var(--rule);border-radius:3px;font-family:"Fraunces",serif;font-size:11px;color:var(--ink-mute);cursor:pointer;transition:all .2s;vertical-align:baseline}
 .copy-btn:hover{border-color:var(--accent);color:var(--accent)}
 .copy-btn.copied{color:#2a7a3a;border-color:#2a7a3a}
 .section{margin-top:80px;padding-top:48px;border-top:1px solid var(--rule)}
 .section-title{font-family:"Fraunces",serif;font-variation-settings:"opsz" 144,"SOFT" 30,"WONK" 1;font-weight:400;font-size:36px;letter-spacing:-.025em;margin:0 0 24px}
-.section-lede{color:var(--ink-2);font-size:17px;line-height:1.7;margin:0 0 32px}
-.tool-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
-.tool-list-item{padding:20px;border:1px solid var(--rule);border-radius:3px;background:var(--paper-2);transition:border-color .2s}
-.tool-list-item:hover{border-color:var(--ink-mute)}
-.tool-list-item h3{font-family:"Fraunces",serif;font-weight:600;font-size:17px;margin:0 0 6px;letter-spacing:-.005em}
-.tool-list-item p{font-size:14px;color:var(--ink-mute);margin:0;line-height:1.5}
-.tool-list-item .status{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-top:14px;font-weight:500}
 .site-footer{margin-top:80px;padding:32px 0 16px;border-top:1px solid var(--rule);text-align:center;font-size:13px;color:var(--ink-mute)}
 .site-footer a{color:var(--ink-mute);text-decoration:underline;text-decoration-color:var(--rule)}
 .site-footer a:hover{color:var(--accent)}
@@ -131,16 +125,16 @@ textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(
 <header class="site-header">
   <a href="/" class="logo">Author<em>ly</em></a>
   <nav class="nav">
-    <a href="#tool">Tool</a>
-    <a href="#more">More</a>
-    <a href="#about">About</a>
+    <a href="/">Home</a>
+    <a href="/#more">More</a>
+    <a href="/#about">About</a>
   </nav>
 </header>
 
 <section class="hero">
   <div class="eyebrow">For indie authors</div>
-  <h1>Find the right <em>comp&nbsp;titles</em> for your book.</h1>
-  <p class="hero-sub">Comparable books to anchor your Amazon description, target your ads, and pitch readers — generated in seconds, no manuscript upload required.</p>
+  <h1>Pick the right <em>Amazon&nbsp;categories.</em></h1>
+  <p class="hero-sub">Three Kindle Store categories where your book can realistically rank top 100 — with competition notes and the exact paths to send to KDP support.</p>
 </section>
 
 <div class="ornament"><span>§</span></div>
@@ -149,11 +143,11 @@ textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(
 
 <section class="tool-card" id="tool">
   <div class="tool-label">The free tool</div>
-  <h2 class="tool-title">Comp title finder</h2>
-  <p class="tool-desc">Paste your book description below. Get five real, published, commercially successful comp titles — with reasons why each fits, plus ready-to-paste copy for your Amazon book description.</p>
+  <h2 class="tool-title">Category recommender</h2>
+  <p class="tool-desc">Paste your book description below. We'll pick three Kindle Store categories — niche, mid-tier, stretch — with the full path you can email to KDP support, plus an honest read on the competition.</p>
 
   <label class="input-label" for="book-desc">Your book description</label>
-  <textarea id="book-desc" placeholder="A widowed marine biologist returns to her childhood island to investigate her sister's mysterious death. Set against the backdrop of a coastal community hiding decades of secrets, the novel weaves dual timelines of grief and discovery — perfect for readers who love atmospheric, character-driven mysteries..." maxlength="2000"></textarea>
+  <textarea id="book-desc" placeholder="A debut cozy mystery set in a coastal Maine bookshop. Forty-something widow inherits her grandmother's failing store and discovers a decades-old letter that points to a murder dressed up as a drowning. Light romance subplot with the local carpenter. Tone: warm, atmospheric, slow-burn — Louise Penny meets Jenny Colgan." maxlength="2000"></textarea>
   <div class="char-count"><span id="cc">0</span> / 2000</div>
 
   <div class="input-label" id="genre-label" style="margin-top:20px">Genre <span class="opt">(optional, helps accuracy)</span></div>
@@ -168,40 +162,18 @@ textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(
     <button type="button" class="genre-chip" data-g="memoir/non-fiction" aria-pressed="false">Memoir / NF</button>
   </div>
 
-  <button class="btn" id="generate">Find comp titles <span class="btn-arrow">→</span></button>
+  <button class="btn" id="generate">Recommend categories <span class="btn-arrow">→</span></button>
 
   <div class="output" id="output">
-    <h3 class="output-title">Your comp titles</h3>
+    <h3 class="output-title">Your categories</h3>
     <div class="output-body" id="output-body"></div>
   </div>
-</section>
-
-<section class="section" id="more">
-  <div class="eyebrow">More tools</div>
-  <h2 class="section-title">More tools.</h2>
-  <p class="section-lede">Authorly is built one carefully-tuned tool at a time. Three live, three to go:</p>
-
-  <div class="tool-list">
-    <a class="tool-list-item" href="/blurb" style="text-decoration:none;color:inherit;display:block"><h3>Amazon book description</h3><p>Paste your plot, get a structured blurb — hook, setup, stakes, cliffhanger.</p><div class="status">Live →</div></a>
-    <a class="tool-list-item" href="/keywords" style="text-decoration:none;color:inherit;display:block"><h3>KDP keyword expander</h3><p>One keyword in, ten related ones authors actually search for.</p><div class="status">Live →</div></a>
-    <a class="tool-list-item" href="/categories" style="text-decoration:none;color:inherit;display:block"><h3>Category recommender</h3><p>Best Amazon Kindle categories for your book + competition notes.</p><div class="status">Live →</div></a>
-    <div class="tool-list-item"><h3>Trope finder</h3><p>Identify the tropes in your plot that readers actively search for.</p><div class="status">Soon</div></div>
-    <div class="tool-list-item"><h3>Amazon Ads headlines</h3><p>Punchy ad copy from your title and comp titles.</p><div class="status">Soon</div></div>
-    <div class="tool-list-item"><h3>Author bio generator</h3><p>A few facts in, polished KDP author-page bio out.</p><div class="status">Soon</div></div>
-  </div>
-</section>
-
-<section class="section" id="about">
-  <div class="eyebrow">About</div>
-  <h2 class="section-title">Built for indie authors.</h2>
-  <p style="font-size:17px;line-height:1.7;color:var(--ink);margin:0 0 16px">Authorly is a small, growing collection of free tools for self-published authors. No accounts. No upload-your-manuscript. No paywalls on the basics. Just tools that work.</p>
-  <p style="font-size:17px;line-height:1.7;color:var(--ink-mute);margin:0">Powered by Anthropic's Claude — the AI we found gives the highest-quality output for craft work like this. Five free searches per day per visitor — more than enough for most authors. We pay the AI bill so you don't have to. Pro tier with unlimited searches coming soon.</p>
 </section>
 
 </main>
 
 <footer class="site-footer">
-  <p>Authorly &middot; <a href="/privacy">Privacy</a> &middot; <a href="/terms">Terms</a> &middot; <a href="mailto:Johndelaneyis@gmail.com">Contact</a></p>
+  <p>Authorly &middot; <a href="/">Home</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="/terms">Terms</a> &middot; <a href="mailto:Johndelaneyis@gmail.com">Contact</a></p>
 </footer>
 
 </div>
@@ -234,20 +206,19 @@ const outBody=document.getElementById("output-body");
 btn.addEventListener("click",async()=>{
   const desc=ta.value.trim();
   if(desc.length<30){
-    outBody.innerHTML="<div class=\"error\">Please paste at least a paragraph (30+ characters) describing your book — characters, conflict, setting, tone.</div>";
+    outBody.innerHTML="<div class=\"error\">Please paste at least a paragraph (30+ characters) describing your book — what it is, who it's for, what it's like.</div>";
     out.classList.add("visible");
     return;
   }
   btn.disabled=true;
-  btn.innerHTML="Reading <span class=\"btn-arrow\">…</span>";
-  outBody.innerHTML="<div class=\"loading\">Finding comp titles<span class=\"loading-dot\">.</span><span class=\"loading-dot\">.</span><span class=\"loading-dot\">.</span></div>";
+  btn.innerHTML="Picking <span class=\"btn-arrow\">…</span>";
+  outBody.innerHTML="<div class=\"loading\">Picking categories<span class=\"loading-dot\">.</span><span class=\"loading-dot\">.</span><span class=\"loading-dot\">.</span></div>";
   out.classList.add("visible");
   out.scrollIntoView({behavior:"smooth",block:"nearest"});
   try{
-
     let res;
     try {
-      res = await fetch("/api/comp", {
+      res = await fetch("/api/categories", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({description: desc, genre: selectedGenre})
@@ -265,13 +236,13 @@ btn.addEventListener("click",async()=>{
       outBody.replaceChildren(errDiv);
     } else {
       outBody.innerHTML = renderMarkdown(data.text || "");
-      attachCopyButtons();
+      attachPathCopy();
       if (typeof data.remaining === 'number') {
         const note = document.createElement('div');
         note.style.cssText = 'margin-top:18px;padding:10px 14px;background:var(--rule-soft,#f3ede0);border-radius:6px;font-size:13px;color:var(--ink-mute);text-align:center';
         note.textContent = data.remaining === 0
-          ? 'No free searches remaining today. Limit resets at midnight UTC.'
-          : data.remaining + ' free search' + (data.remaining === 1 ? '' : 'es') + ' remaining today.';
+          ? 'No free lookups remaining today. Limit resets at midnight UTC.'
+          : data.remaining + ' free lookup' + (data.remaining === 1 ? '' : 's') + ' remaining today.';
         outBody.appendChild(note);
       }
     }
@@ -279,18 +250,19 @@ btn.addEventListener("click",async()=>{
     outBody.innerHTML="<div class=\"error\">Connection trouble. Check your internet and try again.</div>";
   }finally{
     btn.disabled=false;
-    btn.innerHTML="Find comp titles <span class=\"btn-arrow\">→</span>";
+    btn.innerHTML="Recommend categories <span class=\"btn-arrow\">→</span>";
   }
 });
 
 function renderMarkdown(md){
   let html=md.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  html=html.replace(/^### (.+)$/gm,"<h3>$1</h3>");
   html=html.replace(/^## (.+)$/gm,"<h2>$1</h2>");
   html=html.replace(/\*\*([^*]+?)\*\*/g,"<strong>$1</strong>");
   html=html.replace(/\*([^*\n]+?)\*/g,"<em>$1</em>");
   const lines=html.split("\n");
   const result=[];
-  let listType=null; // "ol" | "ul" | null
+  let listType=null;
   const closeList=()=>{ if(listType){ result.push("</"+listType+">"); listType=null; } };
   for(const line of lines){
     const t=line.trim();
@@ -316,22 +288,23 @@ function renderMarkdown(md){
   return result.join("\n");
 }
 
-function attachCopyButtons(){
-  // The "Use these in" section contains bullets with quoted paste-able fragments.
-  // Add a Copy button next to each quoted fragment.
-  outBody.querySelectorAll("ul li").forEach(li=>{
-    const m=li.textContent.match(/"([^"]+)"/);
-    if(!m) return;
-    const fragment=m[1];
-    const b=document.createElement("button");
-    b.type="button";
-    b.className="copy-btn";
-    b.textContent="Copy";
-    b.onclick=()=>{
-      navigator.clipboard.writeText(fragment).then(()=>{
-        b.textContent="Copied ✓";
+function attachPathCopy(){
+  // Each category bullet starts with "**Path:**" — extract the path after it
+  // and add a Copy button so authors can paste straight into a KDP-support email.
+  outBody.querySelectorAll("li").forEach(li => {
+    const strong = li.querySelector("strong");
+    if (!strong || !/^path:/i.test(strong.textContent.trim())) return;
+    const fullText = li.textContent.replace(/^\s*Path:\s*/i, "").trim();
+    if (!fullText) return;
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "copy-btn";
+    b.textContent = "Copy path";
+    b.onclick = () => {
+      navigator.clipboard.writeText(fullText).then(() => {
+        b.textContent = "Copied ✓";
         b.classList.add("copied");
-        setTimeout(()=>{b.textContent="Copy";b.classList.remove("copied")},1800);
+        setTimeout(() => { b.textContent = "Copy path"; b.classList.remove("copied"); }, 1800);
       });
     };
     li.appendChild(document.createTextNode(" "));
