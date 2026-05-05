@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Amazon book description writer — Authorly</title>
+<title>Amazon book description writer â€” Authorly</title>
 <meta name="description" content="Free Amazon book description (blurb) writer for indie authors. Paste your plot, get a structured blurb plus a ready-to-paste version sized for Amazon KDP.">
 <meta name="theme-color" content="#faf6f0">
 <link rel="canonical" href="https://authorly.tools/blurb">
@@ -11,14 +11,14 @@
 
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://authorly.tools/blurb">
-<meta property="og:title" content="Amazon book description writer — Authorly">
-<meta property="og:description" content="Paste your plot, get a structured blurb — hook, setup, stakes, cliffhanger — plus a ready-to-paste Amazon description.">
+<meta property="og:title" content="Amazon book description writer â€” Authorly">
+<meta property="og:description" content="Paste your plot, get a structured blurb â€” hook, setup, stakes, cliffhanger â€” plus a ready-to-paste Amazon description.">
 <meta property="og:image" content="https://authorly.tools/og.svg">
 <meta property="og:image:type" content="image/svg+xml">
 <meta property="og:site_name" content="Authorly">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Amazon book description writer — Authorly">
+<meta name="twitter:title" content="Amazon book description writer â€” Authorly">
 <meta name="twitter:description" content="Paste your plot, get a structured Amazon-ready blurb in seconds.">
 <meta name="twitter:image" content="https://authorly.tools/og.svg">
 
@@ -95,7 +95,7 @@ textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(
 .output-body ol li::before{content:counter(comp);position:absolute;left:0;top:0;font-family:"Fraunces",serif;font-style:italic;font-size:20px;color:var(--accent);font-weight:500;line-height:1.7}
 .output-body ul{padding-left:0;list-style:none;margin:0 0 18px}
 .output-body ul li{margin-bottom:12px;padding-left:20px;position:relative}
-.output-body ul li::before{content:"§";position:absolute;left:0;top:0;font-family:"Fraunces",serif;font-style:italic;color:var(--accent);line-height:1.7}
+.output-body ul li::before{content:"Â§";position:absolute;left:0;top:0;font-family:"Fraunces",serif;font-style:italic;color:var(--accent);line-height:1.7}
 .output-body em{font-style:italic;color:var(--ink-2)}
 .output-body strong{font-weight:600;color:var(--ink)}
 .copy-btn{display:inline-block;margin-top:8px;padding:5px 11px;background:transparent;border:1px solid var(--rule);border-radius:3px;font-family:"Fraunces",serif;font-size:12px;color:var(--ink-mute);cursor:pointer;transition:all .2s}
@@ -140,20 +140,20 @@ textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(
 <section class="hero">
   <div class="eyebrow">For indie authors</div>
   <h1>Write your <em>Amazon&nbsp;blurb.</em></h1>
-  <p class="hero-sub">Paste your plot, get a structured book description — hook, setup, stakes, cliffhanger — plus a ready-to-paste version sized for Amazon KDP.</p>
+  <p class="hero-sub">Paste your plot, get a structured book description â€” hook, setup, stakes, cliffhanger â€” plus a ready-to-paste version sized for Amazon KDP.</p>
 </section>
 
-<div class="ornament"><span>§</span></div>
+<div class="ornament"><span>Â§</span></div>
 
 <main>
 
 <section class="tool-card" id="tool">
   <div class="tool-label">The free tool</div>
   <h2 class="tool-title">Amazon book description writer</h2>
-  <p class="tool-desc">Tell us about your plot — the protagonist, the inciting incident, the tone. We'll return a labeled breakdown (hook / setup / stakes / cliffhanger) and a final 130-180 word blurb you can paste straight into KDP.</p>
+  <p class="tool-desc">Tell us about your plot â€” the protagonist, the inciting incident, the tone. We'll return a labeled breakdown (hook / setup / stakes / cliffhanger) and a final 130-180 word blurb you can paste straight into KDP.</p>
 
   <label class="input-label" for="plot">Your plot details</label>
-  <textarea id="plot" placeholder="Marina, a marine biologist, returns to her childhood island after fifteen years away when her estranged sister dies in a mysterious boating accident. Atmospheric coastal mystery told in dual timelines (present-day investigation and the summer of 2008). Literary but accessible — think Tana French meets Lisa Jewell. The accident wasn't an accident, and the island knows more than it's saying..." maxlength="2000"></textarea>
+  <textarea id="plot" placeholder="Marina, a marine biologist, returns to her childhood island after fifteen years away when her estranged sister dies in a mysterious boating accident. Atmospheric coastal mystery told in dual timelines (present-day investigation and the summer of 2008). Literary but accessible â€” think Tana French meets Lisa Jewell. The accident wasn't an accident, and the island knows more than it's saying..." maxlength="2000"></textarea>
   <div class="char-count"><span id="cc">0</span> / 2000</div>
 
   <div class="input-label" id="genre-label" style="margin-top:20px">Genre <span class="opt">(optional, helps tone)</span></div>
@@ -168,7 +168,7 @@ textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(
     <button type="button" class="genre-chip" data-g="memoir/non-fiction" aria-pressed="false">Memoir / NF</button>
   </div>
 
-  <button class="btn" id="generate">Write the blurb <span class="btn-arrow">→</span></button>
+  <button class="btn" id="generate">Write the blurb <span class="btn-arrow">â†’</span></button>
 
   <div class="output" id="output">
     <h3 class="output-title">Your blurb</h3>
@@ -234,15 +234,22 @@ btn.addEventListener("click",async()=>{
       return;
     }
     let data;
-    try { data = await res.json(); } catch { data = {}; }
+    try { data = await res.json(); } catch (e) { data = {}; }
     if (!res.ok) {
       const errDiv = document.createElement('div');
       errDiv.className = 'error';
       errDiv.textContent = data.error || ('Request failed (' + res.status + ').');
       outBody.replaceChildren(errDiv);
+    } else if (!data.text) {
+      outBody.innerHTML = '<div class="error">No response from server. Try again.</div>';
     } else {
-      outBody.innerHTML = renderMarkdown(data.text || "");
-      attachBlurbCopy();
+      try {
+        const html = renderMarkdown(data.text);
+        outBody.innerHTML = html;
+        attachBlurbCopy();
+      } catch (e) {
+        outBody.innerHTML = '<div class="error">Failed to format response. Try again.</div>';
+      }
       if (typeof data.remaining === 'number') {
         const note = document.createElement('div');
         note.style.cssText = 'margin-top:18px;padding:10px 14px;background:var(--rule-soft,#f3ede0);border-radius:6px;font-size:13px;color:var(--ink-mute);text-align:center';
@@ -253,12 +260,12 @@ btn.addEventListener("click",async()=>{
       }
     }
   }catch(err){
-    outBody.innerHTML="<div class=\"error\">Connection trouble. Check your internet and try again.</div>";
+    outBody.innerHTML="<div class=\"error\">Unexpected error. Try again.</div>";
   }finally{
     btn.disabled=false;
     btn.innerHTML="Write the blurb <span class=\"btn-arrow\">→</span>";
   }
-});
+}););
 
 function renderMarkdown(md){
   let html=md.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
@@ -309,14 +316,14 @@ function attachBlurbCopy(){
     if (!paragraphs.length) continue;
     // Strip leading/trailing surrounding quotes if the model emitted them anyway
     let body = paragraphs.join("\n\n").trim();
-    body = body.replace(/^[“"']\s*/, "").replace(/\s*[”"']$/, "");
+    body = body.replace(/^[â€œ"']\s*/, "").replace(/\s*[â€"']$/, "");
     const b = document.createElement("button");
     b.type = "button";
     b.className = "copy-btn";
     b.textContent = "Copy blurb";
     b.onclick = () => {
       navigator.clipboard.writeText(body).then(() => {
-        b.textContent = "Copied ✓";
+        b.textContent = "Copied âœ“";
         b.classList.add("copied");
         setTimeout(() => { b.textContent = "Copy blurb"; b.classList.remove("copied"); }, 1800);
       });
