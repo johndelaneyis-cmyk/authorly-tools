@@ -20,22 +20,27 @@
 // --- Scrape-proof contact link ----------------------------------------------
 // Every page footer has <a class="contact" data-u="..." data-d="...">Contact</a>
 // or similar. We assemble the mailto on load so the literal address is never
-// in the served HTML.
+// in the served HTML. Wires on first paint AND on DOMContentLoaded to be
+// resilient to script-vs-DOM timing edge cases.
 (() => {
   const wire = () => {
-    document.querySelectorAll("a.contact[data-u][data-d]").forEach(a => {
+    const links = document.querySelectorAll("a.contact[data-u][data-d]");
+    links.forEach(a => {
       const u = a.getAttribute("data-u");
       const d = a.getAttribute("data-d");
       if (!u || !d) return;
-      a.href = "mailto:" + u + "@" + d;
-      // Show the address as the visible text only when the link lacks its own label.
+      a.setAttribute("href", "mailto:" + u + "@" + d);
       if (!a.textContent.trim()) a.textContent = u + "@" + d;
     });
+    return links.length;
   };
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", wire);
-  } else {
-    wire();
+  // Try immediately (after-parse for defer scripts) AND on DOMContentLoaded —
+  // covers both "script ran early" and "DOM mutated after script" cases.
+  const tryWire = () => { try { wire(); } catch {} };
+  tryWire();
+  if (document.readyState !== "complete") {
+    document.addEventListener("DOMContentLoaded", tryWire, { once: true });
+    window.addEventListener("load", tryWire, { once: true });
   }
 })();
 
