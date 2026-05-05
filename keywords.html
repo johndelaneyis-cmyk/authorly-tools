@@ -123,6 +123,24 @@ input[type=text]:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 
 .visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .skip-link{position:absolute;left:-9999px;top:0;background:var(--ink);color:var(--paper);padding:10px 16px;z-index:1000;text-decoration:none;font-size:14px;font-weight:500}
 .skip-link:focus{left:0;outline:2px solid var(--accent);outline-offset:2px}
+.sample{margin:0 0 24px;border:1px dashed var(--rule);border-radius:3px}
+.sample summary{padding:12px 16px;cursor:pointer;font-size:14px;color:var(--ink-mute);font-weight:500;list-style:none;user-select:none;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.sample summary::-webkit-details-marker{display:none}
+.sample summary::after{content:"＋";font-size:14px;color:var(--ink-mute);font-style:normal}
+.sample[open] summary::after{content:"−"}
+.sample summary:hover,.sample summary:hover::after{color:var(--accent)}
+.sample-body{padding:6px 16px 16px;font-size:15px;line-height:1.65;color:var(--ink-2)}
+.sample-body h2{font-family:"Fraunces",serif;font-weight:600;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-mute);margin:16px 0 10px}
+.sample-body h2:first-of-type{margin-top:6px}
+.sample-body p{margin:0 0 10px}
+.sample-body ol,.sample-body ul{padding-left:0;margin:0 0 14px;list-style:none}
+.sample-body ol{counter-reset:s}
+.sample-body ol li{counter-increment:s;padding-left:24px;position:relative;margin-bottom:8px}
+.sample-body ol li::before{content:counter(s);position:absolute;left:0;top:0;font-family:"Fraunces",serif;font-style:italic;font-size:15px;color:var(--accent);font-weight:500;line-height:1.65}
+.sample-body ul li{padding-left:16px;position:relative;margin-bottom:8px}
+.sample-body ul li::before{content:"§";position:absolute;left:0;top:0;font-family:"Fraunces",serif;font-style:italic;color:var(--accent);line-height:1.65}
+.sample-body strong{font-weight:600;color:var(--ink)}
+.sample-body .sample-meta{font-size:12px;color:var(--ink-mute);font-style:italic;margin-top:14px;padding-top:10px;border-top:1px dashed var(--rule)}
 
 </style>
 </head>
@@ -153,6 +171,40 @@ input[type=text]:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 
   <div class="tool-label">The free tool</div>
   <h2 class="tool-title">KDP keyword expander</h2>
   <p class="tool-desc">Type one keyword that describes your book — a trope, a setting, a subgenre. We'll return ten phrases real readers search on Amazon, plus the seven highest-coverage ones to slot straight into your KDP backend.</p>
+
+  <details class="sample">
+    <summary>See an example of what you'll get</summary>
+    <div class="sample-body">
+      <h2>10 keyword phrases</h2>
+      <ol>
+        <li><strong>small town billionaire romance</strong> (31/50) — type: setting + trope</li>
+        <li><strong>billionaire returns to small town</strong> (32/50) — type: plot hook</li>
+        <li><strong>rural billionaire hero romance</strong> (30/50) — type: setting + character</li>
+        <li><strong>small town second chance billionaire</strong> (35/50) — type: setting + trope combo</li>
+        <li><strong>country girl billionaire love story</strong> (34/50) — type: audience + character dynamic</li>
+        <li><strong>small town forced proximity billionaire</strong> (38/50) — type: trope stack</li>
+        <li><strong>grumpy billionaire small town</strong> (28/50) — type: tone + setting</li>
+        <li><strong>cowboy billionaire romance</strong> (26/50) — type: subgenre mashup</li>
+        <li><strong>fish out of water billionaire romance</strong> (35/50) — type: trope</li>
+        <li><strong>hidden identity billionaire small town</strong> (37/50) — type: trope + setting</li>
+      </ol>
+      <h2>Top 7 for your KDP backend slots</h2>
+      <ul>
+        <li><strong>small town billionaire romance</strong> — covers core seed, setting + character type</li>
+        <li><strong>billionaire returns to small town</strong> — covers homecoming plot, prodigal son angle</li>
+        <li><strong>grumpy billionaire small town</strong> — covers character archetype + setting</li>
+        <li><strong>forced proximity billionaire romance</strong> — covers high-converting trope without setting overlap</li>
+        <li><strong>second chance small town romance</strong> — covers subgenre crossover appeal, rural setting</li>
+        <li><strong>secret identity billionaire hero</strong> — covers suspense/mystery element, character intent</li>
+      </ul>
+      <h2>Don't use these</h2>
+      <ul>
+        <li><strong>Author names</strong> like "romance for fans of Elsie Silver" — Amazon flags author-name keywords; you risk getting your book hidden from search results.</li>
+        <li><strong>"billionaire romance book"</strong> — Amazon strips "book", wasting your characters on a word that adds zero value.</li>
+      </ul>
+      <p class="sample-meta">Generated from the seed "small town billionaire romance" with Romance genre selected. Each Top-7 phrase gets a one-click Copy button on the live tool, plus a Copy-all-7 button for fast KDP entry.</p>
+    </div>
+  </details>
 
   <label class="input-label" for="seed">Seed keyword or phrase</label>
   <input type="text" id="seed" placeholder="small town billionaire romance" maxlength="80" autocomplete="off">

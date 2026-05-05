@@ -110,6 +110,19 @@ textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(
 .visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .skip-link{position:absolute;left:-9999px;top:0;background:var(--ink);color:var(--paper);padding:10px 16px;z-index:1000;text-decoration:none;font-size:14px;font-weight:500}
 .skip-link:focus{left:0;outline:2px solid var(--accent);outline-offset:2px}
+.sample{margin:0 0 24px;border:1px dashed var(--rule);border-radius:3px}
+.sample summary{padding:12px 16px;cursor:pointer;font-size:14px;color:var(--ink-mute);font-weight:500;list-style:none;user-select:none;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.sample summary::-webkit-details-marker{display:none}
+.sample summary::after{content:"＋";font-size:14px;color:var(--ink-mute);font-style:normal}
+.sample[open] summary::after{content:"−"}
+.sample summary:hover,.sample summary:hover::after{color:var(--accent)}
+.sample-body{padding:6px 16px 16px;font-size:15px;line-height:1.65;color:var(--ink-2)}
+.sample-body h2{font-family:"Fraunces",serif;font-weight:600;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-mute);margin:16px 0 10px}
+.sample-body h2:first-of-type{margin-top:6px}
+.sample-body p{margin:0 0 10px}
+.sample-body em{font-style:italic}
+.sample-body strong{font-weight:600;color:var(--ink)}
+.sample-body .sample-meta{font-size:12px;color:var(--ink-mute);font-style:italic;margin-top:14px;padding-top:10px;border-top:1px dashed var(--rule)}
 
 </style>
 </head>
@@ -140,6 +153,21 @@ textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(
   <div class="tool-label">The free tool</div>
   <h2 class="tool-title">Author bio generator</h2>
   <p class="tool-desc">A few facts about you in. Three polished bios out — one punchy line for social media (150–200 chars), one for your KDP author page (60–90 words), and one longer version for query letters and press kits (130–170 words).</p>
+
+  <details class="sample">
+    <summary>See an example of what you'll get</summary>
+    <div class="sample-body">
+      <h2>Short bio (150–200 chars)</h2>
+      <p>Marina Whelan writes literary mysteries set in coastal Nova Scotia. Former marine biologist; current owner of a kayak named Persephone.</p>
+      <h2>Medium bio (60–90 words)</h2>
+      <p>Marina Whelan writes literary mysteries rooted in the coastal communities of Atlantic Canada. After ten years as a marine biologist at the Bedford Institute of Oceanography, she traded fieldwork for fiction; her debut, <em>The Salt Tide</em>, comes out in 2026 with Random House Canada. Marina lives in Halifax with her husband, two daughters, and a kayak named Persephone.</p>
+      <h2>Long bio (130–170 words)</h2>
+      <p>Marina Whelan writes literary mysteries rooted in the coastal communities of Atlantic Canada. After a decade studying ocean ecosystems at the Bedford Institute of Oceanography, she traded the deck of a research vessel for the discipline of a writing desk — though the salt and weather of her former life shape every page she writes.</p>
+      <p>Her debut, <em>The Salt Tide</em>, follows a marine biologist who returns to her childhood island to investigate her sister's mysterious death. It comes out in spring 2026 with Random House Canada.</p>
+      <p>Marina lives in Halifax, Nova Scotia, with her husband, their two daughters, and a kayak named Persephone. She is happiest at low tide.</p>
+      <p class="sample-meta">Generated from a 5-line list of facts. Each bio gets a one-click Copy button on the live tool.</p>
+    </div>
+  </details>
 
   <label class="input-label" for="author-facts">A few facts about you</label>
   <textarea id="author-facts" placeholder="Marina Whelan writes contemporary mystery and romantic suspense. She's based in Portland, Oregon, worked as a research librarian for 12 years, and has published two novels with indie presses. Loves hiking, old bookshops, and organizing other people's bookshelves." maxlength="1500"></textarea>

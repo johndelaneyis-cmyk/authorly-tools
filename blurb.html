@@ -126,6 +126,21 @@ textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(
 .visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .skip-link{position:absolute;left:-9999px;top:0;background:var(--ink);color:var(--paper);padding:10px 16px;z-index:1000;text-decoration:none;font-size:14px;font-weight:500}
 .skip-link:focus{left:0;outline:2px solid var(--accent);outline-offset:2px}
+.sample{margin:0 0 24px;border:1px dashed var(--rule);border-radius:3px}
+.sample summary{padding:12px 16px;cursor:pointer;font-size:14px;color:var(--ink-mute);font-weight:500;list-style:none;user-select:none;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.sample summary::-webkit-details-marker{display:none}
+.sample summary::after{content:"＋";font-size:14px;color:var(--ink-mute);font-style:normal}
+.sample[open] summary::after{content:"−"}
+.sample summary:hover,.sample summary:hover::after{color:var(--accent)}
+.sample-body{padding:6px 16px 16px;font-size:15px;line-height:1.65;color:var(--ink-2)}
+.sample-body h2{font-family:"Fraunces",serif;font-weight:600;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-mute);margin:16px 0 10px}
+.sample-body h2:first-of-type{margin-top:6px}
+.sample-body p{margin:0 0 10px}
+.sample-body ul{padding-left:0;margin:0 0 14px;list-style:none}
+.sample-body ul li{padding-left:16px;position:relative;margin-bottom:8px}
+.sample-body ul li::before{content:"§";position:absolute;left:0;top:0;font-family:"Fraunces",serif;font-style:italic;color:var(--accent);line-height:1.65}
+.sample-body strong{font-weight:600;color:var(--ink)}
+.sample-body .sample-meta{font-size:12px;color:var(--ink-mute);font-style:italic;margin-top:14px;padding-top:10px;border-top:1px dashed var(--rule)}
 
 </style>
 </head>
@@ -156,6 +171,26 @@ textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(
   <div class="tool-label">The free tool</div>
   <h2 class="tool-title">Amazon book description writer</h2>
   <p class="tool-desc">Tell us about your plot — the protagonist, the inciting incident, the tone. We'll return a labeled breakdown (hook / setup / stakes / cliffhanger) and a final 130-180 word blurb you can paste straight into KDP.</p>
+
+  <details class="sample">
+    <summary>See an example of what you'll get</summary>
+    <div class="sample-body">
+      <h2>Hook</h2>
+      <p>On the morning her sister's body washes ashore, Marina realizes she should never have come back to the island.</p>
+      <h2>Setup</h2>
+      <p>Fifteen years after fleeing her childhood island, marine biologist Marina Whelan returns home for a funeral she suspects shouldn't be one. The locals are saying nothing. The same storm that took her sister has begun pulling other things to the surface — including a body she last saw alive in 2008.</p>
+      <h2>Stakes</h2>
+      <p>The longer Marina stays, the deeper she sinks into a current of complicity that runs through every house in the harbor. To get the truth, she'll have to risk what little family she has left.</p>
+      <h2>Cliffhanger</h2>
+      <p>Because somewhere on this island is a person who knows exactly what happened that summer — and they're hoping Marina drowns before she remembers.</p>
+      <h2>Ready to paste</h2>
+      <p>On the morning her sister's body washes ashore, Marina realizes she should never have come back.</p>
+      <p>Fifteen years after fleeing her childhood island, marine biologist Marina returns home for a funeral she suspects shouldn't be one. The locals are saying nothing.</p>
+      <p>The longer she stays, the deeper she sinks into a current of complicity. To get the truth, she'll have to risk what little family she has left.</p>
+      <p>Because somewhere on this island is a person who knows exactly what happened. And they are hoping Marina drowns before she remembers.</p>
+      <p class="sample-meta">Generated from a 4-sentence plot premise. The Ready-to-paste section gets a one-click Copy button on the live tool.</p>
+    </div>
+  </details>
 
   <label class="input-label" for="plot">Your plot details</label>
   <textarea id="plot" placeholder="Marina, a marine biologist, returns to her childhood island after fifteen years away when her estranged sister dies in a mysterious boating accident. Atmospheric coastal mystery told in dual timelines (present-day investigation and the summer of 2008). Literary but accessible — think Tana French meets Lisa Jewell. The accident wasn't an accident, and the island knows more than it's saying..." maxlength="2000"></textarea>

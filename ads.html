@@ -122,6 +122,21 @@ textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(
 .visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .skip-link{position:absolute;left:-9999px;top:0;background:var(--ink);color:var(--paper);padding:10px 16px;z-index:1000;text-decoration:none;font-size:14px;font-weight:500}
 .skip-link:focus{left:0;outline:2px solid var(--accent);outline-offset:2px}
+.sample{margin:0 0 24px;border:1px dashed var(--rule);border-radius:3px}
+.sample summary{padding:12px 16px;cursor:pointer;font-size:14px;color:var(--ink-mute);font-weight:500;list-style:none;user-select:none;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.sample summary::-webkit-details-marker{display:none}
+.sample summary::after{content:"＋";font-size:14px;color:var(--ink-mute);font-style:normal}
+.sample[open] summary::after{content:"−"}
+.sample summary:hover,.sample summary:hover::after{color:var(--accent)}
+.sample-body{padding:6px 16px 16px;font-size:15px;line-height:1.65;color:var(--ink-2)}
+.sample-body h2{font-family:"Fraunces",serif;font-weight:600;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-mute);margin:16px 0 10px}
+.sample-body h2:first-of-type{margin-top:6px}
+.sample-body p{margin:0 0 10px}
+.sample-body ol{padding-left:0;margin:0 0 14px;list-style:none;counter-reset:s}
+.sample-body ol li{counter-increment:s;padding-left:24px;position:relative;margin-bottom:10px}
+.sample-body ol li::before{content:counter(s);position:absolute;left:0;top:0;font-family:"Fraunces",serif;font-style:italic;font-size:15px;color:var(--accent);font-weight:500;line-height:1.65}
+.sample-body strong{font-weight:600;color:var(--ink)}
+.sample-body .sample-meta{font-size:12px;color:var(--ink-mute);font-style:italic;margin-top:14px;padding-top:10px;border-top:1px dashed var(--rule)}
 
 </style>
 </head>
@@ -152,6 +167,27 @@ textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(
   <div class="tool-label">The free tool</div>
   <h2 class="tool-title">Amazon Ads headlines</h2>
   <p class="tool-desc">Title + description in. Six tested-shape ad headlines out — three at the standard 100–150 character size, three short ones at 60–80 characters for tighter placements. Each variant tries a different angle (trope, comp, emotional, audience).</p>
+
+  <details class="sample">
+    <summary>See an example of what you'll get</summary>
+    <div class="sample-body">
+      <h2>Standard headlines (100–150 chars)</h2>
+      <ol>
+        <li>"On the morning her sister's body washes ashore, marine biologist Marina returns to the island that destroyed her family." (128/150)</li>
+        <li>"An atmospheric coastal mystery for fans of Tana French and Lisa Jewell. Slow-burn dread, dual timelines, one small island." (124/150)</li>
+        <li>"Fifteen years after she fled, the truth her sister hid is about to surface. A cold-case mystery wrapped in salt water." (118/150)</li>
+      </ol>
+      <h2>Short headlines (60–80 chars)</h2>
+      <ol>
+        <li>"An atmospheric coastal mystery for fans of Tana French." (56/80)</li>
+        <li>"Some islands keep their dead. Some keep their secrets." (54/80)</li>
+        <li>"Marina came home for a funeral. She found a murder." (52/80)</li>
+      </ol>
+      <h2>Why these work</h2>
+      <p>Variant 1 (standard) leads with the hook line. Variant 2 names comps for fan-targeting ads. Variant 3 frames the central mystery hook. Each short variant trims a different angle so you can A/B by audience instead of just length.</p>
+      <p class="sample-meta">Generated from title "The Salt Tide" + a 3-sentence synopsis with comps. Each headline gets a one-click Copy button on the live tool.</p>
+    </div>
+  </details>
 
   <label class="input-label" for="title">Book title</label>
   <input type="text" id="title" placeholder="The Bookshop on Saltspray Lane" maxlength="200" autocomplete="off">

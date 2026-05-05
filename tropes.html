@@ -119,6 +119,25 @@ textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(
 .visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .skip-link{position:absolute;left:-9999px;top:0;background:var(--ink);color:var(--paper);padding:10px 16px;z-index:1000;text-decoration:none;font-size:14px;font-weight:500}
 .skip-link:focus{left:0;outline:2px solid var(--accent);outline-offset:2px}
+.sample{margin:0 0 24px;border:1px dashed var(--rule);border-radius:3px}
+.sample summary{padding:12px 16px;cursor:pointer;font-size:14px;color:var(--ink-mute);font-weight:500;list-style:none;user-select:none;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.sample summary::-webkit-details-marker{display:none}
+.sample summary::after{content:"＋";font-size:14px;color:var(--ink-mute);font-style:normal}
+.sample[open] summary::after{content:"−"}
+.sample summary:hover,.sample summary:hover::after{color:var(--accent)}
+.sample-body{padding:6px 16px 16px;font-size:15px;line-height:1.65;color:var(--ink-2)}
+.sample-body h2{font-family:"Fraunces",serif;font-weight:600;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-mute);margin:16px 0 10px}
+.sample-body h2:first-of-type{margin-top:6px}
+.sample-body p{margin:0 0 10px}
+.sample-body ol,.sample-body ul{padding-left:0;margin:0 0 14px;list-style:none}
+.sample-body ol{counter-reset:s}
+.sample-body ol li{counter-increment:s;padding-left:24px;position:relative;margin-bottom:10px}
+.sample-body ol li::before{content:counter(s);position:absolute;left:0;top:0;font-family:"Fraunces",serif;font-style:italic;font-size:15px;color:var(--accent);font-weight:500;line-height:1.65}
+.sample-body ul li{padding-left:16px;position:relative;margin-bottom:8px}
+.sample-body ul li::before{content:"§";position:absolute;left:0;top:0;font-family:"Fraunces",serif;font-style:italic;color:var(--accent);line-height:1.65}
+.sample-body strong{font-weight:600;color:var(--ink)}
+.sample-body em{font-style:italic}
+.sample-body .sample-meta{font-size:12px;color:var(--ink-mute);font-style:italic;margin-top:14px;padding-top:10px;border-top:1px dashed var(--rule)}
 
 </style>
 </head>
@@ -149,6 +168,31 @@ textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(
   <div class="tool-label">The free tool</div>
   <h2 class="tool-title">Trope finder</h2>
   <p class="tool-desc">Tell us about your plot. We'll identify the tropes already there — enemies-to-lovers, found family, slow burn, second chance, whatever fits — ranked by reader-search appeal, with a one-line marketing angle for each.</p>
+
+  <details class="sample">
+    <summary>See an example of what you'll get</summary>
+    <div class="sample-body">
+      <h2>Tropes already in your plot</h2>
+      <ol>
+        <li><strong>Enemies to lovers</strong> — Evidence: "she once published a takedown of him." Lean in by: tagline "She built her career tearing his apart."</li>
+        <li><strong>Forced proximity</strong> — Evidence: "trapped in a snowed-in Oxford library after closing." Lean in by: ad headline "One library. One night. Twelve years of bad blood."</li>
+        <li><strong>Slow burn</strong> — Evidence: explicit in description. Lean in by: name it on the back-cover blurb; BookTok readers filter by it.</li>
+        <li><strong>Dual POV</strong> — Evidence: explicit. Lean in by: alternating POV chapter headings on the cover or in sample.</li>
+        <li><strong>Academic rivals</strong> — Evidence: "two rival academics." Lean in by: cover with two figures separated by library shelves.</li>
+      </ol>
+      <h2>Adjacent tropes worth considering</h2>
+      <ul>
+        <li><strong>Grumpy/sunshine</strong> — One small revision: lean into one being noticeably warmer or wittier on page than the other.</li>
+      </ul>
+      <h2>Where to use these</h2>
+      <ul>
+        <li>Amazon ad copy: "For readers who love enemies to lovers and forced proximity."</li>
+        <li>BookTok caption hooks: pair "academic rivals" with a 5-second visual of two characters reaching for the same book.</li>
+        <li>Back-cover blurb: name 2-3 tropes explicitly — readers shop by trope now.</li>
+      </ul>
+      <p class="sample-meta">Generated from a 4-sentence academic romance pitch. Each trope gets a one-click Copy button on the live tool.</p>
+    </div>
+  </details>
 
   <label class="input-label" for="book-desc">Your book description</label>
   <textarea id="book-desc" placeholder="Two rival academics — she's a tenured medievalist, he's the visiting fellow she once published a takedown of — get trapped in a snowed-in Oxford library after closing. Ten years of professional bad blood, twelve hours, one heated argument that turns into something else entirely. Adult academic romance, slow burn, dual POV." maxlength="2000"></textarea>
