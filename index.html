@@ -174,8 +174,8 @@ a.tool-list-item:hover{color:inherit}
 <header class="site-header">
   <a href="/" class="logo">Author<em>ly</em></a>
   <nav class="nav">
-    <a href="#tool">Tool</a>
-    <a href="#more">More</a>
+    <a href="#more">Tools</a>
+    <a href="#faq">FAQ</a>
     <a href="#about">About</a>
   </nav>
 </header>
@@ -260,6 +260,41 @@ a.tool-list-item:hover{color:inherit}
   <h2 class="section-title">Built for indie authors.</h2>
   <p style="font-size:17px;line-height:1.7;color:var(--ink);margin:0 0 16px">Authorly is a small, growing collection of free tools for self-published authors. No accounts. No upload-your-manuscript. No paywalls on the basics. Just tools that work.</p>
   <p style="font-size:17px;line-height:1.7;color:var(--ink-mute);margin:0 0 28px">Powered by Anthropic's Claude — the AI we found gives the highest-quality output for craft work like this. Five free searches per day per visitor — more than enough for most authors. We pay the AI bill so you don't have to. Pro tier with unlimited searches coming soon.</p>
+    <p style="font-size:16px;line-height:1.7;color:var(--ink-mute);margin:32px 0 0"><a href="https://twitter.com/delanyarrows" style="color:var(--ink);text-decoration:none;border-bottom:1px solid var(--rule);">Darren Delany</a> · <a href="https://twitter.com/delanyarrows" style="color:var(--ink);text-decoration:none;border-bottom:1px solid var(--rule);">@delanyarrows</a></p>
+
+  <div id="faq" style="margin-top:48px;margin-bottom:36px">
+    <div class="eyebrow">Frequently asked</div>
+    <h3 style="font-family:'Fraunces',serif;font-weight:500;font-size:24px;letter-spacing:-.01em;margin:0 0 18px;color:var(--ink)">Common questions.</h3>
+
+    <details class="sample">
+      <summary>Why use this instead of ChatGPT or Claude?</summary>
+      <div class="sample-body">
+        <p>ChatGPT and Claude can do the same work &mdash; if you write the right prompt, every time, and check the character counts yourself. Authorly has the prompts tuned and the constraints baked in: KDP keyword phrases char-counted to 50 chars, blurbs structured into hook / setup / stakes / cliffhanger and sized to 130&ndash;180 words for Amazon, ad headlines split between Sponsored Products' 150-char and Sponsored Brands' 80-char limits, comp titles cited with reasons each fits.</p>
+        <p>One click, formatted output, Copy buttons everywhere. I built it because I was tired of re-typing the same setup prompts every book launch.</p>
+      </div>
+    </details>
+
+    <details class="sample">
+      <summary>How is this free?</summary>
+      <div class="sample-body">
+        <p>I pay the AI bill. Each generation costs me about two cents. Five free runs per tool per day per visitor &mdash; more than most authors need for a single book launch &mdash; keeps it sustainable. The Pro tier ($9/month, unlimited, with batch processing for series authors) is coming soon for people who run dozens of comp lookups per release.</p>
+      </div>
+    </details>
+
+    <details class="sample">
+      <summary>Do you store my plot or my book description?</summary>
+      <div class="sample-body">
+        <p>No. Inputs are sent to the AI, the response is returned to your browser, and nothing is saved server-side except an anonymized rate-limit counter that's auto-deleted after 48 hours. Full details on the <a href="/privacy" style="color:var(--accent)">Privacy</a> page.</p>
+      </div>
+    </details>
+
+    <details class="sample">
+      <summary>Why no signup?</summary>
+      <div class="sample-body">
+        <p>Because the moment a tool asks for an email, it stops being a tool and starts being a marketing funnel. Authorly works the way Google works: open the page, get the answer, leave. (If you want updates on the Pro tier, the waitlist below is opt-in.)</p>
+      </div>
+    </details>
+  </div>
 
   <div class="waitlist" id="waitlist">
     <div class="waitlist-eyebrow">Pro tier</div>
@@ -277,7 +312,7 @@ a.tool-list-item:hover{color:inherit}
 </main>
 
 <footer class="site-footer">
-  <p>Authorly &middot; <a href="/privacy">Privacy</a> &middot; <a href="/terms">Terms</a> &middot; <a class="contact" data-u="hello" data-d="authorly.tools">Contact</a></p>
+  <p>Built by <a href="https://twitter.com/delanyarrows">Darren Delany</a> · <a href="https://twitter.com/delanyarrows">@delanyarrows</a> · 2025 · <a class="contact" data-u="hello" data-d="authorly.tools">Feedback</a> · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a></p>
 </footer>
 
 </div>
@@ -286,6 +321,9 @@ a.tool-list-item:hover{color:inherit}
 
 // Wire scrape-proof contact links: <a class="contact" data-u="..." data-d="...">
 document.querySelectorAll("a.contact[data-u][data-d]").forEach(a=>{const u=a.getAttribute("data-u"),d=a.getAttribute("data-d");a.setAttribute("href","mailto:"+u+"@"+d);if(!a.textContent.trim())a.textContent=u+"@"+d;});
+
+// Smoothly scroll opened <details class="sample"> bodies into view
+document.querySelectorAll("details.sample").forEach(d=>{d.addEventListener("toggle",()=>{if(d.open)d.scrollIntoView({behavior:"smooth",block:"start"});});});
 
 const ta=document.getElementById("book-desc");
 const cc=document.getElementById("cc");
@@ -469,6 +507,17 @@ function attachCopyButtons(){
     }
   });
 })();
-</script>
+
+// Scroll details element into view when opened
+document.querySelectorAll('details.sample').forEach(details => {
+  details.addEventListener('toggle', () => {
+    if (details.open) {
+      setTimeout(() => {
+        details.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 0);
+    }
+  });
+});</script>
 </body>
 </html>
+

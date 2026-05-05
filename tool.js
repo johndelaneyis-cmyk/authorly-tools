@@ -241,11 +241,29 @@
     }
   };
 
-  // Auto-wire contact links on page load even if initTool isn't called
+  // Smoothly scroll opened <details class="sample"> bodies into view
+  function wireSampleScroll() {
+    var elems = document.querySelectorAll("details.sample");
+    for (var i = 0; i < elems.length; i++) {
+      (function (d) {
+        d.addEventListener("toggle", function () {
+          if (d.open) {
+            try { d.scrollIntoView({ behavior: "smooth", block: "start" }); } catch (e) {}
+          }
+        });
+      })(elems[i]);
+    }
+  }
+
+  // Auto-wire contact links + sample scroll on page load even if initTool isn't called
   // (so /privacy and /terms get them too).
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", wireContactLinks, { once: true });
-  } else {
+  function autoWire() {
     wireContactLinks();
+    wireSampleScroll();
+  }
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", autoWire, { once: true });
+  } else {
+    autoWire();
   }
 })();
