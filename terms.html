@@ -46,6 +46,9 @@ li{margin-bottom:8px}
 a{color:var(--ink)}
 a:hover{color:var(--accent)}
 strong{font-weight:600}
+.skip-link{position:absolute;left:-9999px;top:0;background:var(--ink);color:var(--paper);padding:10px 16px;z-index:1000;text-decoration:none;font-size:14px;font-weight:500}
+.skip-link:focus{left:0;outline:2px solid var(--accent);outline-offset:2px}
+#content:focus{outline:none}
 .site-footer{border-top:1px solid var(--rule);padding:24px 0 36px;margin-top:48px;color:var(--ink-mute);font-size:14px;display:flex;flex-wrap:wrap;gap:18px;justify-content:space-between}
 .site-footer a{color:var(--ink-mute);text-decoration:none}
 .site-footer a:hover{color:var(--ink)}
@@ -53,6 +56,7 @@ strong{font-weight:600}
 </style>
 </head>
 <body>
+<a class="skip-link" href="#content">Skip to content</a>
 <header class="site-header">
   <div class="container">
     <div class="site-header-inner">
@@ -65,7 +69,7 @@ strong{font-weight:600}
     </div>
   </div>
 </header>
-<main>
+<main id="content" tabindex="-1">
   <div class="container">    <div class="eyebrow">Authorly</div>
     <h1>Terms of service</h1>
     <p class="lastmod">Last updated: May 4, 2026</p>
