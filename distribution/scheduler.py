@@ -145,7 +145,15 @@ def post_discord(env, post, body):
     for name, url in webhooks:
         try:
             payload = json.dumps({"content": body, "username": "Authorly"}).encode("utf-8")
-            req = urllib.request.Request(url, data=payload, headers={"Content-Type": "application/json"}, method="POST")
+            req = urllib.request.Request(
+                url,
+                data=payload,
+                headers={
+                    "Content-Type": "application/json",
+                    "User-Agent": "Authorly-Launch-Scheduler (https://authorly.tools, 1.0)",
+                },
+                method="POST",
+            )
             with urllib.request.urlopen(req, timeout=15) as resp:
                 if 200 <= resp.status < 300:
                     print(f"[discord] posted to {name}: status {resp.status}")
@@ -263,7 +271,15 @@ def cmd_test(env):
         for name, url in webhooks:
             try:
                 payload = json.dumps({"content": f"authorly scheduler test ({name})"}).encode("utf-8")
-                req = urllib.request.Request(url, data=payload, headers={"Content-Type": "application/json"}, method="POST")
+                req = urllib.request.Request(
+                    url,
+                    data=payload,
+                    headers={
+                        "Content-Type": "application/json",
+                        "User-Agent": "Authorly-Launch-Scheduler (https://authorly.tools, 1.0)",
+                    },
+                    method="POST",
+                )
                 with urllib.request.urlopen(req, timeout=15) as resp:
                     print(f"[test] Discord {name}: OK ({resp.status})")
             except Exception as e:
