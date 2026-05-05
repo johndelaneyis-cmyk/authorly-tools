@@ -1,6 +1,11 @@
 ﻿.env
+.env
 .env.local
 .env.*.local
+distribution/fired.json
+distribution/scheduler.log
+distribution/__pycache__/
+distribution/*.pyc
 node_modules/
 .DS_Store
 .wrangler/

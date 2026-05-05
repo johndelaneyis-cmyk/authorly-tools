@@ -1,0 +1,73 @@
+{
+  "_comment": "Times are UTC. Convert from your local time when editing. ET = UTC-4 (DST) or UTC-5 (standard). Each post fires once at the scheduled time. The scheduler tracks fired posts in fired.json (created on first run) so it never double-posts.",
+  "_offset_days": 0,
+  "_offset_explanation": "Set _offset_days to 0 on launch day. The scheduler reads each entry's 'day' field as days from launch. Day 0 = launch day, Day 1 = day after, etc.",
+
+  "posts": [
+    {
+      "id": "reddit-selfpublish",
+      "platform": "reddit",
+      "day": 0,
+      "time_utc": "13:00",
+      "subreddit": "selfpublish",
+      "title": "I built a free comp-title finder for indie authors — no signup, no manuscript upload",
+      "flair": "Marketing",
+      "body_file": "posts/reddit-selfpublish.md"
+    },
+    {
+      "id": "reddit-SelfPublishing",
+      "platform": "reddit",
+      "day": 0,
+      "time_utc": "19:00",
+      "subreddit": "SelfPublishing",
+      "title": "Free Amazon-optimization toolkit for indie authors (no signup, paid for the AI bill myself)",
+      "flair": null,
+      "body_file": "posts/reddit-SelfPublishing.md"
+    },
+    {
+      "id": "twitter-launch-thread",
+      "platform": "twitter",
+      "day": 1,
+      "time_utc": "14:00",
+      "thread_file": "posts/twitter-thread.md"
+    },
+    {
+      "id": "linkedin-post",
+      "platform": "linkedin_manual",
+      "day": 1,
+      "time_utc": "18:00",
+      "_note": "LinkedIn API requires verified company app — kept manual. The scheduler will print a reminder at this time.",
+      "body_file": "posts/linkedin.md"
+    },
+    {
+      "id": "discord-blast-1",
+      "platform": "discord",
+      "day": 2,
+      "time_utc": "16:00",
+      "_note": "Posts to ALL configured DISCORD_WEBHOOK_* env vars. Skip individual servers by removing the env var.",
+      "body_file": "posts/discord.md"
+    },
+    {
+      "id": "indie-hackers-reminder",
+      "platform": "indie_hackers_manual",
+      "day": 2,
+      "time_utc": "19:00",
+      "_note": "IH has no posting API. Scheduler prints a reminder.",
+      "body_file": "posts/indie-hackers.md"
+    },
+    {
+      "id": "twitter-followup-day3",
+      "platform": "twitter",
+      "day": 3,
+      "time_utc": "15:00",
+      "thread_file": "posts/twitter-day3-update.md"
+    },
+    {
+      "id": "twitter-week1-numbers",
+      "platform": "twitter",
+      "day": 5,
+      "time_utc": "15:00",
+      "thread_file": "posts/twitter-week1-numbers.md"
+    }
+  ]
+}
