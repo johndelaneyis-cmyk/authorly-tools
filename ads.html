@@ -193,6 +193,9 @@ textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(
 
 <script>
 
+// Wire scrape-proof contact links: <a class="contact" data-u="..." data-d="...">
+document.querySelectorAll("a.contact[data-u][data-d]").forEach(a=>{const u=a.getAttribute("data-u"),d=a.getAttribute("data-d");a.setAttribute("href","mailto:"+u+"@"+d);if(!a.textContent.trim())a.textContent=u+"@"+d;});
+
 const titleInput=document.getElementById("title");
 const compsInput=document.getElementById("comps");
 const ta=document.getElementById("book-desc");

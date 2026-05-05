@@ -188,6 +188,9 @@ input[type=text]:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 
 
 <script>
 
+// Wire scrape-proof contact links: <a class="contact" data-u="..." data-d="...">
+document.querySelectorAll("a.contact[data-u][data-d]").forEach(a=>{const u=a.getAttribute("data-u"),d=a.getAttribute("data-d");a.setAttribute("href","mailto:"+u+"@"+d);if(!a.textContent.trim())a.textContent=u+"@"+d;});
+
 const seedInput=document.getElementById("seed");
 const cc=document.getElementById("cc");
 seedInput.addEventListener("input",()=>{cc.textContent=seedInput.value.length});

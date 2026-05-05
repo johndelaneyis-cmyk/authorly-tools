@@ -124,5 +124,9 @@ strong{font-weight:600}
     <span><a href="/privacy">Privacy</a> &middot; <a href="/terms">Terms</a> &middot; <a class="contact" data-u="Johndelaneyis" data-d="gmail.com">Contact</a></span>
   </div>
 </footer>
+<script>
+// Wire scrape-proof contact links: <a class="contact" data-u="..." data-d="...">
+document.querySelectorAll("a.contact[data-u][data-d]").forEach(a=>{const u=a.getAttribute("data-u"),d=a.getAttribute("data-d");a.setAttribute("href","mailto:"+u+"@"+d);if(!a.textContent.trim())a.textContent=u+"@"+d;});
+</script>
 </body>
 </html>
