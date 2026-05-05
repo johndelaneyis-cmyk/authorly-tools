@@ -17,6 +17,28 @@
   document.head.appendChild(s);
 })();
 
+// --- Scrape-proof contact link ----------------------------------------------
+// Every page footer has <a class="contact" data-u="..." data-d="...">Contact</a>
+// or similar. We assemble the mailto on load so the literal address is never
+// in the served HTML.
+(() => {
+  const wire = () => {
+    document.querySelectorAll("a.contact[data-u][data-d]").forEach(a => {
+      const u = a.getAttribute("data-u");
+      const d = a.getAttribute("data-d");
+      if (!u || !d) return;
+      a.href = "mailto:" + u + "@" + d;
+      // Show the address as the visible text only when the link lacks its own label.
+      if (!a.textContent.trim()) a.textContent = u + "@" + d;
+    });
+  };
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", wire);
+  } else {
+    wire();
+  }
+})();
+
 // --- Feedback widget ---------------------------------------------------------
 (() => {
   const css = `

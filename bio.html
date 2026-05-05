@@ -107,10 +107,14 @@ textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(
 @media (max-width:600px){.container{padding:32px 20px}.tool-card{padding:24px}.hero{padding:40px 0 24px}body{font-size:17px}.nav a:nth-child(2){display:none}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 ::selection{background:var(--accent);color:var(--paper)}
+.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.skip-link{position:absolute;left:-9999px;top:0;background:var(--ink);color:var(--paper);padding:10px 16px;z-index:1000;text-decoration:none;font-size:14px;font-weight:500}
+.skip-link:focus{left:0;outline:2px solid var(--accent);outline-offset:2px}
 
 </style>
 </head>
 <body>
+<a class="skip-link" href="#tool">Skip to the tool</a>
 <div class="container">
 
 <header class="site-header">
@@ -152,7 +156,7 @@ textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(
 </main>
 
 <footer class="site-footer">
-  <p>Authorly &middot; <a href="/">Home</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="/terms">Terms</a> &middot; <a href="mailto:Johndelaneyis@gmail.com">Contact</a></p>
+  <p>Authorly &middot; <a href="/">Home</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="/terms">Terms</a> &middot; <a class="contact" data-u="Johndelaneyis" data-d="gmail.com">Contact</a></p>
 </footer>
 
 </div>

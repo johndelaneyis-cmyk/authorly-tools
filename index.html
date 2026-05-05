@@ -137,10 +137,14 @@ a.tool-list-item:hover{color:inherit}
 @media (max-width:600px){.container{padding:32px 20px}.tool-card{padding:24px}.hero{padding:40px 0 24px}body{font-size:17px}.nav a:nth-child(2){display:none}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 ::selection{background:var(--accent);color:var(--paper)}
+.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.skip-link{position:absolute;left:-9999px;top:0;background:var(--ink);color:var(--paper);padding:10px 16px;z-index:1000;text-decoration:none;font-size:14px;font-weight:500}
+.skip-link:focus{left:0;outline:2px solid var(--accent);outline-offset:2px}
 
 </style>
 </head>
 <body>
+<a class="skip-link" href="#tool">Skip to the tool</a>
 <div class="container">
 
 <header class="site-header">
@@ -217,7 +221,8 @@ a.tool-list-item:hover{color:inherit}
     <h3 class="waitlist-title">Get notified when it launches.</h3>
     <p class="waitlist-sub">Unlimited searches, priority models, save and revisit your past results. We'll email once — when it's ready.</p>
     <form class="waitlist-form" id="waitlist-form" novalidate>
-      <input type="email" id="waitlist-email" name="email" placeholder="you@example.com" autocomplete="email" required>
+      <label for="waitlist-email" class="visually-hidden">Email address</label>
+      <input type="email" id="waitlist-email" name="email" placeholder="you@example.com" autocomplete="email" required aria-required="true">
       <button type="submit" class="btn waitlist-btn" id="waitlist-submit">Notify me <span class="btn-arrow">→</span></button>
     </form>
     <div class="waitlist-status" id="waitlist-status" aria-live="polite"></div>
@@ -227,7 +232,7 @@ a.tool-list-item:hover{color:inherit}
 </main>
 
 <footer class="site-footer">
-  <p>Authorly &middot; <a href="/privacy">Privacy</a> &middot; <a href="/terms">Terms</a> &middot; <a href="mailto:Johndelaneyis@gmail.com">Contact</a></p>
+  <p>Authorly &middot; <a href="/privacy">Privacy</a> &middot; <a href="/terms">Terms</a> &middot; <a class="contact" data-u="Johndelaneyis" data-d="gmail.com">Contact</a></p>
 </footer>
 
 </div>
