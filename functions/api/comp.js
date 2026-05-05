@@ -67,8 +67,8 @@ export async function onRequestPost({ request, env }) {
   // Rate limiting
   const ip = request.headers.get("CF-Connecting-IP") || "unknown";
   const today = new Date().toISOString().slice(0, 10);
-  const ipKey = "rate:" + today + ":" + ip;
-  const globalKey = "global:" + today;
+  const ipKey = "rate:comp:" + today + ":" + ip;
+  const globalKey = "global:comp:" + today;
 
   const ipCountStr = await env.RATE_LIMITS.get(ipKey);
   const ipCount = parseInt(ipCountStr || "0", 10);
