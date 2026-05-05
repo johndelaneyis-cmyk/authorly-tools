@@ -1,6 +1,23 @@
 // Authorly tool feedback widget — used by every tool page.
 // Exposes window.attachFeedback(toolSlug, container).
 // Self-installs its own styles on first call, no CSS file needed.
+
+// --- Cloudflare Web Analytics beacon -----------------------------------------
+// Activates only when a real token is set. Get one at:
+//   https://dash.cloudflare.com → Analytics & Logs → Web Analytics
+// → "Add a site" → enter authorly.tools → copy the site_tag (token).
+// Replace the placeholder below with the token. Activation is automatic.
+(() => {
+  const BEACON_TOKEN = "REPLACE_WITH_CF_BEACON_TOKEN";
+  if (!BEACON_TOKEN || BEACON_TOKEN === "REPLACE_WITH_CF_BEACON_TOKEN") return;
+  const s = document.createElement("script");
+  s.defer = true;
+  s.src = "https://static.cloudflareinsights.com/beacon.min.js";
+  s.setAttribute("data-cf-beacon", JSON.stringify({ token: BEACON_TOKEN }));
+  document.head.appendChild(s);
+})();
+
+// --- Feedback widget ---------------------------------------------------------
 (() => {
   const css = `
 .authorly-feedback{margin-top:32px;padding-top:18px;border-top:1px dashed var(--rule,#e0d5c0);font-size:14px;color:var(--ink-mute,#6b6760)}
