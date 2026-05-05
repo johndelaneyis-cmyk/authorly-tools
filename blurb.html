@@ -22,6 +22,7 @@
 <meta name="twitter:description" content="Paste your plot, get a structured Amazon-ready blurb in seconds.">
 <meta name="twitter:image" content="https://authorly.tools/og.svg">
 
+<script src="/feedback.js" defer></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..900,0..100,0..1;1,9..144,300..900,0..100,0..1&display=swap" rel="stylesheet">
@@ -247,6 +248,7 @@ btn.addEventListener("click",async()=>{
         const html = renderMarkdown(data.text);
         outBody.innerHTML = html;
         attachBlurbCopy();
+        if (typeof window.attachFeedback === "function") window.attachFeedback("blurb", outBody);
       } catch (e) {
         outBody.innerHTML = '<div class="error">Failed to format response. Try again.</div>';
       }

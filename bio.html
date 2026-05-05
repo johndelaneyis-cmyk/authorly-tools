@@ -22,6 +22,7 @@
 <meta name="twitter:description" content="Paste a few facts. Get three polished bios: short (social), medium (KDP), and long (query letter).">
 <meta name="twitter:image" content="https://authorly.tools/og.svg">
 
+<script src="/feedback.js" defer></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..900,0..100,0..1;1,9..144,300..900,0..100,0..1&display=swap" rel="stylesheet">
@@ -200,6 +201,7 @@ btn.addEventListener("click", async () => {
     } else {
       outBody.innerHTML = renderMarkdown(data.text || "");
       attachBioCopy();
+      if (typeof window.attachFeedback === "function") window.attachFeedback("bio", outBody);
       if (typeof data.remaining === "number") {
         const note = document.createElement("div");
         note.style.cssText = "margin-top:18px;padding:10px 14px;background:var(--rule-soft,#f3ede0);border-radius:6px;font-size:13px;color:var(--ink-mute);text-align:center";

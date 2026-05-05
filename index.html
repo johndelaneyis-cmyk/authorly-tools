@@ -22,6 +22,7 @@
 <meta name="twitter:description" content="Find real comp titles for your book in seconds. Free, no signup, no manuscript upload.">
 <meta name="twitter:image" content="https://authorly.tools/og.svg">
 
+<script src="/feedback.js" defer></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..900,0..100,0..1;1,9..144,300..900,0..100,0..1&display=swap" rel="stylesheet">
@@ -110,6 +111,18 @@ textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(
 .tool-list-item h3{font-family:"Fraunces",serif;font-weight:600;font-size:17px;margin:0 0 6px;letter-spacing:-.005em}
 .tool-list-item p{font-size:14px;color:var(--ink-mute);margin:0;line-height:1.5}
 .tool-list-item .status{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-top:14px;font-weight:500}
+.waitlist{margin-top:8px;padding:28px;background:var(--paper-2);border:1px solid var(--rule);border-radius:4px}
+.waitlist-eyebrow{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);font-weight:500;margin-bottom:8px}
+.waitlist-title{font-family:"Fraunces",serif;font-variation-settings:"opsz" 144,"SOFT" 50;font-weight:500;font-size:24px;letter-spacing:-.01em;margin:0 0 8px;color:var(--ink)}
+.waitlist-sub{color:var(--ink-mute);font-size:15px;line-height:1.55;margin:0 0 18px}
+.waitlist-form{display:flex;gap:10px;flex-wrap:wrap;align-items:stretch}
+.waitlist-form input[type=email]{flex:1;min-width:220px;padding:13px 16px;background:var(--paper);border:1px solid var(--rule);border-radius:3px;color:var(--ink);font-family:"Fraunces",serif;font-size:16px;line-height:1.4;transition:border-color .2s,box-shadow .2s}
+.waitlist-form input[type=email]:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.waitlist-btn{margin-top:0;padding:13px 22px;font-size:15px}
+.waitlist-status{margin-top:14px;font-size:14px;line-height:1.55;min-height:1px}
+.waitlist-status.success{color:#2a7a3a}
+.waitlist-status.error{color:var(--accent)}
+@media (max-width:520px){.waitlist-form{flex-direction:column}.waitlist-form input[type=email]{min-width:0}}
 .site-footer{margin-top:80px;padding:32px 0 16px;border-top:1px solid var(--rule);text-align:center;font-size:13px;color:var(--ink-mute)}
 .site-footer a{color:var(--ink-mute);text-decoration:underline;text-decoration-color:var(--rule)}
 .site-footer a:hover{color:var(--accent)}
@@ -195,7 +208,18 @@ textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(
   <div class="eyebrow">About</div>
   <h2 class="section-title">Built for indie authors.</h2>
   <p style="font-size:17px;line-height:1.7;color:var(--ink);margin:0 0 16px">Authorly is a small, growing collection of free tools for self-published authors. No accounts. No upload-your-manuscript. No paywalls on the basics. Just tools that work.</p>
-  <p style="font-size:17px;line-height:1.7;color:var(--ink-mute);margin:0">Powered by Anthropic's Claude â€” the AI we found gives the highest-quality output for craft work like this. Five free searches per day per visitor â€” more than enough for most authors. We pay the AI bill so you don't have to. Pro tier with unlimited searches coming soon.</p>
+  <p style="font-size:17px;line-height:1.7;color:var(--ink-mute);margin:0 0 28px">Powered by Anthropic's Claude — the AI we found gives the highest-quality output for craft work like this. Five free searches per day per visitor — more than enough for most authors. We pay the AI bill so you don't have to. Pro tier with unlimited searches coming soon.</p>
+
+  <div class="waitlist" id="waitlist">
+    <div class="waitlist-eyebrow">Pro tier</div>
+    <h3 class="waitlist-title">Get notified when it launches.</h3>
+    <p class="waitlist-sub">Unlimited searches, priority models, save and revisit your past results. We'll email once — when it's ready.</p>
+    <form class="waitlist-form" id="waitlist-form" novalidate>
+      <input type="email" id="waitlist-email" name="email" placeholder="you@example.com" autocomplete="email" required>
+      <button type="submit" class="btn waitlist-btn" id="waitlist-submit">Notify me <span class="btn-arrow">→</span></button>
+    </form>
+    <div class="waitlist-status" id="waitlist-status" aria-live="polite"></div>
+  </div>
 </section>
 
 </main>
@@ -266,6 +290,7 @@ btn.addEventListener("click",async()=>{
     } else {
       outBody.innerHTML = renderMarkdown(data.text || "");
       attachCopyButtons();
+      if (typeof window.attachFeedback === "function") window.attachFeedback("comp", outBody);
       if (typeof data.remaining === 'number') {
         const note = document.createElement('div');
         note.style.cssText = 'margin-top:18px;padding:10px 14px;background:var(--rule-soft,#f3ede0);border-radius:6px;font-size:13px;color:var(--ink-mute);text-align:center';
@@ -338,6 +363,57 @@ function attachCopyButtons(){
     li.appendChild(b);
   });
 }
+
+// Pro-tier waitlist
+(() => {
+  const form = document.getElementById("waitlist-form");
+  if (!form) return;
+  const emailInput = document.getElementById("waitlist-email");
+  const submitBtn = document.getElementById("waitlist-submit");
+  const status = document.getElementById("waitlist-status");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const email = (emailInput.value || "").trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      status.className = "waitlist-status error";
+      status.textContent = "That doesn't look like a valid email address.";
+      emailInput.focus();
+      return;
+    }
+    submitBtn.disabled = true;
+    const origLabel = submitBtn.innerHTML;
+    submitBtn.innerHTML = "Saving <span class=\"btn-arrow\">…</span>";
+    status.className = "waitlist-status";
+    status.textContent = "";
+
+    try {
+      const r = await fetch("/api/waitlist", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, source: "homepage" })
+      });
+      let data;
+      try { data = await r.json(); } catch { data = {}; }
+      if (!r.ok) {
+        status.className = "waitlist-status error";
+        status.textContent = data.error || ("Couldn't save your email (" + r.status + "). Try again in a bit.");
+      } else {
+        status.className = "waitlist-status success";
+        status.textContent = data.alreadyOnList
+          ? "You're already on the list — we'll email when Pro is ready."
+          : "You're on the list. We'll email when Pro is ready.";
+        emailInput.value = "";
+      }
+    } catch {
+      status.className = "waitlist-status error";
+      status.textContent = "Network trouble. Try again in a moment.";
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = origLabel;
+    }
+  });
+})();
 </script>
 </body>
 </html>
