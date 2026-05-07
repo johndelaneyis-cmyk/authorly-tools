@@ -6,6 +6,20 @@
 (function () {
   var Authorly = window.Authorly || (window.Authorly = {});
 
+  // -------- Trusted Types default policy ---------------------------------
+  // feedback.js installs this on tool pages (loads first); we duplicate
+  // here because pages like 404.html ship tool.js without feedback.js.
+  // CSP `trusted-types default 'allow-duplicates'` permits both calls.
+  if (typeof window.trustedTypes !== "undefined" && window.trustedTypes.createPolicy) {
+    try {
+      window.trustedTypes.createPolicy("default", {
+        createHTML: function (s) { return String(s).replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, ""); },
+        createScript: function (s) { return String(s); },
+        createScriptURL: function (s) { return String(s); }
+      });
+    } catch (e) { /* already installed or refused */ }
+  }
+
   // -------- Markdown rendering used by every tool's output ----------
   Authorly.renderMarkdown = function (md) {
     var html = String(md || "")

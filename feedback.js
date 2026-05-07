@@ -2,6 +2,35 @@
 // Exposes window.attachFeedback(toolSlug, container).
 // Self-installs its own styles on first call, no CSS file needed.
 
+// --- Trusted Types default policy ------------------------------------------
+// CSP: `require-trusted-types-for 'script'` enforces that any innerHTML /
+// outerHTML / document.write call must receive a TrustedHTML object, not
+// a raw string. We install a single "default" policy here (feedback.js
+// loads BEFORE tool.js + page/*.js per <script> order on every page) so
+// every existing innerHTML assignment site-wide flows through one
+// sanitize chokepoint without rewriting call sites.
+//
+// We trust our own runtime: every string assigned to innerHTML in
+// tool.js / feedback.js / page/*.js is built from constants we control,
+// OR from Authorly.renderMarkdown() which already escapes < > & before
+// emitting markup. The policy here is a pass-through with one extra
+// defense: strip <script>...</script> entirely before letting it land.
+// Browsers that don't support Trusted Types (Firefox, Safari) silently
+// ignore the directive and the createPolicy call is a no-op.
+(() => {
+  if (typeof window.trustedTypes === "undefined" || !window.trustedTypes.createPolicy) return;
+  try {
+    window.trustedTypes.createPolicy("default", {
+      createHTML: (s) => String(s).replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, ""),
+      createScript: (s) => String(s),
+      createScriptURL: (s) => String(s)
+    });
+  } catch {
+    // Policy already exists (allow-duplicates off) or creation refused.
+    // Without enforcement, runtime continues unchanged.
+  }
+})();
+
 // --- Scrape-proof contact link ----------------------------------------------
 // Every page footer has <a class="contact" data-u="..." data-d="...">Contact</a>
 // or similar. We assemble the mailto on load so the literal address is never
