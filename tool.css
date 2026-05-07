@@ -3,9 +3,13 @@
    Per-page <style> blocks add small overrides only. */
 
 :root{
+  color-scheme:light dark;
+
   /* Reference tokens */
   --ref-red:#a83232;
+  --ref-red-light:#d96666;
   --ref-green:#2a7a3a;
+  --ref-green-light:#5db26d;
 
   /* Surface */
   --paper:#faf6f0;
@@ -26,6 +30,40 @@
   --focus:var(--ref-red);
   --danger:var(--ref-red);
   --success:var(--ref-green);
+
+  /* Noise opacity (paper ~ .04, dark mode dampens further) */
+  --noise-opacity:0.04;
+  --noise-r:0.42;
+  --noise-g:0.39;
+  --noise-b:0.32;
+}
+
+@media (prefers-color-scheme:dark){
+  :root{
+    /* Inverted: ink-on-paper becomes paper-on-ink. Warmer charcoal not pure black. */
+    --paper:#1c1814;
+    --paper-2:#23201b;
+    --rule:#3a342b;
+    --rule-soft:#2a2620;
+    --shadow:rgba(0,0,0,.4);
+
+    --ink:#f3eee5;
+    --ink-2:#d4cfc5;
+    --ink-mute:#a39d92;
+
+    /* Accent lifts brightness so oxblood reads on charcoal */
+    --accent:var(--ref-red-light);
+    --accent-soft:rgba(217,102,102,.08);
+    --accent-ring:rgba(217,102,102,.28);
+    --focus:var(--ref-red-light);
+    --danger:var(--ref-red-light);
+    --success:var(--ref-green-light);
+
+    --noise-opacity:0.025;
+    --noise-r:0.85;
+    --noise-g:0.82;
+    --noise-b:0.74;
+  }
 }
 
 *{box-sizing:border-box}
@@ -40,6 +78,12 @@ body{
   /* Subtle warm paper texture — book-print feel, performance-cheap inline SVG */
   background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.42 0 0 0 0 0.39 0 0 0 0 0.32 0 0 0 0.04 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
   background-attachment:fixed;
+}
+@media (prefers-color-scheme:dark){
+  body{
+    /* Dampen the noise to ~25% of light intensity (was tuned for paper) so it reads as a faint texture, not as visible grain on charcoal. */
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.85 0 0 0 0 0.82 0 0 0 0 0.74 0 0 0 0.025 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
 }
 a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
 .container{max-width:720px;margin:0 auto;padding:48px 24px}
@@ -78,9 +122,9 @@ textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(
 .genre-row{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
 .genre-chip{padding:7px 14px;background:var(--paper);border:1px solid var(--rule);border-radius:999px;font-family:"Fraunces",serif;font-size:13px;color:var(--ink-mute);cursor:pointer;transition:all .2s}
 .genre-chip:hover{border-color:var(--accent);color:var(--ink)}
-.genre-chip.active{background:var(--accent);color:var(--paper);border-color:var(--accent)}
+.genre-chip.active{background:var(--accent);color:var(--paper);border-color:var(--accent);font-weight:600}
 
-.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 28px;background:var(--ink);color:var(--paper);border:none;border-radius:3px;font-family:"Fraunces",serif;font-weight:500;font-size:16px;letter-spacing:.02em;cursor:pointer;transition:background .2s,transform .1s;margin-top:24px}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 28px;background:var(--ink);color:var(--paper);border:none;border-radius:3px;font-family:"Fraunces",serif;font-weight:500;font-size:16px;letter-spacing:.02em;cursor:pointer;transition:background .2s,color .2s,transform .1s;margin-top:24px}
 .btn:hover{background:var(--accent)}
 .btn:active{transform:translateY(1px)}
 .btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
