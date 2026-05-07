@@ -39,6 +39,10 @@ const GLOBAL_DAILY_LIMIT = 2000;
 const DEFAULT_MODEL = "claude-sonnet-4-6";
 
 export async function onRequestPost({ request, env }) {
+    const cl = parseInt(request.headers.get("content-length") || "0", 10);
+  if (Number.isFinite(cl) && cl > 10000) {
+    return jsonResponse({ error: "Request body too large." }, 413);
+  }
   let body;
   try {
     body = await request.json();
@@ -68,7 +72,7 @@ export async function onRequestPost({ request, env }) {
   const globalKey = "global:bio:" + today;
 
   const ipCountStr = await env.RATE_LIMITS.get(ipKey);
-  const ipCount = parseInt(ipCountStr || "0", 10);
+  const ipCount = parseUint(ipCountStr);
   if (ipCount >= PER_IP_DAILY_LIMIT) {
     return jsonResponse({
       error: "Daily free limit reached (" + PER_IP_DAILY_LIMIT + " bios per visitor). Come back tomorrow.",
@@ -77,7 +81,7 @@ export async function onRequestPost({ request, env }) {
   }
 
   const globalCountStr = await env.RATE_LIMITS.get(globalKey);
-  const globalCount = parseInt(globalCountStr || "0", 10);
+  const globalCount = parseUint(globalCountStr);
   if (globalCount >= GLOBAL_DAILY_LIMIT) {
     return jsonResponse({ error: "Service temporarily unavailable (daily capacity reached). Try again tomorrow." }, 503);
   }
@@ -137,6 +141,11 @@ export async function onRequest() {
   return jsonResponse({ error: "Method not allowed. Use POST." }, 405);
 }
 
+function parseUint(s) {
+  const n = parseInt(s || "0", 10);
+  return Number.isFinite(n) && n >= 0 ? n : 0;
+}
+
 function jsonResponse(data, status) {
   return new Response(JSON.stringify(data), {
     status: status || 200,
@@ -146,4 +155,6 @@ function jsonResponse(data, status) {
     }
   });
 }
+
+
 
