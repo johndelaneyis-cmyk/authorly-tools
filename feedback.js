@@ -72,13 +72,13 @@
     btnUp.type = "button";
     btnUp.className = "authorly-feedback-btn";
     btnUp.dataset.rating = "up";
-    btnUp.textContent = "👍 Yes";
+    btnUp.textContent = "Yes, useful";
 
     const btnDown = document.createElement("button");
     btnDown.type = "button";
     btnDown.className = "authorly-feedback-btn";
     btnDown.dataset.rating = "down";
-    btnDown.textContent = "👎 Not really";
+    btnDown.textContent = "Not really";
 
     wrap.appendChild(btnUp);
     wrap.appendChild(btnDown);
