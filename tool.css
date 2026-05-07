@@ -3,15 +3,29 @@
    Per-page <style> blocks add small overrides only. */
 
 :root{
+  /* Reference tokens */
+  --ref-red:#a83232;
+  --ref-green:#2a7a3a;
+
+  /* Surface */
   --paper:#faf6f0;
   --paper-2:#fefbf5;
+  --rule:#e0d5c0;
+  --rule-soft:#f3ede0;
+  --shadow:rgba(26,24,20,.08);
+
+  /* Ink */
   --ink:#1a1814;
   --ink-2:#3a3530;
-  --ink-mute:#6b6760;
-  --rule:#e0d5c0;
-  --accent:#a83232;
-  --accent-soft:rgba(168,50,50,.05);
-  --shadow:rgba(26,24,20,.08);
+  --ink-mute:#5d594f;
+
+  /* Semantic accents (all sourced from --ref-red so brand color is single-edit) */
+  --accent:var(--ref-red);
+  --accent-soft:rgba(168,50,50,.06);
+  --accent-ring:rgba(168,50,50,.18);
+  --focus:var(--ref-red);
+  --danger:var(--ref-red);
+  --success:var(--ref-green);
 }
 
 *{box-sizing:border-box}
@@ -34,7 +48,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 .logo{font-family:"Fraunces",serif;font-variation-settings:"opsz" 144,"SOFT" 100;font-weight:600;font-size:24px;letter-spacing:-.02em;color:var(--ink);text-decoration:none}
 .logo em{color:var(--accent);font-style:italic;font-weight:500;font-variation-settings:"opsz" 144,"WONK" 1}
 .nav{display:flex;gap:24px;font-size:15px}
-.nav a{color:var(--ink-mute);text-decoration:none;border-bottom:1px solid transparent;transition:border-color .2s,color .2s}
+.nav a{color:var(--ink-mute);text-decoration:none;border-bottom:1px solid transparent;transition:border-color .2s,color .2s;display:inline-block;padding:6px 4px;min-height:24px}
 .nav a:hover{border-bottom-color:var(--accent);color:var(--ink)}
 
 .hero{padding:64px 0 32px;text-align:center}
@@ -56,9 +70,9 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 .input-label:first-of-type{margin-top:0}
 .input-label .opt{font-weight:400;color:var(--ink-mute);font-size:12px}
 input[type=text]{width:100%;padding:14px 16px;background:var(--paper);border:1px solid var(--rule);border-radius:3px;color:var(--ink);font-family:"Fraunces",serif;font-size:18px;line-height:1.5;transition:border-color .2s,box-shadow .2s}
-input[type=text]:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+input[type=text]:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-ring)}
 textarea{width:100%;min-height:160px;padding:16px;background:var(--paper);border:1px solid var(--rule);border-radius:3px;color:var(--ink);font-family:"Fraunces",serif;font-size:16px;line-height:1.6;resize:vertical;transition:border-color .2s,box-shadow .2s}
-textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-ring)}
 .char-count{text-align:right;font-size:12px;color:var(--ink-mute);margin-top:6px}
 
 .genre-row{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
@@ -91,12 +105,12 @@ textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(
 .output-body em{font-style:italic;color:var(--ink-2)}
 .output-body strong{font-weight:600;color:var(--ink)}
 
-.copy-btn{display:inline-block;margin-left:6px;padding:3px 9px;background:transparent;border:1px solid var(--rule);border-radius:3px;font-family:"Fraunces",serif;font-size:11px;color:var(--ink-mute);cursor:pointer;transition:all .2s;vertical-align:baseline}
+.copy-btn{display:inline-block;margin-left:6px;padding:6px 11px;background:transparent;border:1px solid var(--rule);border-radius:3px;font-family:"Fraunces",serif;font-size:12px;color:var(--ink-mute);cursor:pointer;transition:all .2s;vertical-align:baseline;min-height:24px}
 .copy-btn:hover{border-color:var(--accent);color:var(--accent)}
-.copy-btn.copied{color:#2a7a3a;border-color:#2a7a3a}
+.copy-btn.copied{color:var(--success);border-color:var(--success)}
 .copy-all-btn{display:inline-block;margin:8px 0 14px;padding:6px 14px;background:transparent;border:1px solid var(--accent);border-radius:3px;font-family:"Fraunces",serif;font-size:13px;color:var(--accent);cursor:pointer;transition:all .2s}
 .copy-all-btn:hover{background:var(--accent);color:var(--paper)}
-.copy-all-btn.copied{background:#2a7a3a;border-color:#2a7a3a;color:var(--paper)}
+.copy-all-btn.copied{background:var(--success);border-color:var(--success);color:var(--paper)}
 
 .sample{margin:0 0 24px;border:1px dashed var(--rule);border-radius:3px}
 .sample summary{padding:12px 16px;cursor:pointer;font-size:14px;color:var(--ink-mute);font-weight:500;list-style:none;user-select:none;display:flex;align-items:center;justify-content:space-between;gap:8px}

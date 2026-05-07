@@ -131,6 +131,7 @@
     function showError(msg) {
       var div = document.createElement("div");
       div.className = "error";
+      div.setAttribute("role", "alert");
       div.textContent = msg;
       outBody.replaceChildren ? outBody.replaceChildren(div) : (outBody.innerHTML = "", outBody.appendChild(div));
       out.classList.add("visible");
