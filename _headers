@@ -40,6 +40,12 @@
 /page/*
   Cache-Control: public, max-age=3600, stale-while-revalidate=86400
 
+# Long-form guides: same cadence as HTML pages so edits ship fast.
+/guides
+  Cache-Control: public, max-age=300, stale-while-revalidate=3600
+/guides/*
+  Cache-Control: public, max-age=300, stale-while-revalidate=3600
+
 /robots.txt
   Cache-Control: public, max-age=3600
 /sitemap.xml
