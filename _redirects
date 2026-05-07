@@ -1,0 +1,15 @@
+# Block internal docs and planning artifacts from being publicly served by Cloudflare Pages.
+# CF Pages serves any file in the deploy bucket by default — without these rules, anything at
+# the repo root that isn't gitignored ships at https://authorly.tools/<path>.
+
+/CLAUDE.md             /404.html  404
+/HANDOFF.md            /404.html  404
+/README.md             /404.html  404
+/.gitignore            /404.html  404
+/.git/*                /404.html  404
+/distribution/*        /404.html  404
+/docs/*                /404.html  404
+/.claude/*             /404.html  404
+/.wrangler/*           /404.html  404
+/.env                  /404.html  404
+/.env.*                /404.html  404
