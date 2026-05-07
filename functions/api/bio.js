@@ -109,14 +109,16 @@ export async function onRequestPost({ request, env }) {
   }
 
   if (!anthropicRes.ok) {
-    let detail = "";
+    let type = "";
     try {
       const errBody = await anthropicRes.json();
-      detail = (errBody.error && errBody.error.message) || "";
+      type = (errBody.error && errBody.error.type) || "";
     } catch {}
-    return jsonResponse({
-      error: "AI service returned an error. Please try again." + (detail ? " (" + detail.substring(0, 120) + ")" : "")
-    }, 502);
+    let msg = "AI service is having issues. Try again.";
+    if (type === "rate_limit_error") msg = "AI service is busy — try again in a minute.";
+    else if (type === "invalid_request_error") msg = "AI service rejected the request — try simpler input.";
+    else if (type === "overloaded_error") msg = "AI service is temporarily overloaded — try again in a minute.";
+    return jsonResponse({ error: msg }, 502);
   }
 
   const anthropicData = await anthropicRes.json();
@@ -155,6 +157,7 @@ function jsonResponse(data, status) {
     }
   });
 }
+
 
 
 
