@@ -1,0 +1,20 @@
+{
+  "name": "Authorly",
+  "short_name": "Authorly",
+  "description": "Free tools for indie authors — comp titles, blurbs, KDP keywords, categories, tropes, ad headlines, author bios.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "minimal-ui",
+  "background_color": "#faf6f0",
+  "theme_color": "#faf6f0",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "lang": "en-US",
+  "categories": ["books", "productivity", "writing"]
+}
