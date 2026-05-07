@@ -220,7 +220,8 @@ a.tool-list-item:hover{color:inherit}
 .visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .skip-link{position:absolute;left:-9999px;top:0;background:var(--ink);color:var(--paper);padding:10px 16px;z-index:1000;text-decoration:none;font-size:14px;font-weight:500}
 .skip-link:focus{left:0;outline:2px solid var(--accent);outline-offset:2px}
-#content:focus{outline:none}
+#content:focus,#tool:focus,.notfound:focus{outline:none}
+#content:focus-visible,#tool:focus-visible,.notfound:focus-visible{outline:2px solid var(--accent);outline-offset:8px;border-radius:4px}
 
 @media (max-width:600px){
   .container{padding:32px 20px}

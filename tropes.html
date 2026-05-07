@@ -60,7 +60,7 @@
 
 <main>
 
-<section class="tool-card" id="tool">
+<section class="tool-card" id="tool" tabindex="-1">
   <div class="tool-label">The free tool</div>
   <h2 class="tool-title">Trope finder</h2>
   <p class="tool-desc">Tell us about your plot. We'll identify the tropes already there &mdash; enemies-to-lovers, found family, slow burn, second chance, whatever fits &mdash; ranked by reader-search appeal, with a one-line marketing angle for each.</p>
@@ -91,7 +91,7 @@
   </details>
 
   <label class="input-label" for="book-desc">Your book description</label>
-  <textarea id="book-desc" placeholder="Two rival academics &mdash; she's a tenured medievalist, he's the visiting fellow she once published a takedown of &mdash; get trapped in a snowed-in Oxford library after closing. Ten years of professional bad blood, twelve hours, one heated argument that turns into something else entirely. Adult academic romance, slow burn, dual POV." maxlength="2000"></textarea>
+  <textarea id="book-desc" placeholder="Two rival academics &mdash; she's a tenured medievalist, he's the visiting fellow she once published a takedown of &mdash; get trapped in a snowed-in Oxford library after closing. Ten years of professional bad blood, twelve hours, one heated argument that turns into something else entirely. Adult academic romance, slow burn, dual POV." maxlength="2000" autocomplete="off" spellcheck="true" aria-describedby="cc"></textarea>
   <div class="char-count"><span id="cc">0</span> / 2000</div>
 
   <div class="input-label" id="genre-label">Genre <span class="opt">(optional, sharpens the read)</span></div>
@@ -108,7 +108,7 @@
 
   <button class="btn" id="generate">Find tropes <span class="btn-arrow">&rarr;</span></button>
 
-  <div class="output" id="output">
+  <div class="output" id="output" aria-live="polite" aria-busy="false">
     <h3 class="output-title">Your tropes</h3>
     <div class="output-body" id="output-body"></div>
   </div>

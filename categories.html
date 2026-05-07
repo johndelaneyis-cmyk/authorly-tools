@@ -61,7 +61,7 @@
 
 <main>
 
-<section class="tool-card" id="tool">
+<section class="tool-card" id="tool" tabindex="-1">
   <div class="tool-label">The free tool</div>
   <h2 class="tool-title">Category recommender</h2>
   <p class="tool-desc">Paste your book description below. We'll pick three Kindle Store categories — niche, mid-tier, stretch — with the full path you can email to KDP support, plus an honest read on the competition.</p>
@@ -100,7 +100,7 @@
   </details>
 
   <label class="input-label" for="book-desc">Your book description</label>
-  <textarea id="book-desc" placeholder="A debut cozy mystery set in a coastal Maine bookshop. Forty-something widow inherits her grandmother's failing store and discovers a decades-old letter that points to a murder dressed up as a drowning. Light romance subplot with the local carpenter. Tone: warm, atmospheric, slow-burn — Louise Penny meets Jenny Colgan." maxlength="2000"></textarea>
+  <textarea id="book-desc" placeholder="A debut cozy mystery set in a coastal Maine bookshop. Forty-something widow inherits her grandmother's failing store and discovers a decades-old letter that points to a murder dressed up as a drowning. Light romance subplot with the local carpenter. Tone: warm, atmospheric, slow-burn — Louise Penny meets Jenny Colgan." maxlength="2000" autocomplete="off" spellcheck="true" aria-describedby="cc"></textarea>
   <div class="char-count"><span id="cc">0</span> / 2000</div>
 
   <div class="input-label" id="genre-label">Genre <span class="opt">(optional, helps accuracy)</span></div>
@@ -117,7 +117,7 @@
 
   <button class="btn" id="generate">Recommend categories <span class="btn-arrow">→</span></button>
 
-  <div class="output" id="output">
+  <div class="output" id="output" aria-live="polite" aria-busy="false">
     <h3 class="output-title">Your categories</h3>
     <div class="output-body" id="output-body"></div>
   </div>

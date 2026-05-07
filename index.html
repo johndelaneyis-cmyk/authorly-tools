@@ -61,7 +61,7 @@
 
 <main>
 
-<section class="tool-card" id="tool">
+<section class="tool-card" id="tool" tabindex="-1">
   <div class="tool-label">The free tool</div>
   <h2 class="tool-title">Comp title finder</h2>
   <p class="tool-desc">Paste your book description below. Get five real, published, commercially successful comp titles &mdash; with reasons why each fits, plus ready-to-paste copy for your Amazon book description.</p>
@@ -88,7 +88,7 @@
   </details>
 
   <label class="input-label" for="book-desc">Your book description</label>
-  <textarea id="book-desc" placeholder="A widowed marine biologist returns to her childhood island to investigate her sister's mysterious death. Set against the backdrop of a coastal community hiding decades of secrets, the novel weaves dual timelines of grief and discovery &mdash; perfect for readers who love atmospheric, character-driven mysteries..." maxlength="2000"></textarea>
+  <textarea id="book-desc" placeholder="A widowed marine biologist returns to her childhood island to investigate her sister's mysterious death. Set against the backdrop of a coastal community hiding decades of secrets, the novel weaves dual timelines of grief and discovery &mdash; perfect for readers who love atmospheric, character-driven mysteries..." maxlength="2000" autocomplete="off" spellcheck="true" aria-describedby="cc"></textarea>
   <div class="char-count"><span id="cc">0</span> / 2000</div>
 
   <div class="input-label" id="genre-label">Genre <span class="opt">(optional, helps accuracy)</span></div>
@@ -105,7 +105,7 @@
 
   <button class="btn" id="generate">Find comp titles <span class="btn-arrow">&rarr;</span></button>
 
-  <div class="output" id="output">
+  <div class="output" id="output" aria-live="polite" aria-busy="false">
     <h3 class="output-title">Your comp titles</h3>
     <div class="output-body" id="output-body"></div>
   </div>

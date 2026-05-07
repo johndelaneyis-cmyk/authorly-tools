@@ -61,7 +61,7 @@
 
 <main>
 
-<section class="tool-card" id="tool">
+<section class="tool-card" id="tool" tabindex="-1">
   <div class="tool-label">The free tool</div>
   <h2 class="tool-title">Author bio generator</h2>
   <p class="tool-desc">A few facts about you in. Three polished bios out — one punchy line for social media (150–200 chars), one for your KDP author page (60–90 words), and one longer version for query letters and press kits (130–170 words).</p>
@@ -82,12 +82,12 @@
   </details>
 
   <label class="input-label" for="author-facts">A few facts about you</label>
-  <textarea id="author-facts" placeholder="Marina Whelan writes contemporary mystery and romantic suspense. She's based in Portland, Oregon, worked as a research librarian for 12 years, and has published two novels with indie presses. Loves hiking, old bookshops, and organizing other people's bookshelves." maxlength="1500"></textarea>
+  <textarea id="author-facts" placeholder="Marina Whelan writes contemporary mystery and romantic suspense. She's based in Portland, Oregon, worked as a research librarian for 12 years, and has published two novels with indie presses. Loves hiking, old bookshops, and organizing other people's bookshelves." maxlength="1500" autocomplete="off" spellcheck="true" aria-describedby="cc"></textarea>
   <div class="char-count"><span id="cc">0</span> / 1500</div>
 
   <button class="btn" id="generate">Write bio <span class="btn-arrow">→</span></button>
 
-  <div class="output" id="output">
+  <div class="output" id="output" aria-live="polite" aria-busy="false">
     <h3 class="output-title">Your bios</h3>
     <div class="output-body" id="output-body"></div>
   </div>

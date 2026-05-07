@@ -61,7 +61,7 @@
 
 <main>
 
-<section class="tool-card" id="tool">
+<section class="tool-card" id="tool" tabindex="-1">
   <div class="tool-label">The free tool</div>
   <h2 class="tool-title">KDP keyword expander</h2>
   <p class="tool-desc">Type one keyword that describes your book — a trope, a setting, a subgenre. We'll return ten phrases real readers search on Amazon, plus the seven highest-coverage ones to slot straight into your KDP backend.</p>
@@ -118,7 +118,7 @@
 
   <button class="btn" id="generate">Expand keywords <span class="btn-arrow">→</span></button>
 
-  <div class="output" id="output">
+  <div class="output" id="output" aria-live="polite" aria-busy="false">
     <h3 class="output-title">Your keyword set</h3>
     <div class="output-body" id="output-body"></div>
   </div>

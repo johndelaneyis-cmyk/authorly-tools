@@ -60,7 +60,7 @@
 
 <main>
 
-<section class="tool-card" id="tool">
+<section class="tool-card" id="tool" tabindex="-1">
   <div class="tool-label">The free tool</div>
   <h2 class="tool-title">Amazon Ads headlines</h2>
   <p class="tool-desc">Title + description in. Six tested-shape ad headlines out &mdash; three at the standard 100&ndash;150 character size, three short ones at 60&ndash;80 characters for tighter placements. Each variant tries a different angle (trope, comp, emotional, audience).</p>
@@ -90,7 +90,7 @@
   <input type="text" id="title" placeholder="The Bookshop on Saltspray Lane" maxlength="200" autocomplete="off">
 
   <label class="input-label" for="book-desc">Book description</label>
-  <textarea id="book-desc" placeholder="A widowed marine biologist returns to her childhood island to investigate her sister's mysterious death. Atmospheric coastal mystery with a slow-burn romance subplot &mdash; for readers who love Tana French and Lisa Jewell." maxlength="2000"></textarea>
+  <textarea id="book-desc" placeholder="A widowed marine biologist returns to her childhood island to investigate her sister's mysterious death. Atmospheric coastal mystery with a slow-burn romance subplot &mdash; for readers who love Tana French and Lisa Jewell." maxlength="2000" autocomplete="off" spellcheck="true" aria-describedby="cc"></textarea>
   <div class="char-count"><span id="cc">0</span> / 2000</div>
 
   <label class="input-label" for="comps">Comp titles <span class="opt">(optional, sharpens the ads)</span></label>
@@ -110,7 +110,7 @@
 
   <button class="btn" id="generate">Write headlines <span class="btn-arrow">&rarr;</span></button>
 
-  <div class="output" id="output">
+  <div class="output" id="output" aria-live="polite" aria-busy="false">
     <h3 class="output-title">Your headlines</h3>
     <div class="output-body" id="output-body"></div>
   </div>

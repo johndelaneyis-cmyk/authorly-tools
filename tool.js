@@ -180,11 +180,13 @@
 
       // Lock UI + show loading
       btn.disabled = true;
+      btn.setAttribute("aria-busy", "true");
       btn.innerHTML = cfg.buttonLoadingHTML || 'Loading <span class="btn-arrow">…</span>';
       var loadingMsg = cfg.loadingMsg || "Working";
       outBody.innerHTML = '<div class="loading">' + loadingMsg +
         '<span class="loading-dot">.</span><span class="loading-dot">.</span><span class="loading-dot">.</span></div>';
       out.classList.add("visible");
+      out.setAttribute("aria-busy", "true");
       try { out.scrollIntoView({ behavior: "smooth", block: "nearest" }); } catch (e) {}
 
       var res, data;
@@ -195,9 +197,11 @@
           body: JSON.stringify(buildBody())
         });
       } catch (e) {
-        showError("Connection trouble. Check your internet and try again.");
+        showError("Couldn't reach the server. Check your connection and try again.");
         btn.disabled = false;
+        btn.removeAttribute("aria-busy");
         btn.innerHTML = cfg.buttonRestHTML;
+        out.setAttribute("aria-busy", "false");
         return;
       }
       try { data = await res.json(); } catch (e) { data = {}; }
@@ -230,7 +234,9 @@
         showError("Unexpected error rendering the response. Try again.");
       } finally {
         btn.disabled = false;
+        btn.removeAttribute("aria-busy");
         btn.innerHTML = cfg.buttonRestHTML;
+        out.setAttribute("aria-busy", "false");
       }
     });
 

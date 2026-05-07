@@ -61,7 +61,7 @@
 
 <main>
 
-<section class="tool-card" id="tool">
+<section class="tool-card" id="tool" tabindex="-1">
   <div class="tool-label">The free tool</div>
   <h2 class="tool-title">Amazon book description writer</h2>
   <p class="tool-desc">Tell us about your plot — the protagonist, the inciting incident, the tone. We'll return a labeled breakdown (hook / setup / stakes / cliffhanger) and a final 130-180 word blurb you can paste straight into KDP.</p>
@@ -87,7 +87,7 @@
   </details>
 
   <label class="input-label" for="plot">Your plot details</label>
-  <textarea id="plot" placeholder="Marina, a marine biologist, returns to her childhood island after fifteen years away when her estranged sister dies in a mysterious boating accident. Atmospheric coastal mystery told in dual timelines (present-day investigation and the summer of 2008). Literary but accessible — think Tana French meets Lisa Jewell. The accident wasn't an accident, and the island knows more than it's saying..." maxlength="2000"></textarea>
+  <textarea id="plot" placeholder="Marina, a marine biologist, returns to her childhood island after fifteen years away when her estranged sister dies in a mysterious boating accident. Atmospheric coastal mystery told in dual timelines (present-day investigation and the summer of 2008). Literary but accessible — think Tana French meets Lisa Jewell. The accident wasn't an accident, and the island knows more than it's saying..." maxlength="2000" autocomplete="off" spellcheck="true" aria-describedby="cc"></textarea>
   <div class="char-count"><span id="cc">0</span> / 2000</div>
 
   <div class="input-label" id="genre-label">Genre <span class="opt">(optional, helps tone)</span></div>
@@ -104,7 +104,7 @@
 
   <button class="btn" id="generate">Write the blurb <span class="btn-arrow">→</span></button>
 
-  <div class="output" id="output">
+  <div class="output" id="output" aria-live="polite" aria-busy="false">
     <h3 class="output-title">Your blurb</h3>
     <div class="output-body" id="output-body"></div>
   </div>
