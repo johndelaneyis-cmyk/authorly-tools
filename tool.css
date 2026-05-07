@@ -301,6 +301,61 @@ body.page-legal .legal strong{font-weight:600;color:var(--ink)}
 body.page-legal .contact:empty::before{content:"hello@authorly.tools"}
 body.page-legal .legal-spacer{margin-top:48px}
 
+/* Guides — long-form editorial pages (peer-author voice).
+   Reads like a magazine essay: roomier line-height, drop cap on first
+   paragraph, pull-quote treatment for emphasized lines, hairline rule
+   between H2 sections. Same chrome (header/footer/ornament) as tools. */
+body.page-guide .container{max-width:680px}
+@media (min-width:1024px){body.page-guide .container{max-width:740px}}
+body.page-guide .guide-meta{font-size:13px;letter-spacing:.04em;color:var(--ink-mute);margin:0 0 28px;display:flex;flex-wrap:wrap;gap:0 14px;align-items:baseline}
+body.page-guide .guide-meta .guide-tag{color:var(--accent);font-weight:500;text-transform:uppercase;letter-spacing:.16em;font-size:11px}
+body.page-guide .guide-meta time{font-style:italic}
+body.page-guide article h1{font-family:"Fraunces",serif;font-variation-settings:"opsz" 144,"SOFT" 30,"WONK" 1;font-weight:400;font-size:clamp(34px,5vw,46px);line-height:1.12;letter-spacing:-.025em;margin:0 0 18px;color:var(--ink)}
+body.page-guide article h1 em{font-style:italic;color:var(--accent);font-weight:400}
+body.page-guide article > p.lede{font-size:20px;line-height:1.55;color:var(--ink-2);margin:0 0 36px;font-style:italic;font-variation-settings:"opsz" 144,"SOFT" 50}
+body.page-guide article h2{font-family:"Fraunces",serif;font-variation-settings:"opsz" 144,"SOFT" 50;font-weight:500;font-size:26px;letter-spacing:-.01em;line-height:1.2;margin:48px 0 14px;padding-top:32px;border-top:1px solid var(--rule);color:var(--ink)}
+body.page-guide article h2:first-of-type{margin-top:0;padding-top:0;border-top:0}
+body.page-guide article h3{font-family:"Fraunces",serif;font-variation-settings:"opsz" 144;font-weight:500;font-size:19px;margin:28px 0 8px;color:var(--ink);letter-spacing:-.005em}
+body.page-guide article p{margin:0 0 16px;font-size:18px;line-height:1.7;color:var(--ink)}
+body.page-guide article p strong{font-weight:600;color:var(--ink)}
+body.page-guide article p em{font-style:italic;color:var(--ink-2)}
+body.page-guide article a{color:var(--ink);text-decoration:underline;text-decoration-color:var(--rule);text-underline-offset:3px;transition:color .2s,text-decoration-color .2s}
+body.page-guide article a:hover{color:var(--accent);text-decoration-color:var(--accent)}
+body.page-guide article ul,body.page-guide article ol{margin:0 0 18px;padding-left:0;list-style:none}
+body.page-guide article ul li,body.page-guide article ol li{padding-left:22px;position:relative;margin-bottom:10px;font-size:18px;line-height:1.65;color:var(--ink)}
+body.page-guide article ul li::before{content:"\00A7";position:absolute;left:0;top:0;font-family:"Fraunces",serif;font-style:italic;color:var(--accent);line-height:1.65}
+body.page-guide article ol{counter-reset:gli}
+body.page-guide article ol li{counter-increment:gli}
+body.page-guide article ol li::before{content:counter(gli) ".";position:absolute;left:0;top:0;font-family:"Fraunces",serif;font-style:italic;color:var(--accent);font-weight:500;line-height:1.65}
+body.page-guide article blockquote{margin:24px 0;padding:0 0 0 22px;border-left:3px solid var(--accent);font-style:italic;color:var(--ink-2);font-size:19px;line-height:1.6}
+body.page-guide article blockquote p{font-size:19px;line-height:1.6}
+body.page-guide .guide-callout{margin:32px 0;padding:22px 24px;background:var(--paper-2);border:1px solid var(--rule);border-radius:3px}
+body.page-guide .guide-callout-eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:500;margin-bottom:6px}
+body.page-guide .guide-callout p{font-size:16px;line-height:1.6;margin:0 0 8px;color:var(--ink-2)}
+body.page-guide .guide-callout p:last-child{margin-bottom:0}
+body.page-guide .guide-callout a.btn-inline{display:inline-block;margin-top:6px;color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent);font-weight:500;font-size:15px;letter-spacing:.01em}
+body.page-guide .guide-callout a.btn-inline:hover{color:var(--ink);border-bottom-color:var(--ink)}
+body.page-guide .guide-end{margin:48px 0 0;text-align:center;color:var(--accent);font-style:italic;font-size:22px;line-height:1}
+body.page-guide .guide-nav{margin:48px 0 0;padding:24px 0 0;border-top:1px solid var(--rule);font-size:14px;color:var(--ink-mute);line-height:1.7;text-align:center}
+body.page-guide .guide-nav a{color:var(--ink-mute);text-decoration:none;border-bottom:1px solid var(--rule);padding:0 2px;transition:color .2s,border-color .2s}
+body.page-guide .guide-nav a:hover{color:var(--accent);border-bottom-color:var(--accent)}
+
+/* Guides index — shares editorial-list structure with homepage tool list */
+body.page-guides-index .guides-list{display:block;margin:0;padding:0;list-style:none;counter-reset:gtool;border-top:1px solid var(--rule)}
+body.page-guides-index .guides-list-item{display:grid;grid-template-columns:48px 1fr;gap:6px 24px;align-items:baseline;padding:22px 4px;border-bottom:1px solid var(--rule);text-decoration:none;color:inherit;transition:background .2s,padding-left .25s;counter-increment:gtool;position:relative}
+body.page-guides-index .guides-list-item::before{content:counter(gtool, lower-roman) ".";font-family:"Fraunces",serif;font-style:italic;font-variation-settings:"opsz" 144,"WONK" 1;font-weight:400;font-size:18px;color:var(--accent);text-align:right;letter-spacing:.02em;line-height:1.4;align-self:start;padding-top:2px;grid-row:1/3}
+body.page-guides-index .guides-list-item:hover{background:var(--accent-soft);padding-left:14px}
+body.page-guides-index .guides-list-item:hover .guides-list-title{color:var(--accent)}
+body.page-guides-index .guides-list-title{font-family:"Fraunces",serif;font-variation-settings:"opsz" 144,"SOFT" 30;font-weight:500;font-size:22px;letter-spacing:-.01em;margin:0;color:var(--ink);line-height:1.25;transition:color .2s}
+body.page-guides-index .guides-list-desc{font-size:15px;color:var(--ink-mute);margin:6px 0 0;line-height:1.55}
+@media (max-width:600px){
+  body.page-guides-index .guides-list-item{grid-template-columns:32px 1fr;padding:20px 0}
+  body.page-guides-index .guides-list-item::before{font-size:16px;padding-top:0}
+  body.page-guides-index .guides-list-title{font-size:19px}
+  body.page-guides-index .guides-list-desc{font-size:14px}
+  body.page-guides-index .guides-list-item:hover{padding-left:0;background:transparent}
+}
+
 /* 404 page — dark-reader-defended large italic accent treatment.
    Naturally higher specificity (body.is-404) replaces !important hammer. */
 body.is-404 .notfound{padding:96px 0 64px;text-align:center}
