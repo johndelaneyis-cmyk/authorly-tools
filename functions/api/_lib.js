@@ -165,13 +165,21 @@ export function bumpCounters(ctx, env, rate) {
 // Anthropic call
 // Caller supplies system + user. Errors are mapped to user-safe messages.
 // Anthropic error bodies are NEVER passed through to the client.
+//
+// Prompt caching: the system prompt is wrapped as a structured array with
+// cache_control: ephemeral, so Anthropic caches the (large, frozen) system
+// prefix across requests. Cache reads cost ~0.1× input price; writes cost
+// ~1.25×. Break-even is 2 cached reads — at our 5/tool/day cap and ~7 tools,
+// with non-trivial concurrent usage during launch, this saves ~80% on repeat
+// system-prompt traffic. Each tool's system prompt is ~30+ lines so all clear
+// the 2048-token minimum cacheable prefix on Sonnet 4.6.
 // ---------------------------------------------------------------------------
 export async function callClaude(env, { system, user, maxTokens, temperature }) {
   const model = env.ANTHROPIC_MODEL || DEFAULT_MODEL;
   const reqBody = {
     model,
     max_tokens: maxTokens || 1500,
-    system,
+    system: [{ type: "text", text: system, cache_control: { type: "ephemeral" } }],
     messages: [{ role: "user", content: user }],
   };
   if (typeof temperature === "number") reqBody.temperature = temperature;
