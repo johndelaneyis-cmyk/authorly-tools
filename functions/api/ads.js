@@ -42,7 +42,7 @@ const MAX_GENRE_LEN = 60;
 const MAX_COMPS_LEN = 200;
 const PER_IP_DAILY_LIMIT = 5;
 const GLOBAL_DAILY_LIMIT = 2000;
-const DEFAULT_MODEL = "claude-sonnet-4-5";
+const DEFAULT_MODEL = "claude-sonnet-4-6";
 
 export async function onRequestPost({ request, env }) {
   let body;
@@ -158,3 +158,4 @@ function jsonResponse(data, status) {
     }
   });
 }
+

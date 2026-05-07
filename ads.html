@@ -1,9 +1,9 @@
-ï»¿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Amazon Ads headlines â€” Authorly</title>
+<title>Amazon Ads headlines — Authorly</title>
 <meta name="description" content="Free Amazon Ads headline generator for indie authors. Three 150-char and three 80-char headlines tuned for Sponsored Products and Sponsored Brands.">
 <meta name="theme-color" content="#faf6f0">
 <link rel="canonical" href="https://authorly.tools/ads">
@@ -11,20 +11,21 @@
 
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://authorly.tools/ads">
-<meta property="og:title" content="Amazon Ads headlines â€” Authorly">
+<meta property="og:title" content="Amazon Ads headlines — Authorly">
 <meta property="og:description" content="Three 150-char and three 80-char headlines tuned for Sponsored Products and Sponsored Brands.">
 <meta property="og:image" content="https://authorly.tools/og.png">
 <meta property="og:image:type" content="image/png">
 <meta property="og:site_name" content="Authorly">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Amazon Ads headlines â€” Authorly">
+<meta name="twitter:title" content="Amazon Ads headlines — Authorly">
 <meta name="twitter:description" content="Headlines sized to Amazon Ads' 150-char limit, with shorter alternates.">
 <meta name="twitter:image" content="https://authorly.tools/og.png">
 
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"WebApplication","name":"Amazon Ads headlines","url":"https://authorly.tools/ads","description":"Three 150-char and three 80-char headlines tuned for Sponsored Products and Sponsored Brands.","applicationCategory":"BusinessApplication","operatingSystem":"Any","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"Authorly","url":"https://authorly.tools/"}}
 </script>
+<script>document.querySelectorAll("a.contact[data-u][data-d]").forEach(a=>{const u=a.getAttribute("data-u"),d=a.getAttribute("data-d");a.setAttribute("href","mailto:"+u+"@"+d);if(!a.textContent.trim())a.textContent=u+"@"+d;});</script>
 <script src="/feedback.js" defer></script>
 <script src="/tool.js" defer></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -48,28 +49,28 @@
 <section class="hero">
   <div class="eyebrow">For indie authors</div>
   <h1>Write your <em>Amazon Ads</em> headlines.</h1>
-  <p class="hero-sub">Three 150-character headlines and three 80-character ones â€” tuned for Sponsored Products and Sponsored Brands placements, ready to paste into Amazon Ads.</p>
+  <p class="hero-sub">Three 150-character headlines and three 80-character ones — tuned for Sponsored Products and Sponsored Brands placements, ready to paste into Amazon Ads.</p>
 </section>
 
-<div class="ornament"><span>Â§</span></div>
+<div class="ornament"><span>§</span></div>
 
 <main>
 
 <section class="tool-card" id="tool">
   <div class="tool-label">The free tool</div>
   <h2 class="tool-title">Amazon Ads headlines</h2>
-  <p class="tool-desc">Title + description in. Six tested-shape ad headlines out â€” three at the standard 100â€“150 character size, three short ones at 60â€“80 characters for tighter placements. Each variant tries a different angle (trope, comp, emotional, audience).</p>
+  <p class="tool-desc">Title + description in. Six tested-shape ad headlines out — three at the standard 100–150 character size, three short ones at 60–80 characters for tighter placements. Each variant tries a different angle (trope, comp, emotional, audience).</p>
 
   <details class="sample">
     <summary>See an example of what you'll get</summary>
     <div class="sample-body">
-      <h2>Standard headlines (100â€“150 chars)</h2>
+      <h2>Standard headlines (100–150 chars)</h2>
       <ol>
         <li>"On the morning her sister's body washes ashore, marine biologist Marina returns to the island that destroyed her family." (128/150)</li>
         <li>"An atmospheric coastal mystery for fans of Tana French and Lisa Jewell. Slow-burn dread, dual timelines, one small island." (124/150)</li>
         <li>"Fifteen years after she fled, the truth her sister hid is about to surface. A cold-case mystery wrapped in salt water." (118/150)</li>
       </ol>
-      <h2>Short headlines (60â€“80 chars)</h2>
+      <h2>Short headlines (60–80 chars)</h2>
       <ol>
         <li>"An atmospheric coastal mystery for fans of Tana French." (56/80)</li>
         <li>"Some islands keep their dead. Some keep their secrets." (54/80)</li>
@@ -85,7 +86,7 @@
   <input type="text" id="title" placeholder="The Bookshop on Saltspray Lane" maxlength="200" autocomplete="off">
 
   <label class="input-label" for="book-desc">Book description</label>
-  <textarea id="book-desc" placeholder="A widowed marine biologist returns to her childhood island to investigate her sister's mysterious death. Atmospheric coastal mystery with a slow-burn romance subplot â€” for readers who love Tana French and Lisa Jewell." maxlength="2000"></textarea>
+  <textarea id="book-desc" placeholder="A widowed marine biologist returns to her childhood island to investigate her sister's mysterious death. Atmospheric coastal mystery with a slow-burn romance subplot — for readers who love Tana French and Lisa Jewell." maxlength="2000"></textarea>
   <div class="char-count"><span id="cc">0</span> / 2000</div>
 
   <label class="input-label" for="comps">Comp titles <span class="opt">(optional, sharpens the ads)</span></label>
@@ -103,7 +104,7 @@
     <button type="button" class="genre-chip" data-g="memoir/non-fiction" aria-pressed="false">Memoir / NF</button>
   </div>
 
-  <button class="btn" id="generate">Write headlines <span class="btn-arrow">â†’</span></button>
+  <button class="btn" id="generate">Write headlines <span class="btn-arrow">?</span></button>
 
   <div class="output" id="output">
     <h3 class="output-title">Your headlines</h3>
@@ -169,7 +170,7 @@ window.addEventListener("DOMContentLoaded", function () {
     }
 
     btn.disabled = true;
-    btn.innerHTML = "Writing <span class=\"btn-arrow\">â€¦</span>";
+    btn.innerHTML = "Writing <span class=\"btn-arrow\">…</span>";
     outBody.innerHTML = "<div class=\"loading\">Drafting headlines<span class=\"loading-dot\">.</span><span class=\"loading-dot\">.</span><span class=\"loading-dot\">.</span></div>";
     out.classList.add("visible");
     out.scrollIntoView({ behavior: "smooth", block: "nearest" });
@@ -209,7 +210,7 @@ window.addEventListener("DOMContentLoaded", function () {
       })
       .finally(function () {
         btn.disabled = false;
-        btn.innerHTML = "Write headlines <span class=\"btn-arrow\">â†’</span>";
+        btn.innerHTML = "Write headlines <span class=\"btn-arrow\">?</span>";
       });
   });
 
@@ -225,7 +226,7 @@ window.addEventListener("DOMContentLoaded", function () {
       b.textContent = "Copy";
       b.onclick = function () {
         navigator.clipboard.writeText(headline).then(function () {
-          b.textContent = "Copied âœ“";
+          b.textContent = "Copied ?";
           b.classList.add("copied");
           setTimeout(function () {
             b.textContent = "Copy";
@@ -241,3 +242,4 @@ window.addEventListener("DOMContentLoaded", function () {
 </script>
 </body>
 </html>
+

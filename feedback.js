@@ -2,21 +2,6 @@
 // Exposes window.attachFeedback(toolSlug, container).
 // Self-installs its own styles on first call, no CSS file needed.
 
-// --- Cloudflare Web Analytics beacon -----------------------------------------
-// Activates only when a real token is set. Get one at:
-//   https://dash.cloudflare.com → Analytics & Logs → Web Analytics
-// → "Add a site" → enter authorly.tools → copy the site_tag (token).
-// Replace the placeholder below with the token. Activation is automatic.
-(() => {
-  const BEACON_TOKEN = "REPLACE_WITH_CF_BEACON_TOKEN";
-  if (!BEACON_TOKEN || BEACON_TOKEN === "REPLACE_WITH_CF_BEACON_TOKEN") return;
-  const s = document.createElement("script");
-  s.defer = true;
-  s.src = "https://static.cloudflareinsights.com/beacon.min.js";
-  s.setAttribute("data-cf-beacon", JSON.stringify({ token: BEACON_TOKEN }));
-  document.head.appendChild(s);
-})();
-
 // --- Scrape-proof contact link ----------------------------------------------
 // Every page footer has <a class="contact" data-u="..." data-d="...">Contact</a>
 // or similar. We assemble the mailto on load so the literal address is never
