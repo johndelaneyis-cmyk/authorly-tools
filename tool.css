@@ -181,15 +181,31 @@ textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(
 .section-title{font-family:"Fraunces",serif;font-variation-settings:"opsz" 144,"SOFT" 30,"WONK" 1;font-weight:400;font-size:36px;letter-spacing:-.025em;margin:0 0 24px}
 .section-lede{color:var(--ink-2);font-size:17px;line-height:1.7;margin:0 0 32px}
 
-.tool-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
-.tool-list-item{padding:22px;border:1px solid var(--rule);border-radius:3px;background:var(--paper-2);transition:border-color .25s,transform .25s,box-shadow .25s}
-.tool-list-item:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 6px 18px var(--shadow)}
-a.tool-list-item{text-decoration:none;color:inherit;display:block}
-a.tool-list-item:hover{color:inherit}
-.tool-list-item h3{font-family:"Fraunces",serif;font-weight:600;font-size:17px;margin:0 0 6px;letter-spacing:-.005em}
-.tool-list-item p{font-size:14px;color:var(--ink-mute);margin:0;line-height:1.5}
-.tool-list-item .status{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-top:14px;font-weight:500;display:inline-flex;align-items:center;gap:4px;transition:gap .2s}
-.tool-list-item:hover .status{gap:8px}
+/* Editorial table-of-contents pattern — replaces the AI-tell "3 equal cards"
+   grid. Each row reads like a chapter entry in a book's TOC: small leading
+   roman numeral, title with subtitle, eyebrow tag, hairline rule between.
+   Counter resets at .tool-list start; numerals render in italic accent. */
+.tool-list{display:block;margin:0;padding:0;list-style:none;counter-reset:tool;border-top:1px solid var(--rule)}
+.tool-list-item{display:grid;grid-template-columns:48px 1fr auto;gap:18px 24px;align-items:baseline;padding:22px 4px;border-bottom:1px solid var(--rule);text-decoration:none;color:inherit;transition:background .2s,padding-left .25s;counter-increment:tool;position:relative}
+.tool-list-item::before{content:counter(tool, lower-roman) ".";font-family:"Fraunces",serif;font-style:italic;font-variation-settings:"opsz" 144,"WONK" 1;font-weight:400;font-size:18px;color:var(--accent);text-align:right;letter-spacing:.02em;line-height:1.4;align-self:start;padding-top:2px}
+.tool-list-item:hover{background:var(--accent-soft);padding-left:14px}
+.tool-list-item:hover .tool-list-title{color:var(--accent)}
+.tool-list-item:focus-visible{outline:2px solid var(--accent);outline-offset:4px;border-radius:2px}
+.tool-list-body{min-width:0}
+.tool-list-title{font-family:"Fraunces",serif;font-variation-settings:"opsz" 144,"SOFT" 30;font-weight:500;font-size:22px;letter-spacing:-.01em;margin:0 0 4px;color:var(--ink);line-height:1.25;transition:color .2s}
+.tool-list-desc{font-size:15px;color:var(--ink-mute);margin:0;line-height:1.5}
+.tool-list-tag{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-mute);font-weight:500;font-style:normal;white-space:nowrap;align-self:start;padding-top:6px;font-variant-numeric:tabular-nums}
+.tool-list-item:hover .tool-list-tag{color:var(--accent)}
+.tool-list-arrow{font-style:italic;color:var(--accent);font-size:20px;transition:transform .25s;display:inline-block;margin-left:4px}
+.tool-list-item:hover .tool-list-arrow{transform:translateX(4px)}
+@media (max-width:600px){
+  .tool-list-item{grid-template-columns:32px 1fr;grid-template-rows:auto auto;gap:6px 14px;padding:20px 0}
+  .tool-list-item::before{font-size:16px;padding-top:0}
+  .tool-list-tag{grid-column:2;padding-top:0;margin-top:2px;order:3}
+  .tool-list-title{font-size:19px}
+  .tool-list-desc{font-size:14px}
+  .tool-list-item:hover{padding-left:0;background:transparent}
+}
 
 /* --- Site footer (unified across all 10 pages) ---------------------------
    Book-colophon feel: a small § ornament between two delicate rules,
