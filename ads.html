@@ -28,9 +28,9 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"WebApplication","name":"Amazon Ads headlines","url":"https://authorly.tools/ads","description":"Three 150-char and three 80-char headlines tuned for Sponsored Products and Sponsored Brands.","applicationCategory":"BusinessApplication","operatingSystem":"Any","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"Authorly","url":"https://authorly.tools/"}}
 </script>
-<script>document.querySelectorAll("a.contact[data-u][data-d]").forEach(a=>{const u=a.getAttribute("data-u"),d=a.getAttribute("data-d");a.setAttribute("href","mailto:"+u+"@"+d);if(!a.textContent.trim())a.textContent=u+"@"+d;});</script>
 <script src="/feedback.js" defer></script>
 <script src="/tool.js" defer></script>
+<script src="/page/ads.js" defer></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..900,0..100,0..1;1,9..144,300..900,0..100,0..1&display=swap" rel="stylesheet">
@@ -137,126 +137,5 @@
 
 </div>
 
-<script>
-window.addEventListener("DOMContentLoaded", function () {
-  const titleInput = document.getElementById("title");
-  const compsInput = document.getElementById("comps");
-  const taInput = document.getElementById("book-desc");
-  const btn = document.getElementById("generate");
-  const out = document.getElementById("output");
-  const outBody = document.getElementById("output-body");
-  let selectedGenre = "";
-
-  document.querySelectorAll(".genre-chip").forEach(function (chip) {
-    chip.addEventListener("click", function (e) {
-      e.preventDefault();
-      document.querySelectorAll(".genre-chip").forEach(function (c) {
-        c.classList.remove("active");
-        c.setAttribute("aria-pressed", "false");
-      });
-      chip.classList.add("active");
-      chip.setAttribute("aria-pressed", "true");
-      selectedGenre = chip.dataset.g;
-    });
-  });
-  document.querySelector('.genre-chip[data-g=""]').classList.add("active");
-
-  const cc = document.getElementById("cc");
-  taInput.addEventListener("input", function () {
-    cc.textContent = taInput.value.length;
-  });
-
-  btn.addEventListener("click", function () {
-    const title = titleInput.value.trim();
-    const desc = taInput.value.trim();
-    const comps = compsInput.value.trim();
-
-    if (!title) {
-      outBody.innerHTML = '<div class="error">Please enter your book title.</div>';
-      out.classList.add("visible");
-      return;
-    }
-    if (desc.length < 30) {
-      outBody.innerHTML = '<div class="error">Please paste at least a paragraph (30+ characters) describing your book.</div>';
-      out.classList.add("visible");
-      return;
-    }
-    if (desc.length > 2000) {
-      outBody.innerHTML = '<div class="error">Description too long (max 2000 characters). Trim it to the essentials.</div>';
-      out.classList.add("visible");
-      return;
-    }
-
-    btn.disabled = true;
-    btn.innerHTML = 'Writing <span class="btn-arrow">&hellip;</span>';
-    outBody.innerHTML = '<div class="loading">Drafting headlines<span class="loading-dot">.</span><span class="loading-dot">.</span><span class="loading-dot">.</span></div>';
-    out.classList.add("visible");
-    try { out.scrollIntoView({ behavior: "smooth", block: "nearest" }); } catch (e) {}
-
-    fetch("/api/ads", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ title: title, description: desc, comps: comps, genre: selectedGenre })
-    })
-      .then(function (res) {
-        if (!res.ok) {
-          return res.json().then(function (data) {
-            const errDiv = document.createElement("div");
-            errDiv.className = "error";
-            errDiv.textContent = data.error || ("Request failed (" + res.status + ").");
-            outBody.replaceChildren(errDiv);
-            throw new Error("API error");
-          });
-        }
-        return res.json();
-      })
-      .then(function (data) {
-        outBody.innerHTML = Authorly.renderMarkdown(data.text || "");
-        attachAdCopy();
-        if (typeof window.attachFeedback === "function") window.attachFeedback("ads", outBody);
-        if (typeof data.remaining === "number") {
-          const note = document.createElement("div");
-          note.style.cssText = "margin-top:18px;padding:10px 14px;background:var(--rule-soft,#f3ede0);border-radius:6px;font-size:13px;color:var(--ink-mute);text-align:center";
-          note.textContent = data.remaining === 0
-            ? "No free headline sets remaining today. Limit resets at midnight UTC."
-            : data.remaining + " free headline set" + (data.remaining === 1 ? "" : "s") + " remaining today.";
-          outBody.appendChild(note);
-        }
-      })
-      .catch(function () {
-        outBody.innerHTML = '<div class="error">Connection trouble. Check your internet and try again.</div>';
-      })
-      .finally(function () {
-        btn.disabled = false;
-        btn.innerHTML = 'Write headlines <span class="btn-arrow">&rarr;</span>';
-      });
-  });
-
-  function attachAdCopy() {
-    outBody.querySelectorAll("ol li").forEach(function (li) {
-      const text = li.textContent;
-      const m = text.match(/"([^"]+)"/);
-      if (!m) return;
-      const headline = m[1];
-      const b = document.createElement("button");
-      b.type = "button";
-      b.className = "copy-btn";
-      b.textContent = "Copy";
-      b.onclick = function () {
-        navigator.clipboard.writeText(headline).then(function () {
-          b.textContent = "Copied ✓";
-          b.classList.add("copied");
-          setTimeout(function () {
-            b.textContent = "Copy";
-            b.classList.remove("copied");
-          }, 1800);
-        });
-      };
-      li.appendChild(document.createTextNode(" "));
-      li.appendChild(b);
-    });
-  }
-});
-</script>
 </body>
 </html>

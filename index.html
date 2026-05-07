@@ -29,41 +29,15 @@
 {"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://authorly.tools/#organization","name":"Authorly","url":"https://authorly.tools/","logo":"https://authorly.tools/og.png"},{"@type":"WebSite","@id":"https://authorly.tools/#website","url":"https://authorly.tools/","name":"Authorly","description":"Free tools for indie authors. Find real comparable books, write better blurbs, research KDP keywords.","publisher":{"@id":"https://authorly.tools/#organization"}},{"@type":"FAQPage","@id":"https://authorly.tools/#faq","mainEntity":[{"@type":"Question","name":"Why use this instead of ChatGPT or Claude?","acceptedAnswer":{"@type":"Answer","text":"ChatGPT and Claude can do the same work — if you write the right prompt every time and check the character counts yourself. Authorly has the prompts tuned and the constraints baked in: KDP keyword phrases char-counted to 50 chars, blurbs structured into hook / setup / stakes / cliffhanger and sized to 130–180 words for Amazon, ad headlines split between Sponsored Products' 150-char and Sponsored Brands' 80-char limits, comp titles cited with reasons each fits. One click, formatted output, Copy buttons everywhere."}},{"@type":"Question","name":"How is this free?","acceptedAnswer":{"@type":"Answer","text":"I pay the AI bill. Each generation costs me about two cents. Five free runs per tool per day per visitor — more than most authors need for a single book launch — keeps it sustainable. The Pro tier ($9/month, unlimited, with batch processing for series authors) is coming soon for people who run dozens of comp lookups per release."}},{"@type":"Question","name":"Do you store my plot or my book description?","acceptedAnswer":{"@type":"Answer","text":"No. Inputs are sent to the AI, the response is returned to your browser, and nothing is saved server-side except an anonymized rate-limit counter that's auto-deleted after 48 hours. Full details on the Privacy page."}},{"@type":"Question","name":"Why no signup?","acceptedAnswer":{"@type":"Answer","text":"Because the moment a tool asks for an email, it stops being a tool and starts being a marketing funnel. Authorly works the way Google works: open the page, get the answer, leave. If you want updates on the Pro tier, the waitlist on the homepage is opt-in."}}]}]}
 </script>
 
-<script>document.querySelectorAll("a.contact[data-u][data-d]").forEach(a=>{const u=a.getAttribute("data-u"),d=a.getAttribute("data-d");a.setAttribute("href","mailto:"+u+"@"+d);if(!a.textContent.trim())a.textContent=u+"@"+d;});</script>
 <script src="/feedback.js" defer></script>
 <script src="/tool.js" defer></script>
+<script src="/page/index.js" defer></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..900,0..100,0..1;1,9..144,300..900,0..100,0..1&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/tool.css">
-
-<style>
-/* Homepage-only styles (everything shared lives in tool.css) */
-.section{margin-top:80px;padding-top:48px;border-top:1px solid var(--rule)}
-.section-title{font-family:"Fraunces",serif;font-variation-settings:"opsz" 144,"SOFT" 30,"WONK" 1;font-weight:400;font-size:36px;letter-spacing:-.025em;margin:0 0 24px}
-.section-lede{color:var(--ink-2);font-size:17px;line-height:1.7;margin:0 0 32px}
-.about-lede{font-size:17px;line-height:1.7;color:var(--ink);margin:0 0 16px}
-.about-lede.muted{color:var(--ink-mute);margin:0 0 28px}
-.about-maker{font-size:17px;line-height:1.7;color:var(--ink);margin:32px 0 0}
-.faq-block{margin-top:48px;margin-bottom:36px}
-.faq-block h3{font-family:"Fraunces",serif;font-weight:500;font-size:24px;letter-spacing:-.01em;margin:0 0 18px;color:var(--ink)}
-
-/* Pro waitlist callout — sits at the bottom of the About section */
-.waitlist{margin-top:8px;padding:28px;background:var(--paper-2);border:1px solid var(--rule);border-radius:4px}
-.waitlist-eyebrow{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);font-weight:500;margin-bottom:8px}
-.waitlist-title{font-family:"Fraunces",serif;font-variation-settings:"opsz" 144,"SOFT" 50;font-weight:500;font-size:24px;letter-spacing:-.01em;margin:0 0 8px;color:var(--ink)}
-.waitlist-sub{color:var(--ink-mute);font-size:15px;line-height:1.55;margin:0 0 18px}
-.waitlist-form{display:flex;gap:10px;flex-wrap:wrap;align-items:stretch}
-.waitlist-form input[type=email]{flex:1;min-width:220px;padding:13px 16px;background:var(--paper);border:1px solid var(--rule);border-radius:3px;color:var(--ink);font-family:"Fraunces",serif;font-size:16px;line-height:1.4;transition:border-color .2s,box-shadow .2s}
-.waitlist-form input[type=email]:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
-.waitlist-btn{margin-top:0;padding:13px 22px;font-size:15px}
-.waitlist-status{margin-top:14px;font-size:14px;line-height:1.55;min-height:1px}
-.waitlist-status.success{color:#2a7a3a}
-.waitlist-status.error{color:var(--accent)}
-@media (max-width:520px){.waitlist-form{flex-direction:column}.waitlist-form input[type=email]{min-width:0}}
-</style>
 </head>
-<body>
+<body class="page-home">
 <a class="skip-link" href="#tool">Skip to the tool</a>
 <div class="container">
 
@@ -156,7 +130,7 @@
   <h2 class="section-title">Built for indie authors.</h2>
   <p class="about-lede">Authorly is a small, growing collection of free tools for self-published authors. No accounts. No upload-your-manuscript. No paywalls on the basics. Just tools that work.</p>
   <p class="about-lede muted">Powered by Anthropic's Claude &mdash; the AI we found gives the highest-quality output for craft work like this. Five free runs per tool, every day, per visitor &mdash; more than enough for most authors. We pay the AI bill so you don't have to. Pro tier with unlimited usage coming soon.</p>
-  <p class="about-maker">Built by <strong>Darren</strong> &mdash; an indie author who got tired of paying $25&ndash;50/month for SaaS tools that mostly just paraphrased synopses. Email is <a class="contact" data-u="hello" data-d="authorly.tools" style="color:var(--accent)"></a> &mdash; I read every reply.</p>
+  <p class="about-maker">Built by <strong>Darren</strong> &mdash; an indie author who got tired of paying $25&ndash;50/month for SaaS tools that mostly just paraphrased synopses. Email is <a class="contact contact-link" data-u="hello" data-d="authorly.tools"></a> &mdash; I read every reply.</p>
 
   <div id="faq" class="faq-block">
     <div class="eyebrow">Frequently asked</div>
@@ -180,7 +154,7 @@
     <details class="sample">
       <summary>Do you store my plot or my book description?</summary>
       <div class="sample-body">
-        <p>No. Inputs are sent to the AI, the response is returned to your browser, and nothing is saved server-side except an anonymized rate-limit counter that's auto-deleted after 48 hours. Full details on the <a href="/privacy" style="color:var(--accent)">Privacy</a> page.</p>
+        <p>No. Inputs are sent to the AI, the response is returned to your browser, and nothing is saved server-side except an anonymized rate-limit counter that's auto-deleted after 48 hours. Full details on the <a href="/privacy" class="faq-link">Privacy</a> page.</p>
       </div>
     </details>
 
@@ -227,100 +201,5 @@
 
 </div>
 
-<script>
-window.addEventListener("DOMContentLoaded", function () {
-  // -------- Comp finder via shared Authorly.initTool runtime ----------
-  Authorly.initTool({
-    endpoint: "/api/comp",
-    toolSlug: "comp",
-    primaryFieldId: "book-desc",
-    primaryFieldName: "description",
-    primaryMin: 30,
-    primaryMax: 2000,
-    primaryShortMsg: "Please paste at least a paragraph (30+ characters) describing your book — characters, conflict, setting, tone.",
-    primaryLongMsg: "Description too long (max 2000 characters). Trim it to the essentials.",
-    counterId: "cc",
-    buttonId: "generate",
-    outputId: "output",
-    outputBodyId: "output-body",
-    buttonRestHTML: 'Find comp titles <span class="btn-arrow">&rarr;</span>',
-    buttonLoadingHTML: 'Reading <span class="btn-arrow">&hellip;</span>',
-    loadingMsg: "Finding comp titles",
-    remainingNoun: "search",
-    remainingPlural: "searches",
-    onResult: function (outBody) {
-      // The "Use these in" section contains bullets with quoted paste-able fragments.
-      // Add a Copy button next to each quoted fragment.
-      outBody.querySelectorAll("ul li").forEach(function (li) {
-        var m = li.textContent.match(/"([^"]+)"/);
-        if (!m) return;
-        var fragment = m[1];
-        var b = document.createElement("button");
-        b.type = "button";
-        b.className = "copy-btn";
-        b.textContent = "Copy";
-        b.onclick = function () {
-          navigator.clipboard.writeText(fragment).then(function () {
-            b.textContent = "Copied ✓";
-            b.classList.add("copied");
-            setTimeout(function () { b.textContent = "Copy"; b.classList.remove("copied"); }, 1800);
-          });
-        };
-        li.appendChild(document.createTextNode(" "));
-        li.appendChild(b);
-      });
-    }
-  });
-
-  // -------- Pro-tier waitlist (homepage-only) -----------------------
-  var form = document.getElementById("waitlist-form");
-  if (!form) return;
-  var emailInput = document.getElementById("waitlist-email");
-  var submitBtn = document.getElementById("waitlist-submit");
-  var status = document.getElementById("waitlist-status");
-
-  form.addEventListener("submit", async function (e) {
-    e.preventDefault();
-    var email = (emailInput.value || "").trim();
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      status.className = "waitlist-status error";
-      status.textContent = "That doesn't look like a valid email address.";
-      emailInput.focus();
-      return;
-    }
-    submitBtn.disabled = true;
-    var origLabel = submitBtn.innerHTML;
-    submitBtn.innerHTML = 'Saving <span class="btn-arrow">&hellip;</span>';
-    status.className = "waitlist-status";
-    status.textContent = "";
-
-    try {
-      var r = await fetch("/api/waitlist", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: email, source: "homepage" })
-      });
-      var data;
-      try { data = await r.json(); } catch (err) { data = {}; }
-      if (!r.ok) {
-        status.className = "waitlist-status error";
-        status.textContent = data.error || ("Couldn't save your email (" + r.status + "). Try again in a bit.");
-      } else {
-        status.className = "waitlist-status success";
-        status.textContent = data.alreadyOnList
-          ? "You're already on the list — we'll email when Pro is ready."
-          : "You're on the list. We'll email when Pro is ready.";
-        emailInput.value = "";
-      }
-    } catch (err) {
-      status.className = "waitlist-status error";
-      status.textContent = "Network trouble. Try again in a moment.";
-    } finally {
-      submitBtn.disabled = false;
-      submitBtn.innerHTML = origLabel;
-    }
-  });
-});
-</script>
 </body>
 </html>

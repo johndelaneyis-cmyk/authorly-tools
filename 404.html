@@ -23,34 +23,13 @@
 <meta name="twitter:title" content="Authorly — Free Tools for Indie Authors">
 <meta name="twitter:image" content="https://authorly.tools/og.png">
 
-<script>document.querySelectorAll("a.contact[data-u][data-d]").forEach(a=>{const u=a.getAttribute("data-u"),d=a.getAttribute("data-d");a.setAttribute("href","mailto:"+u+"@"+d);if(!a.textContent.trim())a.textContent=u+"@"+d;});</script>
 <script src="/tool.js" defer></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..900,0..100,0..1;1,9..144,300..900,0..100,0..1&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/tool.css">
-
-<style>
-/* Page-specific overrides for the 404 page only */
-.notfound{padding:96px 0 64px;text-align:center}
-/* !important is a defensive override against aggressive style-injecting browser
-   extensions (Dark Reader, color-shifters) that otherwise stamp body-default
-   size and color over the giant italic accent treatment. Real users without
-   extensions see the same result either way. */
-.notfound-code{font-family:"Fraunces",serif!important;font-variation-settings:"opsz" 144,"SOFT" 30,"WONK" 1!important;font-size:clamp(96px,18vw,144px)!important;line-height:1!important;font-weight:400!important;color:var(--accent)!important;font-style:italic!important;margin:0 0 12px!important;letter-spacing:-.05em!important}
-.notfound h1{font-family:"Fraunces",serif;font-variation-settings:"opsz" 144,"SOFT" 30;font-weight:500;font-size:clamp(28px,5vw,40px);line-height:1.15;letter-spacing:-.02em;margin:0 0 16px;color:var(--ink)}
-.notfound p{margin:0 0 28px;color:var(--ink-mute);font-size:17px;line-height:1.6}
-.notfound .cta{display:inline-flex;align-items:center;gap:10px;background:var(--ink);color:var(--paper);padding:14px 26px;border-radius:3px;text-decoration:none;font-family:"Fraunces",serif;font-size:16px;font-weight:500;letter-spacing:.02em;transition:background .2s,transform .1s}
-.notfound .cta:hover{background:var(--accent)}
-.notfound .cta:active{transform:translateY(1px)}
-.notfound .cta-arrow{font-style:italic;transition:transform .2s}
-.notfound .cta:hover .cta-arrow{transform:translateX(3px)}
-@media (max-width:520px){
-  .notfound{padding:64px 0 48px}
-}
-</style>
 </head>
-<body>
+<body class="is-404">
 <div class="container">
 
 <header class="site-header">

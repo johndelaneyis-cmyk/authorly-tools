@@ -29,9 +29,9 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"WebApplication","name":"Author bio generator","url":"https://authorly.tools/bio","description":"Paste a few facts. Get three polished bios: short (social), medium (KDP), and long (query letter).","applicationCategory":"BusinessApplication","operatingSystem":"Any","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"Authorly","url":"https://authorly.tools/"}}
 </script>
-<script>document.querySelectorAll("a.contact[data-u][data-d]").forEach(a=>{const u=a.getAttribute("data-u"),d=a.getAttribute("data-d");a.setAttribute("href","mailto:"+u+"@"+d);if(!a.textContent.trim())a.textContent=u+"@"+d;});</script>
 <script src="/feedback.js" defer></script>
 <script src="/tool.js" defer></script>
+<script src="/page/bio.js" defer></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..900,0..100,0..1;1,9..144,300..900,0..100,0..1&display=swap" rel="stylesheet">
@@ -114,57 +114,6 @@
 
 </div>
 
-<script>
-window.addEventListener("DOMContentLoaded", function () {
-  Authorly.initTool({
-    endpoint: "/api/bio",
-    toolSlug: "bio",
-    primaryFieldId: "author-facts",
-    primaryFieldName: "facts",
-    primaryMin: 30,
-    primaryMax: 1500,
-    primaryShortMsg: "Please share a few facts (30+ characters) about yourself.",
-    primaryLongMsg: "Facts too long (max 1500 characters). A bio doesn't need a memoir.",
-    counterId: "cc",
-    buttonId: "generate",
-    outputId: "output",
-    outputBodyId: "output-body",
-    buttonRestHTML: 'Write bio <span class="btn-arrow">→</span>',
-    buttonLoadingHTML: 'Writing <span class="btn-arrow">…</span>',
-    loadingMsg: "Drafting bios",
-    remainingNoun: "bio set",
-    remainingPlural: "bio sets",
-    onResult: function (outBody) {
-      // For each Short/Medium/Long bio h2, attach a Copy button to the heading
-      // that copies all <p> textContent until the next h2.
-      outBody.querySelectorAll("h2").forEach(function (h) {
-        if (!/^(short|medium|long)\s+bio/i.test(h.textContent.trim())) return;
-        var paragraphs = [];
-        var n = h.nextElementSibling;
-        while (n && n.tagName !== "H2") {
-          if (n.tagName === "P") paragraphs.push(n.textContent);
-          n = n.nextElementSibling;
-        }
-        if (!paragraphs.length) return;
-        var text = paragraphs.join("\n\n").trim();
-        var b = document.createElement("button");
-        b.type = "button";
-        b.className = "copy-btn";
-        b.textContent = "Copy";
-        b.onclick = function () {
-          navigator.clipboard.writeText(text).then(function () {
-            b.textContent = "Copied ✓";
-            b.classList.add("copied");
-            setTimeout(function () { b.textContent = "Copy"; b.classList.remove("copied"); }, 1800);
-          });
-        };
-        h.appendChild(document.createTextNode(" "));
-        h.appendChild(b);
-      });
-    }
-  });
-});
-</script>
 </body>
 </html>
 

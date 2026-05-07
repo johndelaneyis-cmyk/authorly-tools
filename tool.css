@@ -171,6 +171,7 @@ a.tool-list-item:hover{color:inherit}
 .loading-dot:nth-child(3){animation-delay:.4s}
 @keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
 .error{padding:14px 16px;background:var(--accent-soft);border-left:3px solid var(--accent);color:var(--ink);font-size:14px;line-height:1.5;border-radius:0 3px 3px 0}
+.remaining-note{margin-top:18px;padding:10px 14px;background:var(--rule-soft);border-radius:6px;font-size:13px;color:var(--ink-mute);text-align:center}
 
 .visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .skip-link{position:absolute;left:-9999px;top:0;background:var(--ink);color:var(--paper);padding:10px 16px;z-index:1000;text-decoration:none;font-size:14px;font-weight:500}
@@ -189,4 +190,62 @@ a.tool-list-item:hover{color:inherit}
 }
 
 ::selection{background:var(--accent);color:var(--paper)}
+
+/* ---- Page-scoped styles (extracted from inline <style> for strict CSP) ---- */
+
+/* Blurb tool — taller default textarea */
+body.page-blurb textarea{min-height:200px}
+
+/* Homepage sections + Pro waitlist */
+body.page-home .about-lede{font-size:17px;line-height:1.7;color:var(--ink);margin:0 0 16px}
+body.page-home .about-lede.muted{color:var(--ink-mute);margin:0 0 28px}
+body.page-home .about-maker{font-size:17px;line-height:1.7;color:var(--ink);margin:32px 0 0}
+body.page-home .faq-block{margin-top:48px;margin-bottom:36px}
+body.page-home .faq-block h3{font-family:"Fraunces",serif;font-weight:500;font-size:24px;letter-spacing:-.01em;margin:0 0 18px;color:var(--ink)}
+body.page-home .waitlist{margin-top:8px;padding:28px;background:var(--paper-2);border:1px solid var(--rule);border-radius:4px}
+body.page-home .waitlist-eyebrow{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);font-weight:500;margin-bottom:8px}
+body.page-home .waitlist-title{font-family:"Fraunces",serif;font-variation-settings:"opsz" 144,"SOFT" 50;font-weight:500;font-size:24px;letter-spacing:-.01em;margin:0 0 8px;color:var(--ink)}
+body.page-home .waitlist-sub{color:var(--ink-mute);font-size:15px;line-height:1.55;margin:0 0 18px}
+body.page-home .waitlist-form{display:flex;gap:10px;flex-wrap:wrap;align-items:stretch}
+body.page-home .waitlist-form input[type=email]{flex:1;min-width:220px;padding:13px 16px;background:var(--paper);border:1px solid var(--rule);border-radius:3px;color:var(--ink);font-family:"Fraunces",serif;font-size:16px;line-height:1.4;transition:border-color .2s,box-shadow .2s}
+body.page-home .waitlist-form input[type=email]:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-ring)}
+body.page-home .waitlist-btn{margin-top:0;padding:13px 22px;font-size:15px}
+body.page-home .waitlist-status{margin-top:14px;font-size:14px;line-height:1.55;min-height:1px}
+body.page-home .waitlist-status.success{color:var(--success)}
+body.page-home .waitlist-status.error{color:var(--accent)}
+body.page-home .contact-link{color:var(--accent)}
+body.page-home .faq-link{color:var(--accent)}
+@media (max-width:520px){
+  body.page-home .waitlist-form{flex-direction:column}
+  body.page-home .waitlist-form input[type=email]{min-width:0}
+}
+
+/* Legal pages — privacy + terms shared layout */
+body.page-legal .legal h1{font-family:"Fraunces",serif;font-variation-settings:"opsz" 144,"SOFT" 30,"WONK" 1;font-weight:400;font-size:clamp(36px,5vw,48px);line-height:1.1;letter-spacing:-.025em;margin:0 0 8px;color:var(--ink)}
+body.page-legal .legal .lastmod{color:var(--ink-mute);font-size:14px;margin:0 0 36px;font-style:italic}
+body.page-legal .legal h2{font-family:"Fraunces",serif;font-variation-settings:"opsz" 144,"SOFT" 50;font-weight:500;font-size:22px;letter-spacing:-.005em;line-height:1.25;margin:38px 0 12px}
+body.page-legal .legal p{margin:0 0 16px;font-size:17px;line-height:1.7;color:var(--ink)}
+body.page-legal .legal ul{margin:0 0 16px;padding-left:0;list-style:none}
+body.page-legal .legal ul li{margin-bottom:10px;padding-left:20px;position:relative}
+body.page-legal .legal ul li::before{content:"\00A7";position:absolute;left:0;top:0;font-family:"Fraunces",serif;font-style:italic;color:var(--accent);line-height:1.7}
+body.page-legal .legal a{color:var(--ink);text-decoration:underline;text-decoration-color:var(--rule);text-underline-offset:2px;transition:color .2s,text-decoration-color .2s}
+body.page-legal .legal a:hover{color:var(--accent);text-decoration-color:var(--accent)}
+body.page-legal .legal strong{font-weight:600;color:var(--ink)}
+body.page-legal .contact:empty::before{content:"hello@authorly.tools"}
+body.page-legal .legal-spacer{margin-top:48px}
+
+/* 404 page — dark-reader-defended large italic accent treatment.
+   Naturally higher specificity (body.is-404) replaces !important hammer. */
+body.is-404 .notfound{padding:96px 0 64px;text-align:center}
+body.is-404 .notfound-code{font-family:"Fraunces",serif;font-variation-settings:"opsz" 144,"SOFT" 30,"WONK" 1;font-size:clamp(96px,18vw,144px);line-height:1;font-weight:400;color:var(--accent);font-style:italic;margin:0 0 12px;letter-spacing:-.05em}
+body.is-404 .notfound h1{font-family:"Fraunces",serif;font-variation-settings:"opsz" 144,"SOFT" 30;font-weight:500;font-size:clamp(28px,5vw,40px);line-height:1.15;letter-spacing:-.02em;margin:0 0 16px;color:var(--ink)}
+body.is-404 .notfound p{margin:0 0 28px;color:var(--ink-mute);font-size:17px;line-height:1.6}
+body.is-404 .notfound .cta{display:inline-flex;align-items:center;gap:10px;background:var(--ink);color:var(--paper);padding:14px 26px;border-radius:3px;text-decoration:none;font-family:"Fraunces",serif;font-size:16px;font-weight:500;letter-spacing:.02em;transition:background .2s,transform .1s}
+body.is-404 .notfound .cta:hover{background:var(--accent)}
+body.is-404 .notfound .cta:active{transform:translateY(1px)}
+body.is-404 .notfound .cta-arrow{font-style:italic;transition:transform .2s}
+body.is-404 .notfound .cta:hover .cta-arrow{transform:translateX(3px)}
+@media (max-width:520px){
+  body.is-404 .notfound{padding:64px 0 48px}
+}
 

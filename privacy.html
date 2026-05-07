@@ -28,31 +28,14 @@
 {"@context":"https://schema.org","@type":"WebPage","name":"Privacy Policy","url":"https://authorly.tools/privacy","description":"How Authorly handles data when you use the tools.","dateModified":"2026-05-04","publisher":{"@type":"Organization","name":"Authorly","url":"https://authorly.tools/"}}
 </script>
 
-<script>document.querySelectorAll("a.contact[data-u][data-d]").forEach(a=>{const u=a.getAttribute("data-u"),d=a.getAttribute("data-d");a.setAttribute("href","mailto:"+u+"@"+d);if(!a.textContent.trim())a.textContent=u+"@"+d;});</script>
 <script src="/feedback.js" defer></script>
 <script src="/tool.js" defer></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..900,0..100,0..1;1,9..144,300..900,0..100,0..1&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/tool.css">
-
-<style>
-/* Page-specific overrides only — body copy + headings for legal pages. */
-.legal h1{font-family:"Fraunces",serif;font-variation-settings:"opsz" 144,"SOFT" 30,"WONK" 1;font-weight:400;font-size:clamp(36px,5vw,48px);line-height:1.1;letter-spacing:-.025em;margin:0 0 8px;color:var(--ink)}
-.legal .lastmod{color:var(--ink-mute);font-size:14px;margin:0 0 36px;font-style:italic}
-.legal h2{font-family:"Fraunces",serif;font-variation-settings:"opsz" 144,"SOFT" 50;font-weight:500;font-size:22px;letter-spacing:-.005em;line-height:1.25;margin:38px 0 12px}
-.legal p{margin:0 0 16px;font-size:17px;line-height:1.7;color:var(--ink)}
-.legal ul{margin:0 0 16px;padding-left:0;list-style:none}
-.legal ul li{margin-bottom:10px;padding-left:20px;position:relative}
-.legal ul li::before{content:"\00A7";position:absolute;left:0;top:0;font-family:"Fraunces",serif;font-style:italic;color:var(--accent);line-height:1.7}
-.legal a{color:var(--ink);text-decoration:underline;text-decoration-color:var(--rule);text-underline-offset:2px;transition:color .2s,text-decoration-color .2s}
-.legal a:hover{color:var(--accent);text-decoration-color:var(--accent)}
-.legal strong{font-weight:600;color:var(--ink)}
-/* Make scrape-protected contact links readable for JS-disabled visitors */
-.contact:empty::before{content:"hello@authorly.tools"}
-</style>
 </head>
-<body>
+<body class="page-legal">
 <a class="skip-link" href="#content">Skip to content</a>
 <div class="container">
 
@@ -66,7 +49,7 @@
 </header>
 
 <main id="content" tabindex="-1" class="legal">
-  <div style="margin-top:48px"></div>
+  <div class="legal-spacer"></div>
   <div class="eyebrow">Authorly</div>
   <h1>Privacy Policy</h1>
   <p class="lastmod">Last updated: May 4, 2026</p>

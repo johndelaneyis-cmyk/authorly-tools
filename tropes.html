@@ -28,9 +28,9 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"WebApplication","name":"Trope finder","url":"https://authorly.tools/tropes","description":"Identify the searchable tropes already in your plot, ranked by reader appeal, with marketing angles for each.","applicationCategory":"BusinessApplication","operatingSystem":"Any","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"Authorly","url":"https://authorly.tools/"}}
 </script>
-<script>document.querySelectorAll("a.contact[data-u][data-d]").forEach(a=>{const u=a.getAttribute("data-u"),d=a.getAttribute("data-d");a.setAttribute("href","mailto:"+u+"@"+d);if(!a.textContent.trim())a.textContent=u+"@"+d;});</script>
 <script src="/feedback.js" defer></script>
 <script src="/tool.js" defer></script>
+<script src="/page/tropes.js" defer></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..900,0..100,0..1;1,9..144,300..900,0..100,0..1&display=swap" rel="stylesheet">
@@ -135,49 +135,5 @@
 
 </div>
 
-<script>
-window.addEventListener("DOMContentLoaded", function () {
-  Authorly.initTool({
-    endpoint: "/api/tropes",
-    toolSlug: "tropes",
-    primaryFieldId: "book-desc",
-    primaryFieldName: "description",
-    primaryMin: 30,
-    primaryMax: 2000,
-    primaryShortMsg: "Please paste at least a paragraph (30+ characters) describing your plot — characters, conflict, tone.",
-    primaryLongMsg: "Description too long (max 2000 characters). Trim it to the essentials.",
-    counterId: "cc",
-    buttonId: "generate",
-    outputId: "output",
-    outputBodyId: "output-body",
-    buttonRestHTML: 'Find tropes <span class="btn-arrow">&rarr;</span>',
-    buttonLoadingHTML: 'Reading <span class="btn-arrow">&hellip;</span>',
-    loadingMsg: "Finding tropes",
-    remainingNoun: "search",
-    remainingPlural: "searches",
-    onResult: function (outBody) {
-      outBody.querySelectorAll("li").forEach(function (li) {
-        var strong = li.querySelector("strong");
-        if (!strong) return;
-        var phrase = strong.textContent.trim();
-        if (!phrase) return;
-        var b = document.createElement("button");
-        b.type = "button";
-        b.className = "copy-btn";
-        b.textContent = "Copy";
-        b.onclick = function () {
-          navigator.clipboard.writeText(phrase).then(function () {
-            b.textContent = "Copied ✓";
-            b.classList.add("copied");
-            setTimeout(function () { b.textContent = "Copy"; b.classList.remove("copied"); }, 1800);
-          });
-        };
-        strong.appendChild(document.createTextNode(" "));
-        strong.appendChild(b);
-      });
-    }
-  });
-});
-</script>
 </body>
 </html>

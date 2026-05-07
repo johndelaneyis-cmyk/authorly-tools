@@ -219,7 +219,7 @@
           }
           if (typeof data.remaining === "number") {
             var note = document.createElement("div");
-            note.style.cssText = "margin-top:18px;padding:10px 14px;background:var(--rule-soft,#f3ede0);border-radius:6px;font-size:13px;color:var(--ink-mute);text-align:center";
+            note.className = "remaining-note";
             note.textContent = data.remaining === 0
               ? "No free " + (cfg.remainingPlural || (cfg.remainingNoun || "search") + "es") + " remaining today. Limit resets at midnight UTC."
               : pluralRemaining(data.remaining);
