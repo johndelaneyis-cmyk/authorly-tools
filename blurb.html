@@ -113,8 +113,21 @@ textarea{min-height:200px}
 </main>
 
 <footer class="site-footer">
-  <p>Authorly &middot; <a href="/">Home</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="/terms">Terms</a> &middot; <a class="contact" data-u="hello" data-d="authorly.tools">Contact</a></p>
-  <p style="margin-top:8px;font-size:12px">Built by Darren &middot; 2026</p>
+  <div class="site-footer-mark" aria-hidden="true"><span>&sect;</span></div>
+  <nav class="site-footer-links" aria-label="Site">
+    <a href="/">Home</a>
+    <span class="site-footer-sep" aria-hidden="true">&middot;</span>
+    <a href="/#more">All tools</a>
+    <span class="site-footer-sep" aria-hidden="true">&middot;</span>
+    <a href="/#waitlist">Pro waitlist</a>
+    <span class="site-footer-sep" aria-hidden="true">&middot;</span>
+    <a href="/privacy">Privacy</a>
+    <span class="site-footer-sep" aria-hidden="true">&middot;</span>
+    <a href="/terms">Terms</a>
+    <span class="site-footer-sep" aria-hidden="true">&middot;</span>
+    <a class="contact" data-u="hello" data-d="authorly.tools">Contact</a>
+  </nav>
+  <p class="site-footer-byline">Built by <strong>Darren</strong> &middot; 2026</p>
 </footer>
 
 </div>
@@ -128,7 +141,8 @@ window.addEventListener("DOMContentLoaded", function () {
     primaryFieldName: "description",
     primaryMin: 50,
     primaryMax: 2000,
-    primaryShortMsg: "Please paste at least a couple of sentences (50+ characters) about your plot — characters, situation, tone.",
+    primaryShortMsg: "Please paste at least a couple of sentences (50+ characters) about your plot &mdash; characters, situation, tone.",
+    primaryLongMsg: "Plot details too long (max 2000 characters). Trim it to a punchy paragraph or two.",
     counterId: "cc",
     buttonId: "generate",
     outputId: "output",

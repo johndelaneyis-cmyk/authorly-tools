@@ -3,8 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Terms of Service - Authorly</title>
-<meta name="description" content="The terms you agree to when you use Authorly.">
+<title>Terms of Service — Authorly</title>
+<meta name="description" content="The terms you agree to when you use Authorly's free tools for indie authors.">
+<meta name="theme-color" content="#faf6f0">
 <link rel="canonical" href="https://authorly.tools/terms">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 
@@ -14,123 +15,127 @@
 <meta property="og:description" content="The terms you agree to when you use Authorly.">
 <meta property="og:image" content="https://authorly.tools/og.png">
 <meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="2400">
+<meta property="og:image:height" content="1260">
+<meta property="og:image:alt" content="Authorly — free tools for indie authors">
 <meta property="og:site_name" content="Authorly">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Terms of Service — Authorly">
 <meta name="twitter:description" content="The terms you agree to when you use Authorly.">
 <meta name="twitter:image" content="https://authorly.tools/og.png">
 
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","name":"Terms of Service","url":"https://authorly.tools/terms","description":"The terms you agree to when you use Authorly.","dateModified":"2026-05-04","publisher":{"@type":"Organization","name":"Authorly","url":"https://authorly.tools/"}}
+</script>
+
+<script>document.querySelectorAll("a.contact[data-u][data-d]").forEach(a=>{const u=a.getAttribute("data-u"),d=a.getAttribute("data-d");a.setAttribute("href","mailto:"+u+"@"+d);if(!a.textContent.trim())a.textContent=u+"@"+d;});</script>
 <script src="/feedback.js" defer></script>
+<script src="/tool.js" defer></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..700,30..100&family=Inter:wght@400;500;600&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..900,0..100,0..1;1,9..144,300..900,0..100,0..1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/tool.css">
+
 <style>
-:root{--paper:#f6efe1;--paper-2:#fbf6ea;--ink:#1a1a1a;--ink-2:#2a2a2a;--ink-mute:#5a4a3a;--accent:#a3322a;--rule:#d8cdb8;--rule-soft:#f3ede0;--shadow:rgba(40,30,20,.08)}
-*{box-sizing:border-box}
-html,body{margin:0;padding:0;background:var(--paper);color:var(--ink);font-family:"Inter",system-ui,sans-serif;font-size:16px;line-height:1.65}
-.container{max-width:680px;margin:0 auto;padding:0 28px}
-.site-header{padding:36px 0 0}
-.site-header-inner{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--rule);padding-bottom:18px}
-.logo{font-family:"Fraunces",serif;font-variation-settings:"opsz" 144,"SOFT" 30;font-size:30px;font-weight:500;color:var(--ink);text-decoration:none;letter-spacing:-.5px}
-.logo .accent{color:var(--accent);font-style:italic}
-.nav a{color:var(--ink-mute);text-decoration:none;margin-left:22px;font-size:15px}
-.nav a:hover{color:var(--ink)}
-main{padding:48px 0 64px}
-h1{font-family:"Fraunces",serif;font-variation-settings:"opsz" 144,"SOFT" 30;font-size:44px;font-weight:500;line-height:1.1;margin:0 0 8px;letter-spacing:-.5px}
-.eyebrow{color:var(--accent);font-size:12px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;margin-bottom:14px}
-.lastmod{color:var(--ink-mute);font-size:14px;margin:0 0 36px}
-h2{font-family:"Fraunces",serif;font-variation-settings:"opsz" 144,"SOFT" 30;font-size:24px;font-weight:500;line-height:1.2;margin:38px 0 12px}
-p{margin:0 0 16px}
-ul{margin:0 0 16px;padding-left:22px}
-li{margin-bottom:8px}
-a{color:var(--ink)}
-a:hover{color:var(--accent)}
-strong{font-weight:600}
-.skip-link{position:absolute;left:-9999px;top:0;background:var(--ink);color:var(--paper);padding:10px 16px;z-index:1000;text-decoration:none;font-size:14px;font-weight:500}
-.skip-link:focus{left:0;outline:2px solid var(--accent);outline-offset:2px}
-#content:focus{outline:none}
-.site-footer{border-top:1px solid var(--rule);padding:24px 0 36px;margin-top:48px;color:var(--ink-mute);font-size:14px;display:flex;flex-wrap:wrap;gap:18px;justify-content:space-between}
-.site-footer a{color:var(--ink-mute);text-decoration:none}
-.site-footer a:hover{color:var(--ink)}
-@media (max-width:520px){h1{font-size:34px}h2{font-size:20px}.container{padding:0 20px}}
+/* Page-specific overrides only — body copy + headings for legal pages. */
+.legal h1{font-family:"Fraunces",serif;font-variation-settings:"opsz" 144,"SOFT" 30,"WONK" 1;font-weight:400;font-size:clamp(36px,5vw,48px);line-height:1.1;letter-spacing:-.025em;margin:0 0 8px;color:var(--ink)}
+.legal .lastmod{color:var(--ink-mute);font-size:14px;margin:0 0 36px;font-style:italic}
+.legal h2{font-family:"Fraunces",serif;font-variation-settings:"opsz" 144,"SOFT" 50;font-weight:500;font-size:22px;letter-spacing:-.005em;line-height:1.25;margin:38px 0 12px}
+.legal p{margin:0 0 16px;font-size:17px;line-height:1.7;color:var(--ink)}
+.legal ul{margin:0 0 16px;padding-left:0;list-style:none}
+.legal ul li{margin-bottom:10px;padding-left:20px;position:relative}
+.legal ul li::before{content:"\00A7";position:absolute;left:0;top:0;font-family:"Fraunces",serif;font-style:italic;color:var(--accent);line-height:1.7}
+.legal a{color:var(--ink);text-decoration:underline;text-decoration-color:var(--rule);text-underline-offset:2px;transition:color .2s,text-decoration-color .2s}
+.legal a:hover{color:var(--accent);text-decoration-color:var(--accent)}
+.legal strong{font-weight:600;color:var(--ink)}
+.contact:empty::before{content:"hello@authorly.tools"}
 </style>
 </head>
 <body>
 <a class="skip-link" href="#content">Skip to content</a>
+<div class="container">
+
 <header class="site-header">
-  <div class="container">
-    <div class="site-header-inner">
-      <a href="/" class="logo">Author<span class="accent">ly</span></a>
-      <nav class="nav">
-        <a href="/">Home</a>
-        <a href="/privacy">Privacy</a>
-        <a href="/terms">Terms</a>
-      </nav>
-    </div>
-  </div>
+  <a href="/" class="logo">Author<em>ly</em></a>
+  <nav class="nav">
+    <a href="/">Home</a>
+    <a href="/#more">Tools</a>
+    <a href="/#about">About</a>
+  </nav>
 </header>
-<main id="content" tabindex="-1">
-  <div class="container">    <div class="eyebrow">Authorly</div>
-    <h1>Terms of service</h1>
-    <p class="lastmod">Last updated: May 4, 2026</p>
 
-    <p>By using Authorly, you agree to these terms. They are written in plain English on purpose.</p>
+<main id="content" tabindex="-1" class="legal">
+  <div style="margin-top:48px"></div>
+  <div class="eyebrow">Authorly</div>
+  <h1>Terms of Service</h1>
+  <p class="lastmod">Last updated: May 4, 2026</p>
 
-    <h2>What Authorly is</h2>
-    <p>Authorly is a free tool that uses AI (Anthropic's Claude) to help indie authors find comparable book titles for their work. The output is generated by an AI model and <strong>can contain inaccuracies</strong> - incorrect authors, wrong publication years, or even invented titles. Always verify a book's details on Amazon or another reliable source before using it in your published Amazon description, advertising copy, or marketing materials.</p>
+  <p>By using Authorly, you agree to these terms. They are written in plain English on purpose.</p>
 
-    <h2>Acceptable use</h2>
-    <ul>
-      <li>Use the service for lawful purposes only.</li>
-      <li>Do not attempt to bypass our rate limits, scrape the site programmatically, or otherwise abuse the service.</li>
-      <li>Do not submit content that is unlawful in your jurisdiction (this includes content that depicts minors in sexual situations, incites violence, or otherwise violates applicable law).</li>
-      <li>Do not impersonate others or provide deliberately misleading information.</li>
-    </ul>
-    <p>We may rate-limit or block IP addresses that abuse the service.</p>
+  <h2>What Authorly is</h2>
+  <p>Authorly is a free toolkit that uses AI (Anthropic's Claude) to help indie authors with the actually-painful parts of self-publishing — comp titles, Amazon book descriptions, KDP keywords, category placement, trope finding, ad headlines, and author bios. The output is generated by an AI model and <strong>can contain inaccuracies</strong>. Always verify a book's details, a category's path, or a keyword's character count on Amazon or another reliable source before using it in your published Amazon description, advertising copy, or marketing materials.</p>
 
-    <h2>What we don't promise</h2>
-    <ul>
-      <li>We don't promise the AI's suggestions are accurate. <strong>Always verify titles, authors, and years before publishing.</strong></li>
-      <li>We don't promise the service is always available. Outages happen. There is no SLA.</li>
-      <li>We don't promise your synopsis will produce useful results. The output depends on the input.</li>
-      <li>We don't promise the service will continue indefinitely. We may shut it down or change its features at any time.</li>
-    </ul>
+  <h2>Acceptable use</h2>
+  <ul>
+    <li>Use the service for lawful purposes only.</li>
+    <li>Do not attempt to bypass our rate limits, scrape the site programmatically, or otherwise abuse the service.</li>
+    <li>Do not submit content that is unlawful in your jurisdiction (this includes content that depicts minors in sexual situations, incites violence, or otherwise violates applicable law).</li>
+    <li>Do not impersonate others or provide deliberately misleading information.</li>
+  </ul>
+  <p>We may rate-limit or block IP addresses that abuse the service.</p>
 
-    <h2>Affiliate links</h2>
-    <p>Some links on Authorly may be affiliate links to products (book marketing tools, writing software, etc.) that we believe are useful for indie authors. If you click an affiliate link and make a purchase, we may earn a commission at no extra cost to you. This commission helps fund the free tools on this site. We only recommend products we'd recommend regardless of the affiliate relationship. Where required, affiliate relationships are disclosed inline.</p>
+  <h2>What we don't promise</h2>
+  <ul>
+    <li>We don't promise the AI's suggestions are accurate. <strong>Always verify titles, authors, years, category paths, and character counts before publishing.</strong></li>
+    <li>We don't promise the service is always available. Outages happen. There is no SLA.</li>
+    <li>We don't promise your input will produce useful results. The output depends on the input.</li>
+    <li>We don't promise the service will continue indefinitely. We may shut it down or change its features at any time.</li>
+  </ul>
 
-    <h2>Intellectual property</h2>
-    <p>The synopsis you paste belongs to you. The AI-generated comp suggestions are output of an AI system - we don't claim copyright on them, and you can use them however you like (subject to the verification caveat above). The Authorly site design, logo, and prompt engineering belong to us.</p>
+  <h2>Affiliate links</h2>
+  <p>Some links on Authorly may be affiliate links to products (book marketing tools, writing software, etc.) that we believe are useful for indie authors. If you click an affiliate link and make a purchase, we may earn a commission at no extra cost to you. This commission helps fund the free tools on this site. We only recommend products we'd recommend regardless of the affiliate relationship. Where required, affiliate relationships are disclosed inline.</p>
 
-    <h2>Liability and risk</h2>
-    <p>You use Authorly at your own risk. To the maximum extent permitted by law, we are not liable for:</p>
-    <ul>
-      <li>Errors, omissions, or hallucinations in AI-generated suggestions</li>
-      <li>Decisions you make based on those suggestions</li>
-      <li>Service outages, downtime, or data loss</li>
-      <li>Any indirect, consequential, special, or punitive damages</li>
-    </ul>
-    <p>If you publish a book description containing AI-generated comp titles and the author or publication year turns out to be wrong, that's on you, not us. We tell you to verify before publishing for exactly this reason.</p>
+  <h2>Intellectual property</h2>
+  <p>The text you paste belongs to you. The AI-generated output is the output of an AI system — we don't claim copyright on it, and you can use it however you like (subject to the verification caveat above). The Authorly site design, logo, and prompt engineering belong to us.</p>
 
-    <h2>Changes to these terms</h2>
-    <p>We may update these terms. The "last updated" date will reflect any changes. Continuing to use the service after changes means you accept the updated terms.</p>
+  <h2>Liability and risk</h2>
+  <p>You use Authorly at your own risk. To the maximum extent permitted by law, we are not liable for:</p>
+  <ul>
+    <li>Errors, omissions, or hallucinations in AI-generated suggestions</li>
+    <li>Decisions you make based on those suggestions</li>
+    <li>Service outages, downtime, or data loss</li>
+    <li>Any indirect, consequential, special, or punitive damages</li>
+  </ul>
+  <p>If you publish a book description containing AI-generated comp titles and the author or publication year turns out to be wrong, that's on you, not us. We tell you to verify before publishing for exactly this reason.</p>
 
-    <h2>Governing law</h2>
-    <p>These terms are governed by the laws of Ireland. Any disputes will be resolved in the courts of Ireland.</p>
+  <h2>Changes to these terms</h2>
+  <p>We may update these terms. The "last updated" date will reflect any changes. Continuing to use the service after changes means you accept the updated terms.</p>
 
-    <h2>Contact</h2>
-    <p>Questions about these terms: <a class="contact" data-u="hello" data-d="authorly.tools"></a></p>  </div>
+  <h2>Governing law</h2>
+  <p>These terms are governed by the laws of Ireland. Any disputes will be resolved in the courts of Ireland.</p>
+
+  <h2>Contact</h2>
+  <p>Questions about these terms: <a class="contact" data-u="hello" data-d="authorly.tools"></a></p>
 </main>
+
 <footer class="site-footer">
-  <div class="container" style="display:flex;flex-wrap:wrap;gap:18px;justify-content:space-between;width:100%">
-    <span>Authorly - free tools for indie authors</span>
-    <span><a href="/privacy">Privacy</a> &middot; <a href="/terms">Terms</a> &middot; <a class="contact" data-u="hello" data-d="authorly.tools">Contact</a></span>
-  </div>
-  <div class="container" style="text-align:center;margin-top:14px;font-size:12px;width:100%">Built by Darren &middot; 2026</div>
+  <div class="site-footer-mark" aria-hidden="true"><span>&sect;</span></div>
+  <nav class="site-footer-links" aria-label="Site">
+    <a href="/">Home</a>
+    <span class="site-footer-sep" aria-hidden="true">·</span>
+    <a href="/#more">All tools</a>
+    <span class="site-footer-sep" aria-hidden="true">·</span>
+    <a href="/#waitlist">Pro waitlist</a>
+    <span class="site-footer-sep" aria-hidden="true">·</span>
+    <a href="/privacy">Privacy</a>
+    <span class="site-footer-sep" aria-hidden="true">·</span>
+    <a href="/terms">Terms</a>
+    <span class="site-footer-sep" aria-hidden="true">·</span>
+    <a class="contact" data-u="hello" data-d="authorly.tools">Contact</a>
+  </nav>
+  <p class="site-footer-byline">Built by <strong>Darren</strong> &middot; 2026</p>
 </footer>
-<script>
-// Wire scrape-proof contact links: <a class="contact" data-u="..." data-d="...">
-document.querySelectorAll("a.contact[data-u][data-d]").forEach(a=>{const u=a.getAttribute("data-u"),d=a.getAttribute("data-d");a.setAttribute("href","mailto:"+u+"@"+d);if(!a.textContent.trim())a.textContent=u+"@"+d;});
-</script>
+
+</div>
 </body>
 </html>

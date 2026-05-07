@@ -1,8 +1,16 @@
 // Cloudflare Pages Function: POST /api/bio
-// Author bio generator: takes a few facts about the author and returns
-// three bio variants (short, medium, long) sized for KDP, social, and
-// query-letter use. Rate limits per-IP and globally via KV namespace
-// RATE_LIMITS.
+// Author bio generator. See ./_lib.js for shared plumbing.
+
+import {
+  jsonResponse,
+  hashedIp,
+  parseBodyOrFail,
+  envGuard,
+  rateCheck,
+  bumpCounters,
+  callClaude,
+  methodNotAllowed,
+} from "./_lib.js";
 
 const SYSTEM_PROMPT = [
   "You are a copywriter who writes author bios for indie authors. Given a few facts (name, what they write, location, relevant background, any books published), produce three bio variants sized for different surfaces.",
@@ -29,26 +37,21 @@ const SYSTEM_PROMPT = [
   "",
   "## Tips",
   "- Use the medium bio for your KDP author page; the platform truncates the long version on mobile.",
-  "- Update the long bio whenever you launch a new book â€” readers Google your name and the About page is what they find."
+  "- Update the long bio whenever you launch a new book â€” readers Google your name and the About page is what they find.",
 ].join("\n");
 
+const TOOL = "bio";
 const MIN_FACTS_LEN = 30;
 const MAX_FACTS_LEN = 1500;
 const PER_IP_DAILY_LIMIT = 5;
-const GLOBAL_DAILY_LIMIT = 2000;
-const DEFAULT_MODEL = "claude-sonnet-4-6";
+const PER_TOOL_DAILY_LIMIT = 2000;
 
-export async function onRequestPost({ request, env }) {
-    const cl = parseInt(request.headers.get("content-length") || "0", 10);
-  if (Number.isFinite(cl) && cl > 10000) {
-    return jsonResponse({ error: "Request body too large." }, 413);
-  }
-  let body;
-  try {
-    body = await request.json();
-  } catch {
-    return jsonResponse({ error: "Invalid request format." }, 400);
-  }
+export async function onRequestPost(ctx) {
+  const { request, env } = ctx;
+
+  const parsed = await parseBodyOrFail(request);
+  if (parsed.error) return parsed.error;
+  const body = parsed.body;
 
   const facts = String(body.facts || "").trim();
 
@@ -56,108 +59,32 @@ export async function onRequestPost({ request, env }) {
     return jsonResponse({ error: "Please share a few facts (30+ characters): name, what you write, location, anything relevant." }, 400);
   }
   if (facts.length > MAX_FACTS_LEN) {
-    return jsonResponse({ error: "Facts too long (max " + MAX_FACTS_LEN + " characters). A bio doesn't need a memoir." }, 400);
+    return jsonResponse({ error: `Facts too long (max ${MAX_FACTS_LEN} characters). A bio doesn't need a memoir.` }, 400);
   }
 
-  if (!env.ANTHROPIC_API_KEY) {
-    return jsonResponse({ error: "Service is being configured. Try again in a few minutes." }, 503);
-  }
-  if (!env.RATE_LIMITS) {
-    return jsonResponse({ error: "Service is being configured (rate limiter not bound). Try again shortly." }, 503);
-  }
+  const envErr = envGuard(env);
+  if (envErr) return envErr;
 
-  const ip = request.headers.get("CF-Connecting-IP") || "unknown";
-  const today = new Date().toISOString().slice(0, 10);
-  const ipKey = "rate:bio:" + today + ":" + ip;
-  const globalKey = "global:bio:" + today;
-
-  const ipCountStr = await env.RATE_LIMITS.get(ipKey);
-  const ipCount = parseUint(ipCountStr);
-  if (ipCount >= PER_IP_DAILY_LIMIT) {
-    return jsonResponse({
-      error: "Daily free limit reached (" + PER_IP_DAILY_LIMIT + " bios per visitor). Come back tomorrow.",
-      remaining: 0
-    }, 429);
-  }
-
-  const globalCountStr = await env.RATE_LIMITS.get(globalKey);
-  const globalCount = parseUint(globalCountStr);
-  if (globalCount >= GLOBAL_DAILY_LIMIT) {
-    return jsonResponse({ error: "Service temporarily unavailable (daily capacity reached). Try again tomorrow." }, 503);
-  }
+  const ipHash = await hashedIp(request);
+  const rate = await rateCheck(env, TOOL, ipHash, PER_IP_DAILY_LIMIT, PER_TOOL_DAILY_LIMIT);
+  if (rate.blocked) return rate.blocked;
 
   const userMsg = "Author facts:\n" + facts;
 
-  let anthropicRes;
-  try {
-    anthropicRes = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-api-key": env.ANTHROPIC_API_KEY,
-        "anthropic-version": "2023-06-01"
-      },
-      body: JSON.stringify({
-        model: env.ANTHROPIC_MODEL || DEFAULT_MODEL,
-        max_tokens: 1500,
-        system: SYSTEM_PROMPT,
-        messages: [{ role: "user", content: userMsg }]
-      })
-    });
-  } catch {
-    return jsonResponse({ error: "Could not reach AI service. Try again." }, 502);
-  }
+  const claude = await callClaude(env, {
+    system: SYSTEM_PROMPT,
+    user: userMsg,
+  });
+  if (claude.error) return claude.error;
 
-  if (!anthropicRes.ok) {
-    let type = "";
-    try {
-      const errBody = await anthropicRes.json();
-      type = (errBody.error && errBody.error.type) || "";
-    } catch {}
-    let msg = "AI service is having issues. Try again.";
-    if (type === "rate_limit_error") msg = "AI service is busy — try again in a minute.";
-    else if (type === "invalid_request_error") msg = "AI service rejected the request — try simpler input.";
-    else if (type === "overloaded_error") msg = "AI service is temporarily overloaded — try again in a minute.";
-    return jsonResponse({ error: msg }, 502);
-  }
-
-  const anthropicData = await anthropicRes.json();
-  const text = (anthropicData.content && anthropicData.content[0] && anthropicData.content[0].text) || "";
-
-  if (!text) {
-    return jsonResponse({ error: "AI returned an empty response. Try giving more concrete facts." }, 502);
-  }
-
-  const newIpCount = ipCount + 1;
-  const newGlobalCount = globalCount + 1;
-  await env.RATE_LIMITS.put(ipKey, String(newIpCount), { expirationTtl: 172800 });
-  await env.RATE_LIMITS.put(globalKey, String(newGlobalCount), { expirationTtl: 172800 });
+  bumpCounters(ctx, env, rate);
 
   return jsonResponse({
-    text: text,
-    remaining: Math.max(0, PER_IP_DAILY_LIMIT - newIpCount)
+    text: claude.text,
+    remaining: Math.max(0, PER_IP_DAILY_LIMIT - (rate.counts.ipCount + 1)),
   });
 }
 
 export async function onRequest() {
-  return jsonResponse({ error: "Method not allowed. Use POST." }, 405);
+  return methodNotAllowed();
 }
-
-function parseUint(s) {
-  const n = parseInt(s || "0", 10);
-  return Number.isFinite(n) && n >= 0 ? n : 0;
-}
-
-function jsonResponse(data, status) {
-  return new Response(JSON.stringify(data), {
-    status: status || 200,
-    headers: {
-      "Content-Type": "application/json; charset=utf-8",
-      "Cache-Control": "no-store"
-    }
-  });
-}
-
-
-
-

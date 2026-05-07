@@ -1,121 +1,54 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Authorly — Free Tools for Indie Authors</title>
-<meta name="description" content="Free tools for indie authors. Find real comparable books, write better blurbs, research KDP keywords. Built for self-publishers — no manuscript upload required.">
+<title>Authorly &mdash; Free Tools for Indie Authors</title>
+<meta name="description" content="Free tools for indie authors. Find real comparable books, write better blurbs, research KDP keywords. Built for self-publishers &mdash; no manuscript upload required.">
 <meta name="theme-color" content="#faf6f0">
 <link rel="canonical" href="https://authorly.tools/">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://authorly.tools/">
-<meta property="og:title" content="Authorly — Free Tools for Indie Authors">
+<meta property="og:title" content="Authorly &mdash; Free Tools for Indie Authors">
 <meta property="og:description" content="Free tools for indie authors. Find real comparable books, write better blurbs, research KDP keywords. No manuscript upload required.">
 <meta property="og:image" content="https://authorly.tools/og.png">
 <meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="2400">
+<meta property="og:image:height" content="1260">
+<meta property="og:image:alt" content="Authorly &mdash; free tools for indie authors">
 <meta property="og:site_name" content="Authorly">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Authorly — Free Tools for Indie Authors">
+<meta name="twitter:title" content="Authorly &mdash; Free Tools for Indie Authors">
 <meta name="twitter:description" content="Find real comp titles for your book in seconds. Free, no signup, no manuscript upload.">
 <meta name="twitter:image" content="https://authorly.tools/og.png">
 
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://authorly.tools/#organization","name":"Authorly","url":"https://authorly.tools/","logo":"https://authorly.tools/og.png"},{"@type":"WebSite","@id":"https://authorly.tools/#website","url":"https://authorly.tools/","name":"Authorly","description":"Free tools for indie authors. Find real comparable books, write better blurbs, research KDP keywords.","publisher":{"@id":"https://authorly.tools/#organization"}},{"@type":"FAQPage","@id":"https://authorly.tools/#faq","mainEntity":[{"@type":"Question","name":"Why use this instead of ChatGPT or Claude?","acceptedAnswer":{"@type":"Answer","text":"ChatGPT and Claude can do the same work — if you write the right prompt every time and check the character counts yourself. Authorly has the prompts tuned and the constraints baked in: KDP keyword phrases char-counted to 50 chars, blurbs structured into hook / setup / stakes / cliffhanger and sized to 130–180 words for Amazon, ad headlines split between Sponsored Products' 150-char and Sponsored Brands' 80-char limits, comp titles cited with reasons each fits. One click, formatted output, Copy buttons everywhere."}},{"@type":"Question","name":"How is this free?","acceptedAnswer":{"@type":"Answer","text":"I pay the AI bill. Each generation costs me about two cents. Five free runs per tool per day per visitor — more than most authors need for a single book launch — keeps it sustainable. The Pro tier ($9/month, unlimited, with batch processing for series authors) is coming soon for people who run dozens of comp lookups per release."}},{"@type":"Question","name":"Do you store my plot or my book description?","acceptedAnswer":{"@type":"Answer","text":"No. Inputs are sent to the AI, the response is returned to your browser, and nothing is saved server-side except an anonymized rate-limit counter that's auto-deleted after 48 hours. Full details on the Privacy page."}},{"@type":"Question","name":"Why no signup?","acceptedAnswer":{"@type":"Answer","text":"Because the moment a tool asks for an email, it stops being a tool and starts being a marketing funnel. Authorly works the way Google works: open the page, get the answer, leave. If you want updates on the Pro tier, the waitlist on the homepage is opt-in."}}]}]}
 </script>
+
+<script>document.querySelectorAll("a.contact[data-u][data-d]").forEach(a=>{const u=a.getAttribute("data-u"),d=a.getAttribute("data-d");a.setAttribute("href","mailto:"+u+"@"+d);if(!a.textContent.trim())a.textContent=u+"@"+d;});</script>
 <script src="/feedback.js" defer></script>
+<script src="/tool.js" defer></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..900,0..100,0..1;1,9..144,300..900,0..100,0..1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/tool.css">
 
 <style>
-:root{
-  --paper:#faf6f0;
-  --paper-2:#fefbf5;
-  --ink:#1a1814;
-  --ink-2:#3a3530;
-  --ink-mute:#6b6760;
-  --rule:#e0d5c0;
-  --accent:#a83232;
-  --accent-soft:rgba(168,50,50,.05);
-  --shadow:rgba(26,24,20,.08);
-}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{
-  margin:0;background:var(--paper);color:var(--ink);
-  font-family:"Fraunces",Georgia,serif;
-  font-variation-settings:"opsz" 14,"SOFT" 50;
-  font-weight:400;line-height:1.6;font-size:18px;
-  -webkit-font-smoothing:antialiased;
-  text-rendering:optimizeLegibility;
-}
-.container{max-width:720px;margin:0 auto;padding:48px 24px}
-.site-header{display:flex;justify-content:space-between;align-items:center;padding-bottom:28px;border-bottom:1px solid var(--rule)}
-.logo{font-family:"Fraunces",serif;font-variation-settings:"opsz" 144,"SOFT" 100;font-weight:600;font-size:24px;letter-spacing:-.02em;color:var(--ink);text-decoration:none}
-.logo em{color:var(--accent);font-style:italic;font-weight:500;font-variation-settings:"opsz" 144,"WONK" 1}
-.nav{display:flex;gap:24px;font-size:15px}
-.nav a{color:var(--ink-mute);text-decoration:none;border-bottom:1px solid transparent;transition:border-color .2s,color .2s}
-.nav a:hover{border-bottom-color:var(--accent);color:var(--ink)}
-.hero{padding:64px 0 32px;text-align:center}
-.eyebrow{font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);font-weight:500;margin-bottom:14px}
-.hero h1{font-family:"Fraunces",serif;font-variation-settings:"opsz" 144,"SOFT" 30,"WONK" 1;font-weight:400;font-size:clamp(40px,7vw,64px);line-height:1.05;letter-spacing:-.025em;margin:0 0 24px;color:var(--ink)}
-.hero h1 em{font-style:italic;color:var(--accent);font-weight:400}
-.hero-sub{font-size:19px;color:var(--ink-2);max-width:560px;margin:0 auto;line-height:1.55}
-.ornament{display:flex;align-items:center;gap:18px;max-width:200px;margin:48px auto}
-.ornament::before,.ornament::after{content:"";flex:1;height:1px;background:var(--rule)}
-.ornament span{font-family:"Fraunces",serif;font-style:italic;color:var(--accent);font-size:22px;line-height:1}
-.tool-card{background:var(--paper-2);border:1px solid var(--rule);border-radius:4px;padding:40px;box-shadow:0 1px 0 var(--shadow)}
-.tool-label{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-mute);margin-bottom:10px}
-.tool-title{font-family:"Fraunces",serif;font-variation-settings:"opsz" 144,"SOFT" 50;font-weight:500;font-size:30px;letter-spacing:-.015em;margin:0 0 8px}
-.tool-desc{color:var(--ink-2);font-size:16px;margin:0 0 28px;line-height:1.55}
-.input-label{display:block;font-size:13px;font-weight:600;letter-spacing:.04em;color:var(--ink);margin-bottom:8px}
-.input-label .opt{font-weight:400;color:var(--ink-mute);font-size:12px}
-textarea{width:100%;min-height:160px;padding:16px;background:var(--paper);border:1px solid var(--rule);border-radius:3px;color:var(--ink);font-family:"Fraunces",serif;font-size:16px;line-height:1.6;resize:vertical;transition:border-color .2s,box-shadow .2s}
-textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
-.char-count{text-align:right;font-size:12px;color:var(--ink-mute);margin-top:6px}
-.genre-row{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
-.genre-chip{padding:7px 14px;background:var(--paper);border:1px solid var(--rule);border-radius:999px;font-family:"Fraunces",serif;font-size:13px;color:var(--ink-mute);cursor:pointer;transition:all .2s}
-.genre-chip:hover{border-color:var(--accent);color:var(--ink)}
-.genre-chip.active{background:var(--accent);color:var(--paper);border-color:var(--accent)}
-.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 28px;background:var(--ink);color:var(--paper);border:none;border-radius:3px;font-family:"Fraunces",serif;font-weight:500;font-size:16px;letter-spacing:.02em;cursor:pointer;transition:background .2s,transform .1s;margin-top:24px}
-.btn:hover{background:var(--accent)}
-.btn:active{transform:translateY(1px)}
-.btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
-.btn-arrow{font-style:italic;transition:transform .2s}
-.btn:hover .btn-arrow{transform:translateX(3px)}
-.output{margin-top:32px;padding-top:32px;border-top:1px solid var(--rule);display:none}
-.output.visible{display:block;animation:fadeIn .3s ease-out}
-@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-.output-title{font-family:"Fraunces",serif;font-variation-settings:"opsz" 144;font-weight:500;font-size:22px;margin:0 0 18px}
-.output-body{font-size:17px;line-height:1.7;color:var(--ink)}
-.output-body h2{font-family:"Fraunces",serif;font-weight:600;font-size:17px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-mute);margin:28px 0 14px}
-.output-body h2:first-child{margin-top:0}
-.output-body p{margin:0 0 14px}
-.output-body ol{padding-left:0;counter-reset:comp;list-style:none;margin:0 0 18px}
-.output-body ol li{counter-increment:comp;margin-bottom:18px;padding-left:36px;position:relative}
-.output-body ol li::before{content:counter(comp);position:absolute;left:0;top:0;font-family:"Fraunces",serif;font-style:italic;font-size:20px;color:var(--accent);font-weight:500;line-height:1.7}
-.output-body ul{padding-left:0;list-style:none;margin:0 0 18px}
-.output-body ul li{margin-bottom:12px;padding-left:20px;position:relative}
-.output-body ul li::before{content:"§";position:absolute;left:0;top:0;font-family:"Fraunces",serif;font-style:italic;color:var(--accent);line-height:1.7}
-.output-body em{font-style:italic;color:var(--ink-2)}
-.output-body strong{font-weight:600;color:var(--ink)}
-.copy-btn{display:inline-block;margin-top:8px;padding:5px 11px;background:transparent;border:1px solid var(--rule);border-radius:3px;font-family:"Fraunces",serif;font-size:12px;color:var(--ink-mute);cursor:pointer;transition:all .2s}
-.copy-btn:hover{border-color:var(--accent);color:var(--accent)}
-.copy-btn.copied{color:#2a7a3a;border-color:#2a7a3a}
+/* Homepage-only styles (everything shared lives in tool.css) */
 .section{margin-top:80px;padding-top:48px;border-top:1px solid var(--rule)}
 .section-title{font-family:"Fraunces",serif;font-variation-settings:"opsz" 144,"SOFT" 30,"WONK" 1;font-weight:400;font-size:36px;letter-spacing:-.025em;margin:0 0 24px}
 .section-lede{color:var(--ink-2);font-size:17px;line-height:1.7;margin:0 0 32px}
-.tool-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
-.tool-list-item{padding:20px;border:1px solid var(--rule);border-radius:3px;background:var(--paper-2);transition:border-color .2s}
-a.tool-list-item{text-decoration:none;color:inherit;display:block}
-a.tool-list-item:hover{color:inherit}
-.tool-list-item:hover{border-color:var(--ink-mute)}
-.tool-list-item h3{font-family:"Fraunces",serif;font-weight:600;font-size:17px;margin:0 0 6px;letter-spacing:-.005em}
-.tool-list-item p{font-size:14px;color:var(--ink-mute);margin:0;line-height:1.5}
-.tool-list-item .status{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-top:14px;font-weight:500}
+.about-lede{font-size:17px;line-height:1.7;color:var(--ink);margin:0 0 16px}
+.about-lede.muted{color:var(--ink-mute);margin:0 0 28px}
+.about-maker{font-size:17px;line-height:1.7;color:var(--ink);margin:32px 0 0}
+.faq-block{margin-top:48px;margin-bottom:36px}
+.faq-block h3{font-family:"Fraunces",serif;font-weight:500;font-size:24px;letter-spacing:-.01em;margin:0 0 18px;color:var(--ink)}
+
+/* Pro waitlist callout — sits at the bottom of the About section */
 .waitlist{margin-top:8px;padding:28px;background:var(--paper-2);border:1px solid var(--rule);border-radius:4px}
 .waitlist-eyebrow{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);font-weight:500;margin-bottom:8px}
 .waitlist-title{font-family:"Fraunces",serif;font-variation-settings:"opsz" 144,"SOFT" 50;font-weight:500;font-size:24px;letter-spacing:-.01em;margin:0 0 8px;color:var(--ink)}
@@ -128,43 +61,6 @@ a.tool-list-item:hover{color:inherit}
 .waitlist-status.success{color:#2a7a3a}
 .waitlist-status.error{color:var(--accent)}
 @media (max-width:520px){.waitlist-form{flex-direction:column}.waitlist-form input[type=email]{min-width:0}}
-.site-footer{margin-top:80px;padding:32px 0 16px;border-top:1px solid var(--rule);text-align:center;font-size:13px;color:var(--ink-mute)}
-.site-footer a{color:var(--ink-mute);text-decoration:underline;text-decoration-color:var(--rule)}
-.site-footer a:hover{color:var(--accent)}
-.loading{text-align:center;padding:32px 0;color:var(--ink-mute);font-style:italic;font-size:15px}
-.loading-dot{display:inline-block;animation:pulse 1.4s infinite;font-style:normal}
-.loading-dot:nth-child(2){animation-delay:.2s}
-.loading-dot:nth-child(3){animation-delay:.4s}
-@keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
-.error{padding:14px 16px;background:var(--accent-soft);border-left:3px solid var(--accent);color:var(--ink);font-size:14px;line-height:1.5;border-radius:0 3px 3px 0}
-@media (max-width:600px){.container{padding:32px 20px}.tool-card{padding:24px}.hero{padding:40px 0 24px}body{font-size:17px}.nav a:nth-child(2){display:none}}
-@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
-::selection{background:var(--accent);color:var(--paper)}
-.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-.skip-link{position:absolute;left:-9999px;top:0;background:var(--ink);color:var(--paper);padding:10px 16px;z-index:1000;text-decoration:none;font-size:14px;font-weight:500}
-.skip-link:focus{left:0;outline:2px solid var(--accent);outline-offset:2px}
-.sample{margin:0 0 24px;border:1px dashed var(--rule);border-radius:3px;background:transparent}
-.sample summary{padding:12px 16px;cursor:pointer;font-size:14px;color:var(--ink-mute);font-weight:500;list-style:none;user-select:none;display:flex;align-items:center;justify-content:space-between;gap:8px}
-.sample summary::-webkit-details-marker{display:none}
-.sample summary::after{content:"＋";font-size:14px;font-weight:300;color:var(--ink-mute);transition:transform .2s;font-style:normal}
-.sample[open] summary::after{content:"−"}
-.sample summary:hover{color:var(--accent)}
-.sample summary:hover::after{color:var(--accent)}
-.sample-body{padding:6px 16px 16px;font-size:15px;line-height:1.65;color:var(--ink-2)}
-.sample-body h2{font-family:"Fraunces",serif;font-weight:600;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-mute);margin:16px 0 10px}
-.sample-body h2:first-of-type{margin-top:6px}
-.sample-body h3{font-family:"Fraunces",serif;font-weight:500;font-size:16px;margin:14px 0 6px;color:var(--ink)}
-.sample-body p{margin:0 0 10px}
-.sample-body ol,.sample-body ul{padding-left:0;margin:0 0 14px;list-style:none}
-.sample-body ol{counter-reset:s}
-.sample-body ol li{counter-increment:s;padding-left:24px;position:relative;margin-bottom:10px}
-.sample-body ol li::before{content:counter(s);position:absolute;left:0;top:0;font-family:"Fraunces",serif;font-style:italic;font-size:15px;color:var(--accent);font-weight:500;line-height:1.65}
-.sample-body ul li{padding-left:16px;position:relative;margin-bottom:8px}
-.sample-body ul li::before{content:"§";position:absolute;left:0;top:0;font-family:"Fraunces",serif;font-style:italic;color:var(--accent);line-height:1.65}
-.sample-body strong{font-weight:600;color:var(--ink)}
-.sample-body em{font-style:italic}
-.sample-body .sample-meta{font-size:12px;color:var(--ink-mute);font-style:italic;margin-top:14px;padding-top:10px;border-top:1px dashed var(--rule)}
-
 </style>
 </head>
 <body>
@@ -183,28 +79,28 @@ a.tool-list-item:hover{color:inherit}
 <section class="hero">
   <div class="eyebrow">For indie authors</div>
   <h1>Find the right <em>comp&nbsp;titles</em> for your book.</h1>
-  <p class="hero-sub">Comparable books to anchor your Amazon description, target your ads, and pitch readers — generated in seconds, no manuscript upload required.</p>
+  <p class="hero-sub">Comparable books to anchor your Amazon description, target your ads, and pitch readers &mdash; generated in seconds, no manuscript upload required.</p>
 </section>
 
-<div class="ornament"><span>§</span></div>
+<div class="ornament"><span>&sect;</span></div>
 
 <main>
 
 <section class="tool-card" id="tool">
   <div class="tool-label">The free tool</div>
   <h2 class="tool-title">Comp title finder</h2>
-  <p class="tool-desc">Paste your book description below. Get five real, published, commercially successful comp titles — with reasons why each fits, plus ready-to-paste copy for your Amazon book description.</p>
+  <p class="tool-desc">Paste your book description below. Get five real, published, commercially successful comp titles &mdash; with reasons why each fits, plus ready-to-paste copy for your Amazon book description.</p>
 
   <details class="sample">
     <summary>See an example of what you'll get</summary>
     <div class="sample-body">
       <h2>5 comp titles</h2>
       <ol>
-        <li><strong>The Searcher</strong> by Tana French (2020) — Why: rural setting, slow-burn investigation, female outsider protagonist</li>
-        <li><strong>The Lost Apothecary</strong> by Sarah Penner (2021) — Why: dual timelines, female-driven mystery, atmospheric prose</li>
-        <li><strong>Things We Lost to the Water</strong> by Eric Nguyen (2021) — Why: literary mystery, family secrets, coastal community</li>
-        <li><strong>The Push</strong> by Ashley Audrain (2021) — Why: psychological tension, motherhood themes, unreliable narrator</li>
-        <li><strong>The Family Upstairs</strong> by Lisa Jewell (2019) — Why: dark family secrets, dual timelines, atmospheric tension</li>
+        <li><strong>The Searcher</strong> by Tana French (2020) &mdash; Why: rural setting, slow-burn investigation, female outsider protagonist</li>
+        <li><strong>The Lost Apothecary</strong> by Sarah Penner (2021) &mdash; Why: dual timelines, female-driven mystery, atmospheric prose</li>
+        <li><strong>Things We Lost to the Water</strong> by Eric Nguyen (2021) &mdash; Why: literary mystery, family secrets, coastal community</li>
+        <li><strong>The Push</strong> by Ashley Audrain (2021) &mdash; Why: psychological tension, motherhood themes, unreliable narrator</li>
+        <li><strong>The Family Upstairs</strong> by Lisa Jewell (2019) &mdash; Why: dark family secrets, dual timelines, atmospheric tension</li>
       </ol>
       <h2>Use these in</h2>
       <ul>
@@ -217,10 +113,10 @@ a.tool-list-item:hover{color:inherit}
   </details>
 
   <label class="input-label" for="book-desc">Your book description</label>
-  <textarea id="book-desc" placeholder="A widowed marine biologist returns to her childhood island to investigate her sister's mysterious death. Set against the backdrop of a coastal community hiding decades of secrets, the novel weaves dual timelines of grief and discovery — perfect for readers who love atmospheric, character-driven mysteries..." maxlength="2000"></textarea>
+  <textarea id="book-desc" placeholder="A widowed marine biologist returns to her childhood island to investigate her sister's mysterious death. Set against the backdrop of a coastal community hiding decades of secrets, the novel weaves dual timelines of grief and discovery &mdash; perfect for readers who love atmospheric, character-driven mysteries..." maxlength="2000"></textarea>
   <div class="char-count"><span id="cc">0</span> / 2000</div>
 
-  <div class="input-label" id="genre-label" style="margin-top:20px">Genre <span class="opt">(optional, helps accuracy)</span></div>
+  <div class="input-label" id="genre-label">Genre <span class="opt">(optional, helps accuracy)</span></div>
   <div class="genre-row" id="genre-row" role="group" aria-labelledby="genre-label">
     <button type="button" class="genre-chip" data-g="" aria-pressed="true">Any</button>
     <button type="button" class="genre-chip" data-g="romance" aria-pressed="false">Romance</button>
@@ -232,7 +128,7 @@ a.tool-list-item:hover{color:inherit}
     <button type="button" class="genre-chip" data-g="memoir/non-fiction" aria-pressed="false">Memoir / NF</button>
   </div>
 
-  <button class="btn" id="generate">Find comp titles <span class="btn-arrow">→</span></button>
+  <button class="btn" id="generate">Find comp titles <span class="btn-arrow">&rarr;</span></button>
 
   <div class="output" id="output">
     <h3 class="output-title">Your comp titles</h3>
@@ -243,28 +139,28 @@ a.tool-list-item:hover{color:inherit}
 <section class="section" id="more">
   <div class="eyebrow">More tools</div>
   <h2 class="section-title">More tools.</h2>
-  <p class="section-lede">Authorly is built one carefully-tuned tool at a time. Six live, zero to go:</p>
+  <p class="section-lede">Authorly is built one carefully-tuned tool at a time. Six live, more on the way:</p>
 
   <div class="tool-list">
-    <a class="tool-list-item" href="/blurb"><h3>Amazon book description</h3><p>Paste your plot, get a structured blurb — hook, setup, stakes, cliffhanger.</p><div class="status">Live →</div></a>
-    <a class="tool-list-item" href="/keywords"><h3>KDP keyword expander</h3><p>One keyword in, ten related ones authors actually search for.</p><div class="status">Live →</div></a>
-    <a class="tool-list-item" href="/categories"><h3>Category recommender</h3><p>Best Amazon Kindle categories for your book + competition notes.</p><div class="status">Live →</div></a>
-    <a class="tool-list-item" href="/tropes"><h3>Trope finder</h3><p>Identify the tropes in your plot that readers actively search for.</p><div class="status">Live →</div></a>
-    <a class="tool-list-item" href="/ads"><h3>Amazon Ads headlines</h3><p>Write punchy ad copy from your title and comp titles.</p><div class="status">Live →</div></a>
-    <a class="tool-list-item" href="/bio"><h3>Author bio generator</h3><p>A few facts in, polished KDP author-page bio out.</p><div class="status">Live →</div></a>
+    <a class="tool-list-item" href="/blurb"><h3>Amazon book description</h3><p>Paste your plot, get a structured blurb &mdash; hook, setup, stakes, cliffhanger.</p><div class="status">Live <span aria-hidden="true">&rarr;</span></div></a>
+    <a class="tool-list-item" href="/keywords"><h3>KDP keyword expander</h3><p>One keyword in, ten related ones authors actually search for.</p><div class="status">Live <span aria-hidden="true">&rarr;</span></div></a>
+    <a class="tool-list-item" href="/categories"><h3>Category recommender</h3><p>Best Amazon Kindle categories for your book + competition notes.</p><div class="status">Live <span aria-hidden="true">&rarr;</span></div></a>
+    <a class="tool-list-item" href="/tropes"><h3>Trope finder</h3><p>Identify the tropes in your plot that readers actively search for.</p><div class="status">Live <span aria-hidden="true">&rarr;</span></div></a>
+    <a class="tool-list-item" href="/ads"><h3>Amazon Ads headlines</h3><p>Write punchy ad copy from your title and comp titles.</p><div class="status">Live <span aria-hidden="true">&rarr;</span></div></a>
+    <a class="tool-list-item" href="/bio"><h3>Author bio generator</h3><p>A few facts in, polished KDP author-page bio out.</p><div class="status">Live <span aria-hidden="true">&rarr;</span></div></a>
   </div>
 </section>
 
 <section class="section" id="about">
   <div class="eyebrow">About</div>
   <h2 class="section-title">Built for indie authors.</h2>
-  <p style="font-size:17px;line-height:1.7;color:var(--ink);margin:0 0 16px">Authorly is a small, growing collection of free tools for self-published authors. No accounts. No upload-your-manuscript. No paywalls on the basics. Just tools that work.</p>
-  <p style="font-size:17px;line-height:1.7;color:var(--ink-mute);margin:0 0 28px">Powered by Anthropic's Claude — the AI we found gives the highest-quality output for craft work like this. Five free runs per tool, every day, per visitor — more than enough for most authors. We pay the AI bill so you don't have to. Pro tier with unlimited usage coming soon.</p>
-    <p style="font-size:17px;line-height:1.7;color:var(--ink);margin:32px 0 0">Built by <strong>Darren</strong> &mdash; an indie author who got tired of paying $25&ndash;50/month for SaaS tools that mostly just paraphrased synopses. Email is <a class="contact" data-u="hello" data-d="authorly.tools" style="color:var(--accent)">hello@authorly.tools</a> &mdash; I read every reply.</p>
+  <p class="about-lede">Authorly is a small, growing collection of free tools for self-published authors. No accounts. No upload-your-manuscript. No paywalls on the basics. Just tools that work.</p>
+  <p class="about-lede muted">Powered by Anthropic's Claude &mdash; the AI we found gives the highest-quality output for craft work like this. Five free runs per tool, every day, per visitor &mdash; more than enough for most authors. We pay the AI bill so you don't have to. Pro tier with unlimited usage coming soon.</p>
+  <p class="about-maker">Built by <strong>Darren</strong> &mdash; an indie author who got tired of paying $25&ndash;50/month for SaaS tools that mostly just paraphrased synopses. Email is <a class="contact" data-u="hello" data-d="authorly.tools" style="color:var(--accent)"></a> &mdash; I read every reply.</p>
 
-  <div id="faq" style="margin-top:48px;margin-bottom:36px">
+  <div id="faq" class="faq-block">
     <div class="eyebrow">Frequently asked</div>
-    <h3 style="font-family:'Fraunces',serif;font-weight:500;font-size:24px;letter-spacing:-.01em;margin:0 0 18px;color:var(--ink)">Common questions.</h3>
+    <h3>Common questions.</h3>
 
     <details class="sample">
       <summary>Why use this instead of ChatGPT or Claude?</summary>
@@ -299,11 +195,11 @@ a.tool-list-item:hover{color:inherit}
   <div class="waitlist" id="waitlist">
     <div class="waitlist-eyebrow">Pro tier</div>
     <h3 class="waitlist-title">Get notified when it launches.</h3>
-    <p class="waitlist-sub">Unlimited searches, priority models, save and revisit your past results. We'll email once — when it's ready.</p>
+    <p class="waitlist-sub">Unlimited runs, priority models, save and revisit your past results. We'll email once &mdash; when it's ready.</p>
     <form class="waitlist-form" id="waitlist-form" novalidate>
       <label for="waitlist-email" class="visually-hidden">Email address</label>
       <input type="email" id="waitlist-email" name="email" placeholder="you@example.com" autocomplete="email" required aria-required="true">
-      <button type="submit" class="btn waitlist-btn" id="waitlist-submit">Notify me <span class="btn-arrow">→</span></button>
+      <button type="submit" class="btn waitlist-btn" id="waitlist-submit">Notify me <span class="btn-arrow">&rarr;</span></button>
     </form>
     <div class="waitlist-status" id="waitlist-status" aria-live="polite"></div>
   </div>
@@ -312,162 +208,80 @@ a.tool-list-item:hover{color:inherit}
 </main>
 
 <footer class="site-footer">
-  <p>Built by Darren &middot; 2026 &middot; <a class="contact" data-u="hello" data-d="authorly.tools">Feedback</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="/terms">Terms</a></p>
+  <div class="site-footer-mark" aria-hidden="true"><span>&sect;</span></div>
+  <nav class="site-footer-links" aria-label="Site">
+    <a href="/">Home</a>
+    <span class="site-footer-sep" aria-hidden="true">&middot;</span>
+    <a href="#more">All tools</a>
+    <span class="site-footer-sep" aria-hidden="true">&middot;</span>
+    <a href="#waitlist">Pro waitlist</a>
+    <span class="site-footer-sep" aria-hidden="true">&middot;</span>
+    <a href="/privacy">Privacy</a>
+    <span class="site-footer-sep" aria-hidden="true">&middot;</span>
+    <a href="/terms">Terms</a>
+    <span class="site-footer-sep" aria-hidden="true">&middot;</span>
+    <a class="contact" data-u="hello" data-d="authorly.tools">Contact</a>
+  </nav>
+  <p class="site-footer-byline">Built by <strong>Darren</strong> &middot; 2026</p>
 </footer>
 
 </div>
 
 <script>
-
-// Wire scrape-proof contact links: <a class="contact" data-u="..." data-d="...">
-document.querySelectorAll("a.contact[data-u][data-d]").forEach(a=>{const u=a.getAttribute("data-u"),d=a.getAttribute("data-d");a.setAttribute("href","mailto:"+u+"@"+d);if(!a.textContent.trim())a.textContent=u+"@"+d;});
-
-// Smoothly scroll opened <details class="sample"> bodies into view
-document.querySelectorAll("details.sample").forEach(d=>{d.addEventListener("toggle",()=>{if(d.open)d.scrollIntoView({behavior:"smooth",block:"start"});});});
-
-const ta=document.getElementById("book-desc");
-const cc=document.getElementById("cc");
-ta.addEventListener("input",()=>{cc.textContent=ta.value.length});
-
-let selectedGenre="";
-document.querySelectorAll(".genre-chip").forEach(chip=>{
-  chip.addEventListener("click",e=>{
-    e.preventDefault();
-    document.querySelectorAll(".genre-chip").forEach(c=>{
-      c.classList.remove("active");
-      c.setAttribute("aria-pressed","false");
-    });
-    chip.classList.add("active");
-    chip.setAttribute("aria-pressed","true");
-    selectedGenre=chip.dataset.g;
-  });
-});
-document.querySelector(".genre-chip[data-g=\"\"]").classList.add("active");
-
-const btn=document.getElementById("generate");
-const out=document.getElementById("output");
-const outBody=document.getElementById("output-body");
-
-btn.addEventListener("click",async()=>{
-  const desc=ta.value.trim();
-  if(desc.length<30){
-    outBody.innerHTML="<div class=\"error\">Please paste at least a paragraph (30+ characters) describing your book — characters, conflict, setting, tone.</div>";
-    out.classList.add("visible");
-    return;
-  }
-  btn.disabled=true;
-  btn.innerHTML="Reading <span class=\"btn-arrow\">…</span>";
-  outBody.innerHTML="<div class=\"loading\">Finding comp titles<span class=\"loading-dot\">.</span><span class=\"loading-dot\">.</span><span class=\"loading-dot\">.</span></div>";
-  out.classList.add("visible");
-  out.scrollIntoView({behavior:"smooth",block:"nearest"});
-  try{
-
-    let res;
-    try {
-      res = await fetch("/api/comp", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({description: desc, genre: selectedGenre})
+window.addEventListener("DOMContentLoaded", function () {
+  // -------- Comp finder via shared Authorly.initTool runtime ----------
+  Authorly.initTool({
+    endpoint: "/api/comp",
+    toolSlug: "comp",
+    primaryFieldId: "book-desc",
+    primaryFieldName: "description",
+    primaryMin: 30,
+    primaryMax: 2000,
+    primaryShortMsg: "Please paste at least a paragraph (30+ characters) describing your book — characters, conflict, setting, tone.",
+    primaryLongMsg: "Description too long (max 2000 characters). Trim it to the essentials.",
+    counterId: "cc",
+    buttonId: "generate",
+    outputId: "output",
+    outputBodyId: "output-body",
+    buttonRestHTML: 'Find comp titles <span class="btn-arrow">&rarr;</span>',
+    buttonLoadingHTML: 'Reading <span class="btn-arrow">&hellip;</span>',
+    loadingMsg: "Finding comp titles",
+    remainingNoun: "search",
+    remainingPlural: "searches",
+    onResult: function (outBody) {
+      // The "Use these in" section contains bullets with quoted paste-able fragments.
+      // Add a Copy button next to each quoted fragment.
+      outBody.querySelectorAll("ul li").forEach(function (li) {
+        var m = li.textContent.match(/"([^"]+)"/);
+        if (!m) return;
+        var fragment = m[1];
+        var b = document.createElement("button");
+        b.type = "button";
+        b.className = "copy-btn";
+        b.textContent = "Copy";
+        b.onclick = function () {
+          navigator.clipboard.writeText(fragment).then(function () {
+            b.textContent = "Copied ✓";
+            b.classList.add("copied");
+            setTimeout(function () { b.textContent = "Copy"; b.classList.remove("copied"); }, 1800);
+          });
+        };
+        li.appendChild(document.createTextNode(" "));
+        li.appendChild(b);
       });
-    } catch (e) {
-      outBody.innerHTML = '<div class="error">Connection trouble. Check your internet and try again.</div>';
-      return;
     }
-    let data;
-    try { data = await res.json(); } catch { data = {}; }
-    if (!res.ok) {
-      const errDiv = document.createElement('div');
-      errDiv.className = 'error';
-      errDiv.textContent = data.error || ('Request failed (' + res.status + ').');
-      outBody.replaceChildren(errDiv);
-    } else {
-      outBody.innerHTML = renderMarkdown(data.text || "");
-      attachCopyButtons();
-      if (typeof window.attachFeedback === "function") window.attachFeedback("comp", outBody);
-      if (typeof data.remaining === 'number') {
-        const note = document.createElement('div');
-        note.style.cssText = 'margin-top:18px;padding:10px 14px;background:var(--rule-soft,#f3ede0);border-radius:6px;font-size:13px;color:var(--ink-mute);text-align:center';
-        note.textContent = data.remaining === 0
-          ? 'No free searches remaining today. Limit resets at midnight UTC.'
-          : data.remaining + ' free search' + (data.remaining === 1 ? '' : 'es') + ' remaining today.';
-        outBody.appendChild(note);
-      }
-    }
-  }catch(err){
-    outBody.innerHTML="<div class=\"error\">Connection trouble. Check your internet and try again.</div>";
-  }finally{
-    btn.disabled=false;
-    btn.innerHTML="Find comp titles <span class=\"btn-arrow\">→</span>";
-  }
-});
-
-function renderMarkdown(md){
-  let html=md.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
-  html=html.replace(/^## (.+)$/gm,"<h2>$1</h2>");
-  html=html.replace(/\*\*([^*]+?)\*\*/g,"<strong>$1</strong>");
-  html=html.replace(/\*([^*\n]+?)\*/g,"<em>$1</em>");
-  const lines=html.split("\n");
-  const result=[];
-  let listType=null; // "ol" | "ul" | null
-  const closeList=()=>{ if(listType){ result.push("</"+listType+">"); listType=null; } };
-  for(const line of lines){
-    const t=line.trim();
-    if(!t){ continue; }
-    const ol=line.match(/^\s*\d+\.\s+(.+)$/);
-    const ul=line.match(/^\s*[-*]\s+(.+)$/);
-    if(ol){
-      if(listType!=="ol"){ closeList(); result.push("<ol>"); listType="ol"; }
-      result.push("<li>"+ol[1]+"</li>");
-    }else if(ul){
-      if(listType!=="ul"){ closeList(); result.push("<ul>"); listType="ul"; }
-      result.push("<li>"+ul[1]+"</li>");
-    }else{
-      closeList();
-      if(t.startsWith("<h")||t.startsWith("</")){
-        result.push(t);
-      }else{
-        result.push("<p>"+t+"</p>");
-      }
-    }
-  }
-  closeList();
-  return result.join("\n");
-}
-
-function attachCopyButtons(){
-  // The "Use these in" section contains bullets with quoted paste-able fragments.
-  // Add a Copy button next to each quoted fragment.
-  outBody.querySelectorAll("ul li").forEach(li=>{
-    const m=li.textContent.match(/"([^"]+)"/);
-    if(!m) return;
-    const fragment=m[1];
-    const b=document.createElement("button");
-    b.type="button";
-    b.className="copy-btn";
-    b.textContent="Copy";
-    b.onclick=()=>{
-      navigator.clipboard.writeText(fragment).then(()=>{
-        b.textContent="Copied ✓";
-        b.classList.add("copied");
-        setTimeout(()=>{b.textContent="Copy";b.classList.remove("copied")},1800);
-      });
-    };
-    li.appendChild(document.createTextNode(" "));
-    li.appendChild(b);
   });
-}
 
-// Pro-tier waitlist
-(() => {
-  const form = document.getElementById("waitlist-form");
+  // -------- Pro-tier waitlist (homepage-only) -----------------------
+  var form = document.getElementById("waitlist-form");
   if (!form) return;
-  const emailInput = document.getElementById("waitlist-email");
-  const submitBtn = document.getElementById("waitlist-submit");
-  const status = document.getElementById("waitlist-status");
+  var emailInput = document.getElementById("waitlist-email");
+  var submitBtn = document.getElementById("waitlist-submit");
+  var status = document.getElementById("waitlist-status");
 
-  form.addEventListener("submit", async (e) => {
+  form.addEventListener("submit", async function (e) {
     e.preventDefault();
-    const email = (emailInput.value || "").trim();
+    var email = (emailInput.value || "").trim();
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       status.className = "waitlist-status error";
       status.textContent = "That doesn't look like a valid email address.";
@@ -475,19 +289,19 @@ function attachCopyButtons(){
       return;
     }
     submitBtn.disabled = true;
-    const origLabel = submitBtn.innerHTML;
-    submitBtn.innerHTML = "Saving <span class=\"btn-arrow\">…</span>";
+    var origLabel = submitBtn.innerHTML;
+    submitBtn.innerHTML = 'Saving <span class="btn-arrow">&hellip;</span>';
     status.className = "waitlist-status";
     status.textContent = "";
 
     try {
-      const r = await fetch("/api/waitlist", {
+      var r = await fetch("/api/waitlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, source: "homepage" })
+        body: JSON.stringify({ email: email, source: "homepage" })
       });
-      let data;
-      try { data = await r.json(); } catch { data = {}; }
+      var data;
+      try { data = await r.json(); } catch (err) { data = {}; }
       if (!r.ok) {
         status.className = "waitlist-status error";
         status.textContent = data.error || ("Couldn't save your email (" + r.status + "). Try again in a bit.");
@@ -498,7 +312,7 @@ function attachCopyButtons(){
           : "You're on the list. We'll email when Pro is ready.";
         emailInput.value = "";
       }
-    } catch {
+    } catch (err) {
       status.className = "waitlist-status error";
       status.textContent = "Network trouble. Try again in a moment.";
     } finally {
@@ -506,18 +320,7 @@ function attachCopyButtons(){
       submitBtn.innerHTML = origLabel;
     }
   });
-})();
-
-// Scroll details element into view when opened
-document.querySelectorAll('details.sample').forEach(details => {
-  details.addEventListener('toggle', () => {
-    if (details.open) {
-      setTimeout(() => {
-        details.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      }, 0);
-    }
-  });
-});</script>
+});
+</script>
 </body>
 </html>
-

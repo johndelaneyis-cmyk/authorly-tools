@@ -1,8 +1,16 @@
 // Cloudflare Pages Function: POST /api/ads
-// Amazon Ads headline generator: takes a book title + description (and
-// optional comp titles + genre) and returns ad headlines sized to
-// Amazon's 150-character creative limit, plus shorter alternates.
-// Rate limits per-IP and globally via KV namespace RATE_LIMITS.
+// Amazon Ads headline generator. See ./_lib.js for shared plumbing.
+
+import {
+  jsonResponse,
+  hashedIp,
+  parseBodyOrFail,
+  envGuard,
+  rateCheck,
+  bumpCounters,
+  callClaude,
+  methodNotAllowed,
+} from "./_lib.js";
 
 const SYSTEM_PROMPT = [
   "You are an Amazon Ads copywriter for indie authors. Given a book title, description, and optional comp titles or genre, produce 6 ad headlines for Sponsored Products / Sponsored Brands. Three for the standard 150-char Custom Text, three short ones for 80-char placements.",
@@ -32,144 +40,67 @@ const SYSTEM_PROMPT = [
   "",
   "## Tips",
   "- Always test 2-3 headlines simultaneously in Amazon Ads â€” performance is unpredictable until you have 5,000+ impressions.",
-  "- Headlines that name a specific trope (\"enemies to lovers\") often outperform generic emotional pitches in 2025."
+  "- Headlines that name a specific trope (\"enemies to lovers\") often outperform generic emotional pitches in 2025.",
 ].join("\n");
 
+const TOOL = "ads";
+const MIN_TITLE_LEN = 1;
+const MAX_TITLE_LEN = 200;
 const MIN_DESC_LEN = 30;
 const MAX_DESC_LEN = 2000;
-const MAX_TITLE_LEN = 200;
-const MAX_GENRE_LEN = 60;
 const MAX_COMPS_LEN = 200;
+const MAX_GENRE_LEN = 60;
 const PER_IP_DAILY_LIMIT = 5;
-const GLOBAL_DAILY_LIMIT = 2000;
-const DEFAULT_MODEL = "claude-sonnet-4-6";
+const PER_TOOL_DAILY_LIMIT = 2000;
 
-export async function onRequestPost({ request, env }) {
-    const cl = parseInt(request.headers.get("content-length") || "0", 10);
-  if (Number.isFinite(cl) && cl > 10000) {
-    return jsonResponse({ error: "Request body too large." }, 413);
-  }
-  let body;
-  try {
-    body = await request.json();
-  } catch {
-    return jsonResponse({ error: "Invalid request format." }, 400);
-  }
+export async function onRequestPost(ctx) {
+  const { request, env } = ctx;
+
+  const parsed = await parseBodyOrFail(request);
+  if (parsed.error) return parsed.error;
+  const body = parsed.body;
 
   const title = String(body.title || "").trim().slice(0, MAX_TITLE_LEN);
   const description = String(body.description || "").trim();
   const comps = String(body.comps || "").trim().slice(0, MAX_COMPS_LEN);
   const genre = String(body.genre || "").trim().slice(0, MAX_GENRE_LEN);
 
-  if (!title) {
+  if (title.length < MIN_TITLE_LEN) {
     return jsonResponse({ error: "Please enter your book title." }, 400);
   }
   if (description.length < MIN_DESC_LEN) {
     return jsonResponse({ error: "Please paste at least a paragraph (30+ characters) describing your book." }, 400);
   }
   if (description.length > MAX_DESC_LEN) {
-    return jsonResponse({ error: "Description too long (max " + MAX_DESC_LEN + " characters)." }, 400);
+    return jsonResponse({ error: `Description too long (max ${MAX_DESC_LEN} characters).` }, 400);
   }
 
-  if (!env.ANTHROPIC_API_KEY) {
-    return jsonResponse({ error: "Service is being configured. Try again in a few minutes." }, 503);
-  }
-  if (!env.RATE_LIMITS) {
-    return jsonResponse({ error: "Service is being configured (rate limiter not bound). Try again shortly." }, 503);
-  }
+  const envErr = envGuard(env);
+  if (envErr) return envErr;
 
-  const ip = request.headers.get("CF-Connecting-IP") || "unknown";
-  const today = new Date().toISOString().slice(0, 10);
-  const ipKey = "rate:ads:" + today + ":" + ip;
-  const globalKey = "global:ads:" + today;
+  const ipHash = await hashedIp(request);
+  const rate = await rateCheck(env, TOOL, ipHash, PER_IP_DAILY_LIMIT, PER_TOOL_DAILY_LIMIT);
+  if (rate.blocked) return rate.blocked;
 
-  const ipCountStr = await env.RATE_LIMITS.get(ipKey);
-  const ipCount = parseUint(ipCountStr);
-  if (ipCount >= PER_IP_DAILY_LIMIT) {
-    return jsonResponse({
-      error: "Daily free limit reached (" + PER_IP_DAILY_LIMIT + " ad-headline sets per visitor). Come back tomorrow.",
-      remaining: 0
-    }, 429);
-  }
+  const userMsg = `Title: ${title}
 
-  const globalCountStr = await env.RATE_LIMITS.get(globalKey);
-  const globalCount = parseUint(globalCountStr);
-  if (globalCount >= GLOBAL_DAILY_LIMIT) {
-    return jsonResponse({ error: "Service temporarily unavailable (daily capacity reached). Try again tomorrow." }, 503);
-  }
+Description:
+${description}` + (comps ? `\n\nComp titles: ${comps}` : "") + (genre ? `\n\nGenre: ${genre}` : "");
 
-  const userMsg = "Title: " + title + "\n\nDescription:\n" + description + (comps ? "\n\nComp titles: " + comps : "") + (genre ? "\n\nGenre: " + genre : "");
+  const claude = await callClaude(env, {
+    system: SYSTEM_PROMPT,
+    user: userMsg,
+  });
+  if (claude.error) return claude.error;
 
-  let anthropicRes;
-  try {
-    anthropicRes = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-api-key": env.ANTHROPIC_API_KEY,
-        "anthropic-version": "2023-06-01"
-      },
-      body: JSON.stringify({
-        model: env.ANTHROPIC_MODEL || DEFAULT_MODEL,
-        max_tokens: 1500,
-        system: SYSTEM_PROMPT,
-        messages: [{ role: "user", content: userMsg }]
-      })
-    });
-  } catch {
-    return jsonResponse({ error: "Could not reach AI service. Try again." }, 502);
-  }
-
-  if (!anthropicRes.ok) {
-    let type = "";
-    try {
-      const errBody = await anthropicRes.json();
-      type = (errBody.error && errBody.error.type) || "";
-    } catch {}
-    let msg = "AI service is having issues. Try again.";
-    if (type === "rate_limit_error") msg = "AI service is busy — try again in a minute.";
-    else if (type === "invalid_request_error") msg = "AI service rejected the request — try simpler input.";
-    else if (type === "overloaded_error") msg = "AI service is temporarily overloaded — try again in a minute.";
-    return jsonResponse({ error: msg }, 502);
-  }
-
-  const anthropicData = await anthropicRes.json();
-  const text = (anthropicData.content && anthropicData.content[0] && anthropicData.content[0].text) || "";
-
-  if (!text) {
-    return jsonResponse({ error: "AI returned an empty response. Try a more detailed description." }, 502);
-  }
-
-  const newIpCount = ipCount + 1;
-  const newGlobalCount = globalCount + 1;
-  await env.RATE_LIMITS.put(ipKey, String(newIpCount), { expirationTtl: 172800 });
-  await env.RATE_LIMITS.put(globalKey, String(newGlobalCount), { expirationTtl: 172800 });
+  bumpCounters(ctx, env, rate);
 
   return jsonResponse({
-    text: text,
-    remaining: Math.max(0, PER_IP_DAILY_LIMIT - newIpCount)
+    text: claude.text,
+    remaining: Math.max(0, PER_IP_DAILY_LIMIT - (rate.counts.ipCount + 1)),
   });
 }
 
 export async function onRequest() {
-  return jsonResponse({ error: "Method not allowed. Use POST." }, 405);
+  return methodNotAllowed();
 }
-
-function parseUint(s) {
-  const n = parseInt(s || "0", 10);
-  return Number.isFinite(n) && n >= 0 ? n : 0;
-}
-
-function jsonResponse(data, status) {
-  return new Response(JSON.stringify(data), {
-    status: status || 200,
-    headers: {
-      "Content-Type": "application/json; charset=utf-8",
-      "Cache-Control": "no-store"
-    }
-  });
-}
-
-
-
-
