@@ -35,7 +35,14 @@ export async function onRequestPost({ request, env }) {
   const ipCountStr = await env.RATE_LIMITS.get(ipKey);
   const ipCount = parseInt(ipCountStr || "0", 10);
   if (ipCount >= PER_IP_DAILY_LIMIT) {
-    return jsonResponse({ error: "Too many submissions from your network today. Try again tomorrow." }, 429);
+    return jsonResponse({ error: "Too many submissions from your network today. Try again tomorrow." }
+  // Global cap to deter coordinated signup campaigns
+  const globalKey = "global:waitlist:" + today;
+  const globalCountStr = await env.RATE_LIMITS.get(globalKey);
+  const globalCount = parseInt(globalCountStr || "0", 10);
+  if (globalCount >= 500) {
+    return jsonResponse({ error: "We've had a great response today, please try again tomorrow." }, 503);
+  }, 429);
   }
 
   // Dedupe by hash so we don't store the email in the key itself.
@@ -55,6 +62,7 @@ export async function onRequestPost({ request, env }) {
 
   await env.RATE_LIMITS.put(waitlistKey, entry);
   await env.RATE_LIMITS.put(ipKey, String(ipCount + 1), { expirationTtl: 172800 });
+  await env.RATE_LIMITS.put(globalKey, String(globalCount + 1), { expirationTtl: 172800 });
 
   return jsonResponse({ ok: true, alreadyOnList: false });
 }
@@ -77,3 +85,4 @@ function jsonResponse(data, status) {
     }
   });
 }
+
