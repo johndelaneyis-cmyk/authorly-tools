@@ -131,7 +131,7 @@ textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(
 .btn-arrow{font-style:italic;transition:transform .2s}
 .btn:hover .btn-arrow{transform:translateX(3px)}
 
-.output{margin-top:32px;padding-top:32px;border-top:1px solid var(--rule);display:none}
+.output{margin-top:32px;padding:32px 0 0 24px;border-top:1px solid var(--rule);border-left:3px solid var(--accent);display:none;position:relative;background:transparent}
 .output.visible{display:block;animation:fadeIn .3s ease-out}
 @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 .output-title{font-family:"Fraunces",serif;font-variation-settings:"opsz" 144;font-weight:500;font-size:22px;margin:0 0 18px}
@@ -232,6 +232,9 @@ a.tool-list-item:hover{color:inherit}
   .hero{padding:40px 0 24px}
   body{font-size:17px}
   .nav a:nth-child(2){display:none}
+}
+@media (min-width:1024px){
+  .container{max-width:880px}
 }
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
