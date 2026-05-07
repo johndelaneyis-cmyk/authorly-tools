@@ -10,6 +10,7 @@ import {
   bumpCounters,
   callClaude,
   methodNotAllowed,
+  validateGenre,
 } from "./_lib.js";
 
 const SYSTEM_PROMPT = [
@@ -59,7 +60,7 @@ export async function onRequestPost(ctx) {
   const body = parsed.body;
 
   const description = String(body.description || "").trim();
-  const genre = String(body.genre || "").trim().slice(0, MAX_GENRE_LEN);
+  const genre = validateGenre(body.genre);
 
   if (description.length < MIN_DESC_LEN) {
     return jsonResponse({ error: "Please paste at least a couple of sentences (50+ characters) about your plot." }, 400);

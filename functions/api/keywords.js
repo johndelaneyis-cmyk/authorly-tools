@@ -10,6 +10,7 @@ import {
   bumpCounters,
   callClaude,
   methodNotAllowed,
+  validateGenre,
 } from "./_lib.js";
 
 const SYSTEM_PROMPT = [
@@ -59,7 +60,7 @@ export async function onRequestPost(ctx) {
   const body = parsed.body;
 
   const seed = String(body.seed || "").trim();
-  const genre = String(body.genre || "").trim().slice(0, MAX_GENRE_LEN);
+  const genre = validateGenre(body.genre);
 
   if (seed.length < MIN_SEED_LEN) {
     return jsonResponse({ error: "Please enter a seed keyword (a word or short phrase)." }, 400);

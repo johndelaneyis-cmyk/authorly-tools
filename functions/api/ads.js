@@ -10,6 +10,7 @@ import {
   bumpCounters,
   callClaude,
   methodNotAllowed,
+  validateGenre,
 } from "./_lib.js";
 
 const SYSTEM_PROMPT = [
@@ -63,7 +64,7 @@ export async function onRequestPost(ctx) {
   const title = String(body.title || "").trim().slice(0, MAX_TITLE_LEN);
   const description = String(body.description || "").trim();
   const comps = String(body.comps || "").trim().slice(0, MAX_COMPS_LEN);
-  const genre = String(body.genre || "").trim().slice(0, MAX_GENRE_LEN);
+  const genre = validateGenre(body.genre);
 
   if (title.length < MIN_TITLE_LEN) {
     return jsonResponse({ error: "Please enter your book title." }, 400);

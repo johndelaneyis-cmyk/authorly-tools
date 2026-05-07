@@ -1,7 +1,8 @@
 // Shared helpers for /api/* Cloudflare Pages Functions.
-// Centralizes: IP hashing, body parsing with size cap, env guard, rate-limit
-// checks (per-IP + per-tool + cross-tool ceiling), counter bumps via
-// ctx.waitUntil, Anthropic call shape with sanitized error responses,
+// Centralizes: IP hashing (day-salted), body parsing with size cap, env guard,
+// rate-limit checks (per-IP + per-tool + cross-tool ceiling), counter bumps via
+// ctx.waitUntil, Anthropic call shape with AbortController timeout + model
+// fallback chain on 403 + structured ClaudeError mapped to user-safe responses,
 // and a JSON response formatter that emits Retry-After on 429.
 //
 // File starts with an underscore so Pages does not route it as `/api/_lib`.
@@ -11,6 +12,30 @@ const ANTHROPIC_VERSION = "2023-06-01";
 const MAX_BODY_BYTES = 10_000; // 413 if Content-Length exceeds this
 const GLOBAL_DAILY_CEILING = 5_000; // cross-tool — circuit-breaker against runaway cost
 const RATE_TTL_SECONDS = 60 * 60 * 48; // 2-day TTL covers day rollover
+const ANTHROPIC_TIMEOUT_MS = 55_000;
+
+// Allowed genre enum (mirrors the chip set rendered in HTML).
+// Used by validateGenre — defense-in-depth even though slice() also caps.
+export const GENRE_ENUM = new Set([
+  "",
+  "romance",
+  "thriller",
+  "mystery",
+  "fantasy",
+  "sci-fi",
+  "literary fiction",
+  "memoir/non-fiction",
+]);
+
+// Default model fallback chain. Walks from primary -> sonnet-4-5 -> dated alias
+// -> haiku-4-5 (broadly available). Configurable via ANTHROPIC_FALLBACK_MODELS
+// env (comma-separated). Only triggered on 403 (model gating) — other errors
+// won't be fixed by switching models so we surface them immediately.
+const DEFAULT_FALLBACK_CHAIN = [
+  "claude-sonnet-4-5",           // common alias if 4-6 isn't recognized
+  "claude-sonnet-4-5-20250929",  // dated alias as a third try
+  "claude-haiku-4-5",            // final fallback — broadly available
+];
 
 // ---------------------------------------------------------------------------
 // JSON response (auto Retry-After on 429)
@@ -41,12 +66,16 @@ export async function sha256Hex(s) {
     .join("");
 }
 
-// IP becomes a 16-hex-char (64-bit) truncated SHA-256 — collision-resistant
-// at our scale, keeps the raw IP out of KV (which is enumerable via wrangler
-// kv:key list and is therefore PII storage).
+// IP becomes a 16-hex-char (64-bit) DAY-SALTED truncated SHA-256. Day-salting
+// rotates the fingerprint at UTC midnight so two visits on different days map
+// to different hashes — tighter privacy property than a stable hash, and it
+// matches Slatework's _lib.js:34-46 pattern. Collision probability at 10k
+// unique daily IPs is ~3e-12 (birthday-bound) so 64-bit truncation does not
+// weaken the rate-limit; the daily rotation is what does the privacy work.
 export async function hashedIp(request) {
   const raw = request.headers.get("CF-Connecting-IP") || "unknown";
-  return (await sha256Hex(raw)).slice(0, 16);
+  const day = todayUTC();
+  return (await sha256Hex(raw + ":" + day)).slice(0, 16);
 }
 
 // ---------------------------------------------------------------------------
@@ -62,6 +91,15 @@ export async function parseBodyOrFail(request) {
   } catch {
     return { error: jsonResponse({ error: "Invalid request format." }, 400) };
   }
+}
+
+// ---------------------------------------------------------------------------
+// Genre validator — defense-in-depth even though endpoints slice() input.
+// Returns the value verbatim if valid, else "" (safe default — no genre).
+// ---------------------------------------------------------------------------
+export function validateGenre(raw) {
+  const s = String(raw || "").trim();
+  return GENRE_ENUM.has(s) ? s : "";
 }
 
 // ---------------------------------------------------------------------------
@@ -162,20 +200,24 @@ export function bumpCounters(ctx, env, rate) {
 }
 
 // ---------------------------------------------------------------------------
-// Anthropic call
-// Caller supplies system + user. Errors are mapped to user-safe messages.
-// Anthropic error bodies are NEVER passed through to the client.
-//
-// Prompt caching: the system prompt is wrapped as a structured array with
-// cache_control: ephemeral, so Anthropic caches the (large, frozen) system
-// prefix across requests. Cache reads cost ~0.1× input price; writes cost
-// ~1.25×. Break-even is 2 cached reads — at our 5/tool/day cap and ~7 tools,
-// with non-trivial concurrent usage during launch, this saves ~80% on repeat
-// system-prompt traffic. Each tool's system prompt is ~30+ lines so all clear
-// the 2048-token minimum cacheable prefix on Sonnet 4.6.
+// Structured error class so endpoints can give users specific reasons
+// instead of swallowing the upstream message into a generic "could not".
 // ---------------------------------------------------------------------------
-export async function callClaude(env, { system, user, maxTokens, temperature }) {
-  const model = env.ANTHROPIC_MODEL || DEFAULT_MODEL;
+export class ClaudeError extends Error {
+  constructor(code, status, bodySnippet, message) {
+    super(message || `${code} (${status})`);
+    this.name = "ClaudeError";
+    this.code = code;          // 'auth' | 'rate_limit' | 'invalid_request' | 'overloaded' | 'timeout' | 'server_error' | 'network' | 'unknown'
+    this.status = status;      // upstream HTTP status (or 0 for timeout/network)
+    this.bodySnippet = bodySnippet || "";
+  }
+}
+
+// Single attempt. Throws ClaudeError on failure. Used internally by callClaude.
+async function callClaudeOnce(env, { model, system, user, maxTokens, temperature, timeoutMs }) {
+  if (!env.ANTHROPIC_API_KEY) {
+    throw new ClaudeError("auth", 0, "", "ANTHROPIC_API_KEY not set");
+  }
   const reqBody = {
     model,
     max_tokens: maxTokens || 1500,
@@ -184,6 +226,8 @@ export async function callClaude(env, { system, user, maxTokens, temperature }) 
   };
   if (typeof temperature === "number") reqBody.temperature = temperature;
 
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs || ANTHROPIC_TIMEOUT_MS);
   let res;
   try {
     res = await fetch("https://api.anthropic.com/v1/messages", {
@@ -194,35 +238,147 @@ export async function callClaude(env, { system, user, maxTokens, temperature }) 
         "anthropic-version": ANTHROPIC_VERSION,
       },
       body: JSON.stringify(reqBody),
+      signal: controller.signal,
     });
-  } catch {
-    return { error: jsonResponse({ error: "Could not reach AI service. Try again." }, 502) };
+  } catch (e) {
+    clearTimeout(timer);
+    if (e && e.name === "AbortError") {
+      throw new ClaudeError("timeout", 0, "", `Aborted after ${timeoutMs || ANTHROPIC_TIMEOUT_MS}ms`);
+    }
+    throw new ClaudeError("network", 0, (e && e.message) || "", "Network error talking to Anthropic");
   }
+  clearTimeout(timer);
 
   if (!res.ok) {
-    let type = "";
-    try {
-      const errBody = await res.json();
-      type = (errBody.error && errBody.error.type) || "";
-    } catch {}
-    let msg = "AI service is having issues, try again.";
-    if (type === "rate_limit_error") msg = "AI service is busy — try again in a minute.";
-    else if (type === "invalid_request_error") msg = "AI service rejected the request — try simpler input.";
-    else if (type === "overloaded_error") msg = "AI service is temporarily overloaded — try again in a minute.";
-    return { error: jsonResponse({ error: msg }, 502) };
+    const errText = await res.text().catch(() => "");
+    const snippet = errText.slice(0, 800);
+    let code;
+    if (res.status === 401 || res.status === 403) code = "auth";
+    else if (res.status === 429) code = "rate_limit";
+    else if (res.status === 400 || res.status === 422) code = "invalid_request";
+    else if (res.status === 529) code = "overloaded";
+    else if (res.status >= 500) code = "server_error";
+    else code = "unknown";
+    throw new ClaudeError(code, res.status, snippet);
   }
 
   let data;
   try {
     data = await res.json();
   } catch {
-    return { error: jsonResponse({ error: "AI returned a malformed response. Try again." }, 502) };
+    throw new ClaudeError("server_error", res.status, "", "Anthropic returned malformed JSON");
   }
   const text = (data.content && data.content[0] && data.content[0].text) || "";
   if (!text) {
-    return { error: jsonResponse({ error: "AI returned an empty response. Try a more detailed input." }, 500) };
+    throw new ClaudeError("server_error", res.status, "", "Anthropic returned empty content");
   }
-  return { text };
+  return text;
+}
+
+// Multi-step model fallback. If the primary model returns 403 (gating /
+// alias / tier issue, NOT a 401 invalid-key issue), retry through the chain.
+// Any other error surfaces immediately.
+//
+// Returns { text } on success, or { error: Response } on failure (the Response
+// is already user-safe via userFacingClaudeError).
+export async function callClaude(env, opts) {
+  const primary = env.ANTHROPIC_MODEL || DEFAULT_MODEL;
+  const envChain = env.ANTHROPIC_FALLBACK_MODELS
+    ? env.ANTHROPIC_FALLBACK_MODELS.split(",").map(s => s.trim()).filter(Boolean)
+    : DEFAULT_FALLBACK_CHAIN;
+  const chain = [primary, ...envChain.filter(m => m !== primary)];
+
+  let firstErr = null;
+  for (let i = 0; i < chain.length; i++) {
+    const model = chain[i];
+    try {
+      const text = await callClaudeOnce(env, { ...opts, model });
+      if (i > 0) console.error(`[claude_fallback] primary=${primary} failed, succeeded with ${model}`);
+      return { text };
+    } catch (err) {
+      if (!firstErr) firstErr = err;
+      // Only retry on 403 (model gating). Everything else surfaces now.
+      if (!(err instanceof ClaudeError && err.code === "auth" && err.status === 403)) {
+        return { error: userFacingClaudeError(err) };
+      }
+      console.error(`[claude_fallback] ${model} returned 403, trying next in chain`);
+    }
+  }
+  return { error: userFacingClaudeError(firstErr) };
+}
+
+// ---------------------------------------------------------------------------
+// Error translation
+// ---------------------------------------------------------------------------
+function extractUpstreamDetail(snippet) {
+  if (!snippet) return "";
+  try {
+    const obj = JSON.parse(snippet);
+    const inner = obj && obj.error;
+    if (inner && typeof inner === "object") {
+      const parts = [];
+      if (inner.type) parts.push(inner.type);
+      if (inner.message) parts.push(inner.message);
+      if (parts.length) return parts.join(": ");
+    }
+    if (obj && obj.message) return String(obj.message);
+  } catch {}
+
+  const m1 = /"error"\s*:\s*\{[^}]*?"message"\s*:\s*"((?:[^"\\]|\\.)*)"/m.exec(snippet);
+  if (m1) {
+    const typeMatch = /"error"\s*:\s*\{[^}]*?"type"\s*:\s*"((?:[^"\\]|\\.)*)"/m.exec(snippet);
+    const msg = m1[1].replace(/\\"/g, '"').replace(/\\n/g, " ");
+    return typeMatch ? `${typeMatch[1]}: ${msg}` : msg;
+  }
+  const m2 = /"message"\s*:\s*"((?:[^"\\]|\\.)*)"/m.exec(snippet);
+  if (m2) return m2[1].replace(/\\"/g, '"').replace(/\\n/g, " ");
+  const m3 = /"error"\s*:\s*\{[^}]*?"type"\s*:\s*"((?:[^"\\]|\\.)*)"/m.exec(snippet);
+  if (m3) return m3[1].replace(/\\"/g, '"');
+  return "";
+}
+
+// Translate a thrown ClaudeError into a Response. Always logs full server-side
+// context (with a ref code) for support tickets; user-facing message is trimmed.
+export function userFacingClaudeError(err) {
+  const ref = new Date().toISOString().replace(/[:.]/g, "").slice(0, 15);
+  if (err instanceof ClaudeError) {
+    console.error(`[claude_error] ref=${ref} code=${err.code} status=${err.status} body=${(err.bodySnippet || "").slice(0, 400)}`);
+  } else {
+    console.error(`[claude_error] ref=${ref} non-ClaudeError name=${err && err.name} message=${err && err.message}`);
+  }
+  if (!(err instanceof ClaudeError)) {
+    return jsonResponse({ error: `Unexpected internal error. Please email hello@authorly.tools (ref ${ref}).` }, 500);
+  }
+
+  const upstream = extractUpstreamDetail(err.bodySnippet);
+  const upstreamSuffix = upstream ? ` (${upstream.slice(0, 180)}${upstream.length > 180 ? "…" : ""})` : "";
+
+  switch (err.code) {
+    case "auth":
+      return jsonResponse({
+        error: err.status === 401
+          ? `Claude rejected the API key. This is on us — please email hello@authorly.tools (ref ${ref}).`
+          : `Claude denied the request (HTTP ${err.status}).${upstreamSuffix} If this keeps happening, email hello@authorly.tools (ref ${ref}).`,
+      }, 503);
+    case "rate_limit":
+      return jsonResponse({ error: `Claude is busy — try again in a minute. (ref ${ref})` }, 429);
+    case "overloaded":
+      return jsonResponse({ error: `Claude is temporarily overloaded — try again in a minute. (ref ${ref})` }, 503);
+    case "invalid_request":
+      return jsonResponse({
+        error: upstream
+          ? `Couldn't process the input: ${upstream.slice(0, 180)}. Try shorter or simpler text. (ref ${ref})`
+          : `Couldn't process the input. Try shorter or simpler text. (ref ${ref})`,
+      }, 400);
+    case "timeout":
+      return jsonResponse({ error: `Claude took too long to respond and the request timed out. Try again — sometimes shorter input helps. (ref ${ref})` }, 504);
+    case "network":
+      return jsonResponse({ error: `Network error reaching Claude. Try again in a moment. (ref ${ref})` }, 502);
+    case "server_error":
+      return jsonResponse({ error: `Claude returned an error (HTTP ${err.status}).${upstreamSuffix} Try again in a few minutes. (ref ${ref})` }, 502);
+    default:
+      return jsonResponse({ error: `Unexpected error from Claude (HTTP ${err.status}).${upstreamSuffix} (ref ${ref})` }, 502);
+  }
 }
 
 // ---------------------------------------------------------------------------

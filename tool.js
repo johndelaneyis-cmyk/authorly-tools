@@ -14,8 +14,14 @@
       .replace(/>/g, "&gt;");
     html = html.replace(/^### (.+)$/gm, "<h3>$1</h3>");
     html = html.replace(/^## (.+)$/gm, "<h2>$1</h2>");
-    html = html.replace(/\*\*([^*]+?)\*\*/g, "<strong>$1</strong>");
-    html = html.replace(/\*([^*\n]+?)\*/g, "<em>$1</em>");
+    // Asterisk handling — bold (**...**) is matched first via a negative-
+    // lookahead inner pattern so a stray single * inside a bold pair doesn't
+    // confuse the regex. Italic (*...*) then runs with a left-boundary guard
+    // and a negative-lookahead right boundary so leftover ** can't be torn.
+    // Stray asterisks in user-generated content render literally instead of
+    // producing malformed HTML.
+    html = html.replace(/\*\*((?:[^*]|\*(?!\*))+)\*\*/g, "<strong>$1</strong>");
+    html = html.replace(/(^|[^*])\*([^*\n]+?)\*(?!\*)/g, "$1<em>$2</em>");
     var lines = html.split("\n");
     var result = [];
     var listType = null;
