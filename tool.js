@@ -166,7 +166,28 @@
         var el = document.getElementById(f.id);
         if (el) body[f.name] = el.value.trim();
       }
-      if (genre) body.genre = genre.selected;
+      // Read genre from the chip currently marked aria-pressed=true. This
+      // re-derives state every submission so applyToTool() (which sets
+      // aria-pressed on a chip from the saved profile after wireGenreChips
+      // has captured the closure) is honored without a custom event.
+      if (genre) {
+        var pressed = document.querySelector('.genre-chip[aria-pressed="true"]');
+        body.genre = pressed ? (pressed.getAttribute("data-g") || "") : (genre.selected || "");
+      }
+      // Cultural anchor (comp finder + tropes finder) — optional select on page.
+      var ca = document.getElementById("cultural_anchor");
+      if (ca && ca.value) body.cultural_anchor = ca.value;
+      // Pen-name-only flag (set by author-profile-ui on body when active).
+      if (document.body.getAttribute("data-pen-name-only") === "true") {
+        body.pen_name_only = true;
+      }
+      // Author voice hint (from saved profile, if any).
+      try {
+        if (window.Authorly && window.Authorly.Profile) {
+          var prof = window.Authorly.Profile.get();
+          if (prof && prof.author_voice) body.author_voice = prof.author_voice;
+        }
+      } catch (e) { /* fail open */ }
       return body;
     }
 

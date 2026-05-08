@@ -39,6 +39,8 @@
   Cache-Control: public, max-age=3600, stale-while-revalidate=86400
 /page/*
   Cache-Control: public, max-age=3600, stale-while-revalidate=86400
+/src/*
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
 
 # Long-form guides: same cadence as HTML pages so edits ship fast.
 /guides
