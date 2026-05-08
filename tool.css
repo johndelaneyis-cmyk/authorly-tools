@@ -121,10 +121,53 @@ input::placeholder,textarea::placeholder{color:#8a857d;opacity:1;font-style:ital
 @media (prefers-color-scheme:dark){input::placeholder,textarea::placeholder{color:#7a7468}}
 .char-count{text-align:right;font-size:12px;color:var(--ink-mute);margin-top:6px}
 
-.genre-row{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.genre-row{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;align-items:flex-start}
 .genre-chip{padding:7px 14px;background:var(--paper);border:1px solid var(--rule);border-radius:999px;font-family:"Fraunces",serif;font-size:13px;color:var(--ink-mute);cursor:pointer;transition:all .2s}
 .genre-chip:hover{border-color:var(--accent);color:var(--ink)}
 .genre-chip.active{background:var(--accent);color:var(--paper);border-color:var(--accent);font-weight:600}
+
+/* Tiered genre chips: parent groups (Romance / Fantasy / Mystery / etc.) collapse
+   their sub-genres into a <details> wrapper. Click the parent to expand sub-chips.
+   Default expanded group (Romance) is open via [open] attribute in HTML. */
+.genre-cluster{display:inline-block;margin:0;padding:0}
+.genre-cluster>summary{list-style:none;cursor:pointer;padding:7px 14px;background:var(--paper);border:1px solid var(--rule);border-radius:999px;font-family:"Fraunces",serif;font-size:13px;color:var(--ink-mute);transition:all .2s;display:inline-flex;align-items:center;gap:6px;-webkit-user-select:none;user-select:none}
+.genre-cluster>summary::-webkit-details-marker{display:none}
+.genre-cluster>summary::marker{content:""}
+.genre-cluster>summary:hover{border-color:var(--accent);color:var(--ink)}
+.genre-cluster[open]>summary{background:var(--rule-soft);border-color:var(--accent);color:var(--ink);font-weight:600}
+.genre-cluster>summary .caret{font-style:normal;font-size:10px;line-height:1;transition:transform .2s}
+.genre-cluster[open]>summary .caret{transform:rotate(180deg)}
+.genre-sub-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;margin-bottom:4px;padding:8px 10px;background:var(--rule-soft);border-radius:6px;width:100%}
+.genre-sub-row .genre-chip{font-size:12px;padding:5px 11px}
+
+/* Cultural-anchor select (comp finder + tropes finder) — matches the chip aesthetic */
+.cultural-anchor-select{display:block;margin-top:14px;padding:9px 14px;background:var(--paper);border:1px solid var(--rule);border-radius:6px;font-family:"Fraunces",serif;font-size:14px;color:var(--ink);max-width:420px;width:100%;cursor:pointer}
+.cultural-anchor-select:hover,.cultural-anchor-select:focus{border-color:var(--accent);outline:none}
+.cultural-anchor-select:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+/* Author-profile strip (Fix 2) — the small "Profile: ..." pill near the top of every tool */
+.author-profile-strip{margin:14px 0 8px;padding:0;color:var(--ink-mute);font-size:13px}
+.author-profile-strip>summary{cursor:pointer;list-style:none;display:inline-flex;align-items:center;gap:8px;padding:6px 12px;background:var(--rule-soft);border:1px dashed var(--rule);border-radius:999px;font-family:"Fraunces",serif;-webkit-user-select:none;user-select:none}
+.author-profile-strip>summary::-webkit-details-marker{display:none}
+.author-profile-strip>summary::marker{content:""}
+.author-profile-strip>summary:hover{border-color:var(--accent);color:var(--ink)}
+.author-profile-strip[open]>summary{border-style:solid;border-color:var(--accent);color:var(--ink)}
+.author-profile-strip .ap-summary-prefix{font-weight:600;color:var(--ink)}
+.author-profile-strip .ap-saved-pill{display:inline-block;padding:2px 8px;background:var(--paper);border:1px solid var(--rule);border-radius:4px;font-size:12px;color:var(--ink-2)}
+.author-profile-panel{margin-top:12px;padding:14px 16px;background:var(--paper-2);border:1px solid var(--rule);border-radius:6px;max-width:520px}
+.author-profile-panel .ap-field{margin-bottom:10px;display:flex;flex-direction:column;gap:4px}
+.author-profile-panel .ap-field>label{font-size:12px;color:var(--ink-mute);font-weight:600}
+.author-profile-panel .ap-field>input,.author-profile-panel .ap-field>select{padding:7px 10px;background:var(--paper);border:1px solid var(--rule);border-radius:4px;font-family:"Fraunces",serif;font-size:13px;color:var(--ink)}
+.author-profile-panel .ap-field>input:focus,.author-profile-panel .ap-field>select:focus{border-color:var(--accent);outline:none}
+.author-profile-panel .ap-field>label.ap-checkbox{flex-direction:row;display:inline-flex;align-items:center;gap:6px;font-weight:400;color:var(--ink-2);font-size:13px}
+.author-profile-panel .ap-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.author-profile-panel .ap-btn{padding:6px 14px;background:var(--ink);color:var(--paper);border:1px solid var(--ink);border-radius:3px;font-family:"Fraunces",serif;font-size:13px;cursor:pointer;transition:background .15s}
+.author-profile-panel .ap-btn:hover{background:var(--accent);border-color:var(--accent)}
+.author-profile-panel .ap-btn-secondary{background:var(--paper);color:var(--ink-mute);border-color:var(--rule)}
+.author-profile-panel .ap-btn-secondary:hover{color:var(--ink);background:var(--paper);border-color:var(--accent)}
+.author-profile-panel .ap-btn-danger{background:var(--paper);color:var(--ink-mute);border-color:var(--rule)}
+.author-profile-panel .ap-btn-danger:hover{color:var(--accent);border-color:var(--accent);background:var(--paper)}
+.author-profile-panel .ap-privacy{font-size:11px;color:var(--ink-mute);margin-top:8px;line-height:1.4}
 
 .btn{display:inline-flex;align-items:center;gap:10px;padding:14px 28px;background:var(--ink);color:var(--paper);border:none;border-radius:3px;font-family:"Fraunces",serif;font-weight:500;font-size:16px;letter-spacing:.02em;cursor:pointer;transition:background .2s,color .2s,transform .1s;margin-top:24px}
 .btn:hover{background:var(--accent)}

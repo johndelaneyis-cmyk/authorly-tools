@@ -16,8 +16,16 @@ const ANTHROPIC_TIMEOUT_MS = 55_000;
 
 // Allowed genre enum (mirrors the chip set rendered in HTML).
 // Used by validateGenre — defense-in-depth even though slice() also caps.
+//
+// 2026-05-09: expanded from 8 coarse chips to ~30 sub-genres + a non-fiction
+// sibling axis. Backwards-compatible: old values ("romance", "fantasy", etc.)
+// stay in the set so already-cached pages keep working until they're refreshed.
+// Sub-genre values follow `{vertical}_{sub}` (snake_case under the hood;
+// the chip UI displays human labels). Non-fiction values use `nonfiction_*`
+// and trigger non-fiction prompt branching in each endpoint.
 export const GENRE_ENUM = new Set([
   "",
+  // Legacy values (kept for backwards-compat with cached HTML)
   "romance",
   "thriller",
   "mystery",
@@ -25,7 +33,136 @@ export const GENRE_ENUM = new Set([
   "sci-fi",
   "literary fiction",
   "memoir/non-fiction",
+
+  // Romance sub-genres
+  "romance_contemporary",
+  "romance_historical",
+  "romance_paranormal",
+  "romance_romantasy",
+  "romance_dark",
+  "romance_smalltown",
+  "romance_suspense",
+  "romance_clean",
+
+  // Fantasy / Sci-Fi sub-genres
+  "fantasy_urban",
+  "fantasy_litrpg",
+  "fantasy_romantasy",
+  "fantasy_epic",
+  "scifi_hard",
+  "scifi_military",
+  "scifi_dystopian_ya",
+
+  // Mystery / Thriller sub-genres
+  "mystery_cozy",
+  "mystery_hardboiled",
+  "thriller_psychological",
+  "thriller_military",
+  "thriller_legal",
+
+  // Literary / Book club
+  "literary",
+  "literary_womens",
+
+  // YA / MG / Kidlit
+  "ya_contemporary",
+  "ya_fantasy",
+  "ya_dystopian",
+  "middle_grade",
+  "picture_book",
+
+  // Non-fiction sibling axis (triggers prompt-shape branching)
+  "nonfiction_memoir",
+  "nonfiction_business",
+  "nonfiction_selfhelp",
+  "nonfiction_cookbook",
 ]);
+
+// Returns true when the genre value should trigger non-fiction prompt branching
+// (different blurb shape, different "tropes" vocabulary, different comp pattern).
+export function isNonFiction(genre) {
+  if (!genre) return false;
+  const s = String(genre);
+  if (s === "memoir/non-fiction") return true; // legacy value
+  return s.startsWith("nonfiction_");
+}
+
+// Human-readable label for a sub-genre value. Used by API prompts so the model
+// receives "Romance — Contemporary" instead of "romance_contemporary".
+export function genreLabel(genre) {
+  const map = {
+    "": "",
+    "romance": "Romance",
+    "thriller": "Thriller",
+    "mystery": "Mystery",
+    "fantasy": "Fantasy",
+    "sci-fi": "Sci-Fi",
+    "literary fiction": "Literary fiction",
+    "memoir/non-fiction": "Memoir / Non-fiction",
+    "romance_contemporary": "Contemporary romance",
+    "romance_historical": "Historical romance (incl. regency)",
+    "romance_paranormal": "Paranormal / shifter romance",
+    "romance_romantasy": "Romantasy (romance × fantasy: fated mates, courts, dragons)",
+    "romance_dark": "Dark / mafia romance",
+    "romance_smalltown": "Small-town / cowboy romance",
+    "romance_suspense": "Romantic suspense",
+    "romance_clean": "Christian / sweet / clean romance",
+    "fantasy_urban": "Urban fantasy",
+    "fantasy_litrpg": "LitRPG / GameLit (game stats, dungeon mechanics, isekai)",
+    "fantasy_romantasy": "Romantasy (fantasy-leaning)",
+    "fantasy_epic": "Epic / high fantasy",
+    "scifi_hard": "Hard sci-fi",
+    "scifi_military": "Military sci-fi",
+    "scifi_dystopian_ya": "Dystopian / YA-adjacent",
+    "mystery_cozy": "Cozy mystery",
+    "mystery_hardboiled": "Hardboiled / crime",
+    "thriller_psychological": "Psychological / suspense thriller",
+    "thriller_military": "Military thriller",
+    "thriller_legal": "Legal / procedural thriller",
+    "literary": "Literary fiction",
+    "literary_womens": "Women's fiction (book club)",
+    "ya_contemporary": "YA contemporary",
+    "ya_fantasy": "YA fantasy",
+    "ya_dystopian": "YA dystopian",
+    "middle_grade": "Middle grade",
+    "picture_book": "Picture book",
+    "nonfiction_memoir": "Memoir",
+    "nonfiction_business": "Business / how-to non-fiction",
+    "nonfiction_selfhelp": "Self-help / productivity",
+    "nonfiction_cookbook": "Cookbook / hobby",
+  };
+  return map[genre] || "";
+}
+
+// Cultural-anchor enum for comp finder + tropes (Fix 3).
+// When set, the API prompts request comps/tropes from the named author market.
+export const CULTURAL_ANCHOR_ENUM = new Set([
+  "",
+  "black_american",
+  "south_asian",
+  "latam",
+  "afrofuturist",
+  "east_asian",
+  "indigenous",
+]);
+
+export function validateCulturalAnchor(raw) {
+  const s = String(raw || "").trim();
+  return CULTURAL_ANCHOR_ENUM.has(s) ? s : "";
+}
+
+export function culturalAnchorLabel(anchor) {
+  const map = {
+    "": "",
+    "black_american": "Black American (e.g. Beverly Jenkins, Talia Hibbert, Brittney Morris, Jasmine Guillory)",
+    "south_asian": "South Asian / diaspora (e.g. R.F. Kuang, Vaishnavi Patel, Sangu Mandanna, Sonali Dev)",
+    "latam": "Latin American / diaspora (e.g. Isabel Cañas, Silvia Moreno-Garcia, Natalia Sylvester, Mariana Enriquez)",
+    "afrofuturist": "Afrofuturist / African diaspora (e.g. Nnedi Okorafor, Tochi Onyebuchi, P. Djèlí Clark, Tomi Adeyemi)",
+    "east_asian": "East Asian / diaspora (e.g. R.F. Kuang, Susan Lee, Roselle Lim, Ann Liang)",
+    "indigenous": "Indigenous (e.g. Cherie Dimaline, Stephen Graham Jones, Angeline Boulley, Rebecca Roanhorse)",
+  };
+  return map[anchor] || "";
+}
 
 // Default model fallback chain. Walks from primary -> sonnet-4-5 -> dated alias
 // -> haiku-4-5 (broadly available). Configurable via ANTHROPIC_FALLBACK_MODELS

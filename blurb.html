@@ -36,6 +36,8 @@
 </script>
 <script src="/feedback.js" defer></script>
 <script src="/tool.js" defer></script>
+<script src="/src/lib/author-profile.js" defer></script>
+<script src="/src/lib/author-profile-ui.js" defer></script>
 <script src="/page/blurb.js" defer></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -71,6 +73,8 @@
   <h2 class="tool-title">Amazon book description writer</h2>
   <p class="tool-desc">Tell us about your plot — the protagonist, the inciting incident, the tone. We'll return a labeled breakdown (hook / setup / stakes / cliffhanger) and a final 130-180 word blurb you can paste straight into KDP.</p>
 
+  <div id="author-profile-strip"></div>
+
   <details class="sample">
     <summary>See an example of what you'll get</summary>
     <div class="sample-body">
@@ -98,13 +102,61 @@
   <div class="input-label" id="genre-label">Genre <span class="opt">(optional, helps tone)</span></div>
   <div class="genre-row" id="genre-row" role="group" aria-labelledby="genre-label">
     <button type="button" class="genre-chip" data-g="" aria-pressed="true">Any</button>
-    <button type="button" class="genre-chip" data-g="romance" aria-pressed="false">Romance</button>
-    <button type="button" class="genre-chip" data-g="thriller" aria-pressed="false">Thriller</button>
-    <button type="button" class="genre-chip" data-g="mystery" aria-pressed="false">Mystery</button>
-    <button type="button" class="genre-chip" data-g="fantasy" aria-pressed="false">Fantasy</button>
-    <button type="button" class="genre-chip" data-g="sci-fi" aria-pressed="false">Sci-Fi</button>
-    <button type="button" class="genre-chip" data-g="literary fiction" aria-pressed="false">Literary</button>
-    <button type="button" class="genre-chip" data-g="memoir/non-fiction" aria-pressed="false">Memoir / NF</button>
+    <details class="genre-cluster"><summary>Romance <span class="caret" aria-hidden="true">&#9662;</span></summary>
+      <div class="genre-sub-row">
+        <button type="button" class="genre-chip" data-g="romance_contemporary" aria-pressed="false">Contemporary</button>
+        <button type="button" class="genre-chip" data-g="romance_historical" aria-pressed="false">Historical / Regency</button>
+        <button type="button" class="genre-chip" data-g="romance_paranormal" aria-pressed="false">Paranormal / Shifter</button>
+        <button type="button" class="genre-chip" data-g="romance_romantasy" aria-pressed="false">Romantasy</button>
+        <button type="button" class="genre-chip" data-g="romance_dark" aria-pressed="false">Dark / Mafia</button>
+        <button type="button" class="genre-chip" data-g="romance_smalltown" aria-pressed="false">Small-town / Cowboy</button>
+        <button type="button" class="genre-chip" data-g="romance_suspense" aria-pressed="false">Romantic Suspense</button>
+        <button type="button" class="genre-chip" data-g="romance_clean" aria-pressed="false">Christian / Clean</button>
+      </div>
+    </details>
+    <details class="genre-cluster"><summary>Fantasy / Sci-Fi <span class="caret" aria-hidden="true">&#9662;</span></summary>
+      <div class="genre-sub-row">
+        <button type="button" class="genre-chip" data-g="fantasy_urban" aria-pressed="false">Urban Fantasy</button>
+        <button type="button" class="genre-chip" data-g="fantasy_litrpg" aria-pressed="false">LitRPG / GameLit</button>
+        <button type="button" class="genre-chip" data-g="fantasy_romantasy" aria-pressed="false">Romantasy</button>
+        <button type="button" class="genre-chip" data-g="fantasy_epic" aria-pressed="false">Epic / High Fantasy</button>
+        <button type="button" class="genre-chip" data-g="scifi_hard" aria-pressed="false">Hard Sci-Fi</button>
+        <button type="button" class="genre-chip" data-g="scifi_military" aria-pressed="false">Military Sci-Fi</button>
+        <button type="button" class="genre-chip" data-g="scifi_dystopian_ya" aria-pressed="false">Dystopian / YA-adjacent</button>
+      </div>
+    </details>
+    <details class="genre-cluster"><summary>Mystery / Thriller <span class="caret" aria-hidden="true">&#9662;</span></summary>
+      <div class="genre-sub-row">
+        <button type="button" class="genre-chip" data-g="mystery_cozy" aria-pressed="false">Cozy</button>
+        <button type="button" class="genre-chip" data-g="mystery_hardboiled" aria-pressed="false">Hardboiled / Crime</button>
+        <button type="button" class="genre-chip" data-g="thriller_psychological" aria-pressed="false">Psychological</button>
+        <button type="button" class="genre-chip" data-g="thriller_military" aria-pressed="false">Military Thriller</button>
+        <button type="button" class="genre-chip" data-g="thriller_legal" aria-pressed="false">Legal / Procedural</button>
+      </div>
+    </details>
+    <details class="genre-cluster"><summary>Literary / Book club <span class="caret" aria-hidden="true">&#9662;</span></summary>
+      <div class="genre-sub-row">
+        <button type="button" class="genre-chip" data-g="literary" aria-pressed="false">Literary</button>
+        <button type="button" class="genre-chip" data-g="literary_womens" aria-pressed="false">Women's Fiction</button>
+      </div>
+    </details>
+    <details class="genre-cluster"><summary>YA / Kidlit <span class="caret" aria-hidden="true">&#9662;</span></summary>
+      <div class="genre-sub-row">
+        <button type="button" class="genre-chip" data-g="ya_contemporary" aria-pressed="false">YA Contemporary</button>
+        <button type="button" class="genre-chip" data-g="ya_fantasy" aria-pressed="false">YA Fantasy</button>
+        <button type="button" class="genre-chip" data-g="ya_dystopian" aria-pressed="false">YA Dystopian</button>
+        <button type="button" class="genre-chip" data-g="middle_grade" aria-pressed="false">Middle Grade</button>
+        <button type="button" class="genre-chip" data-g="picture_book" aria-pressed="false">Picture Book</button>
+      </div>
+    </details>
+    <details class="genre-cluster"><summary>Non-fiction <span class="caret" aria-hidden="true">&#9662;</span></summary>
+      <div class="genre-sub-row">
+        <button type="button" class="genre-chip" data-g="nonfiction_memoir" aria-pressed="false">Memoir</button>
+        <button type="button" class="genre-chip" data-g="nonfiction_business" aria-pressed="false">Business / How-to</button>
+        <button type="button" class="genre-chip" data-g="nonfiction_selfhelp" aria-pressed="false">Self-help / Productivity</button>
+        <button type="button" class="genre-chip" data-g="nonfiction_cookbook" aria-pressed="false">Cookbook / Hobby</button>
+      </div>
+    </details>
   </div>
 
   <button class="btn" id="generate">Write the blurb <span class="btn-arrow">→</span></button>

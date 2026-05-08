@@ -11,9 +11,11 @@ import {
   callClaude,
   methodNotAllowed,
   validateGenre,
+  isNonFiction,
+  genreLabel,
 } from "./_lib.js";
 
-const SYSTEM_PROMPT = [
+const FICTION_SYSTEM_PROMPT = [
   "You are a copywriter who writes Amazon KDP book descriptions for indie authors. Given the author's plot details, produce a structured blurb plus a final ready-to-paste version.",
   "",
   "Strict rules:",
@@ -22,6 +24,8 @@ const SYSTEM_PROMPT = [
   "- The final composed blurb should be 130-180 words. No markdown. No subheadings. Short paragraphs separated by single blank lines (Amazon respects line breaks but strips bold/italic).",
   "- Match the author's tone (literary, thriller-pacy, cozy, snarky) — do not impose a generic \"epic\" voice.",
   "- Never invent character names or plot points the author didn't supply.",
+  "- If a sub-genre is supplied (e.g. Romantasy, LitRPG, cozy mystery, dark romance), lean into that audience's vocabulary: Romantasy = fated mates, courts, dragons; LitRPG = game stats, dungeon mechanics, isekai; cozy = warm, low-stakes, community; dark romance = morally grey heroes, possession, danger.",
+  "- For Christian/sweet/clean romance: never use \"steamy\", \"spicy\", \"morally grey\", or any heat-coded language. Use \"sweet\", \"slow-burn\", \"faith-forward\", \"wholesome\".",
   "",
   "Format your response as markdown:",
   "",
@@ -43,6 +47,44 @@ const SYSTEM_PROMPT = [
   "## Tips",
   "- Always preview the description on Amazon before publishing — line breaks render but bold/italic do not.",
   "- Lead with the hook line, end with the cliffhanger to drive the click-buy.",
+].join("\n");
+
+// Non-fiction blurb shape: promise + proof + framework + reader transformation.
+// Triggered when genre starts with `nonfiction_` (or legacy "memoir/non-fiction").
+const NONFICTION_SYSTEM_PROMPT = [
+  "You are a copywriter who writes Amazon KDP book descriptions for indie non-fiction authors (memoir, business / how-to, self-help, cookbook). Given the author's book details, produce a structured non-fiction blurb plus a final ready-to-paste version.",
+  "",
+  "Strict rules:",
+  "- Lead with the PROMISE — the specific, concrete outcome the reader will get. Not \"transform your life\" but \"finish your first draft in 90 days\" or \"shave 3 strokes off your golf game in 30 days.\"",
+  "- The PROOF is the author's credibility or the framework's track record. One specific, falsifiable claim, not generic credentials.",
+  "- The FRAMEWORK names the method or 3-5 stage system the book delivers. Concrete steps, not vague \"strategies.\"",
+  "- The TRANSFORMATION names who the reader becomes after applying the book — specific, tangible.",
+  "- For MEMOIR specifically: lead with the inciting moment of the lived experience, not a thesis. Promise = the reader's emotional payoff (insight, catharsis, recognition). Proof = the author's lived authority. Framework = the narrative arc. Transformation = what the reader carries into their own life.",
+  "- The final composed blurb should be 130-180 words. No markdown. No subheadings. Short paragraphs separated by single blank lines.",
+  "- Never invent credentials, sales numbers, or testimonials the author didn't supply. Never use \"bestseller\" unless the author claimed it.",
+  "- Avoid every fiction blurb cliché: no \"hook,\" no \"cliffhanger,\" no \"stakes\" framing. This is non-fiction.",
+  "",
+  "Format your response as markdown:",
+  "",
+  "## Promise",
+  "[The specific, concrete outcome the reader gets — 1 sentence]",
+  "",
+  "## Proof",
+  "[Author credibility or framework track record — 1-2 sentences, specific]",
+  "",
+  "## Framework",
+  "[The 3-5 stage method or system the book delivers — 1-2 sentences naming the structure]",
+  "",
+  "## Transformation",
+  "[Who the reader becomes after applying it — 1 sentence, tangible and specific]",
+  "",
+  "## Ready to paste",
+  "\"[The final composed Amazon non-fiction blurb, 130-180 words, prose only, no markdown, with line breaks between paragraphs]\"",
+  "",
+  "## Tips",
+  "- Lead with the promise — non-fiction readers scan for outcomes, not hooks.",
+  "- Name the framework in concrete language. \"A 4-stage method\" beats \"strategies.\"",
+  "- Always preview the description on Amazon before publishing — line breaks render but bold/italic do not.",
 ].join("\n");
 
 const TOOL = "blurb";
@@ -76,10 +118,21 @@ export async function onRequestPost(ctx) {
   const rate = await rateCheck(env, TOOL, ipHash, PER_IP_DAILY_LIMIT, PER_TOOL_DAILY_LIMIT);
   if (rate.blocked) return rate.blocked;
 
-  const userMsg = "Plot details:\n" + description + (genre ? "\n\nGenre: " + genre : "");
+  const isNF = isNonFiction(genre);
+  const label = genreLabel(genre);
+  const penNameOnly = body.pen_name_only === true;
+  const authorVoice = String(body.author_voice || "").trim().slice(0, 120);
+  const voiceSuffix = authorVoice ? "\n\nAuthor voice tag: " + authorVoice : "";
+  const penSuffix = penNameOnly
+    ? "\n\nPEN NAME MODE: this author writes under a pen name only. Never use legal-name patterns, family details, or biographical specifics that could leak the author's real identity. The blurb is about the book, not the writer."
+    : "";
+  const userMsg = (isNF ? "Book details:\n" : "Plot details:\n") + description
+    + (genre ? "\n\nGenre: " + (label || genre) : "")
+    + voiceSuffix
+    + penSuffix;
 
   const claude = await callClaude(env, {
-    system: SYSTEM_PROMPT,
+    system: isNF ? NONFICTION_SYSTEM_PROMPT : FICTION_SYSTEM_PROMPT,
     user: userMsg,
   });
   if (claude.error) return claude.error;

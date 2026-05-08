@@ -11,6 +11,8 @@ import {
   callClaude,
   methodNotAllowed,
   validateGenre,
+  isNonFiction,
+  genreLabel,
 } from "./_lib.js";
 
 const SYSTEM_PROMPT = [
@@ -22,6 +24,8 @@ const SYSTEM_PROMPT = [
   "- Never recommend mega-categories (\"Romance\", \"Mystery\") on their own — the top 100 there is dominated by traditional publishing. Always recommend deeper subcategories.",
   "- Be honest about competition. If a category routinely has top-100 books with 50K+ reviews, flag it.",
   "- Indie authors get up to 10 category placements via KDP. Skip the standard 2-default and explain what slots they should request.",
+  "- For non-fiction genres (memoir, business / how-to, self-help, cookbook): use Kindle Store > Kindle eBooks > Nonfiction > [subcategory] paths. Never recommend fiction categories.",
+  "- For YA / Middle Grade / Picture Book: use Kindle Store > Kindle eBooks > Children's eBooks or Teen & Young Adult subtrees, NOT adult Literature & Fiction.",
   "",
   "Format your response as markdown:",
   "",
@@ -85,7 +89,10 @@ export async function onRequestPost(ctx) {
   const rate = await rateCheck(env, TOOL, ipHash, PER_IP_DAILY_LIMIT, PER_TOOL_DAILY_LIMIT);
   if (rate.blocked) return rate.blocked;
 
-  const userMsg = "Book description:\n" + description + (genre ? "\n\nGenre: " + genre : "");
+  const label = genreLabel(genre);
+  const userMsg = "Book description:\n" + description
+    + (genre ? "\n\nGenre: " + (label || genre) : "")
+    + (isNonFiction(genre) ? "\n\nNote: this is a non-fiction book — recommend Nonfiction category paths only." : "");
 
   const claude = await callClaude(env, {
     system: SYSTEM_PROMPT,

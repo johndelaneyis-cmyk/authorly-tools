@@ -11,9 +11,13 @@ import {
   callClaude,
   methodNotAllowed,
   validateGenre,
+  isNonFiction,
+  genreLabel,
+  validateCulturalAnchor,
+  culturalAnchorLabel,
 } from "./_lib.js";
 
-const SYSTEM_PROMPT = [
+const FICTION_SYSTEM_PROMPT = [
   "You are a trope analyst for indie authors on Amazon and TikTok. Given a book description, identify the tropes already present in the plot that readers actively search for, plus any low-cost additions the author could lean into.",
   "",
   "Strict rules:",
@@ -22,6 +26,8 @@ const SYSTEM_PROMPT = [
   "- Rank tropes by **reader-search appeal**: how often that exact phrase shows up in BookTok captions, Goodreads shelves, and Amazon search bars.",
   "- For each trope, give a one-line evidence snippet from the description and a one-line note on how to lean into it for marketing (cover, tagline, ads, BookTok hooks).",
   "- The \"adjacent\" section is for tropes the book is ONE small revision away from supporting — not random suggestions. Skip it if there are none.",
+  "- Tune trope vocabulary to the sub-genre when supplied. Romantasy: fated mates, court politics, dragon bond, magic-system-as-romance. LitRPG / GameLit: dungeon mechanics, leveling system, isekai, deck-builder. Cozy mystery: amateur sleuth, small-town secrets, animal sidekick. Dark romance: morally grey hero, possession, danger kink, captor.",
+  "- For Christian/sweet/clean romance: surface only family-safe tropes (faith journey, second chance, forced proximity, small-town homecoming) — avoid heat-coded tropes.",
   "",
   "Format your response as markdown:",
   "",
@@ -42,6 +48,35 @@ const SYSTEM_PROMPT = [
   "Always test by searching the trope on Amazon and TikTok — if your book genuinely fits, the comparable books will be obvious.",
 ].join("\n");
 
+// Non-fiction analog: surface FRAMEWORKS / METHODS / TRANSFORMATIONS, not tropes.
+const NONFICTION_SYSTEM_PROMPT = [
+  "You are a positioning analyst for indie non-fiction authors on Amazon (memoir, business / how-to, self-help, cookbook). Given a book description, identify the FRAMEWORKS, METHODS, and READER TRANSFORMATIONS the book offers — the non-fiction equivalent of fiction tropes, the things readers search for and shop by.",
+  "",
+  "Strict rules:",
+  "- Surface real reader-vocabulary positioning elements: \"4-step framework,\" \"behavior-change protocol,\" \"daily ritual,\" \"30-day reset,\" \"founder's playbook,\" \"morning routine,\" \"transformation arc,\" \"systems-not-goals,\" \"category-of-one positioning.\" For memoir: \"second-act story,\" \"survivor narrative,\" \"reckoning memoir,\" \"recovery arc,\" \"immigrant story.\" Skip generic phrases like \"life-changing insights.\"",
+  "- Only list elements the description actually supports.",
+  "- Never use fiction tropes (\"found family,\" \"second chance,\" \"slow burn\") for non-fiction. Those are wrong-vertical signals that hurt discoverability.",
+  "- Rank by reader-search appeal: which phrases actually appear in Goodreads shelves, Amazon search, and category descriptors for similar non-fiction books.",
+  "",
+  "Format your response as markdown:",
+  "",
+  "## Frameworks & methods already in your book",
+  "1. **framework / method phrase** — Evidence: [phrase from description]. Lean in by: [tagline/cover/positioning angle]",
+  "2. **phrase** — Evidence: ...",
+  "(continue with as many as the description supports, up to 6, ranked by search appeal)",
+  "",
+  "## Adjacent positioning angles worth considering",
+  "- **phrase** — One-line revision that would unlock it",
+  "(0-3 items, only if genuinely adjacent)",
+  "",
+  "## Where to use these",
+  "- Amazon ad copy: name the outcome and the framework explicitly",
+  "- Subtitle: most non-fiction sales are won in the subtitle — name your strongest framework there",
+  "- Back-cover blurb: lead with the promise + framework name; readers shop by outcome",
+  "",
+  "Always test by searching the phrase on Amazon — if your book genuinely fits the positioning, comparable non-fiction books will be obvious.",
+].join("\n");
+
 const TOOL = "tropes";
 const MIN_DESC_LEN = 30;
 const MAX_DESC_LEN = 2000;
@@ -58,6 +93,7 @@ export async function onRequestPost(ctx) {
 
   const description = String(body.description || "").trim();
   const genre = validateGenre(body.genre);
+  const culturalAnchor = validateCulturalAnchor(body.cultural_anchor);
 
   if (description.length < MIN_DESC_LEN) {
     return jsonResponse({ error: "Please paste at least a paragraph (30+ characters) describing your book." }, 400);
@@ -73,10 +109,15 @@ export async function onRequestPost(ctx) {
   const rate = await rateCheck(env, TOOL, ipHash, PER_IP_DAILY_LIMIT, PER_TOOL_DAILY_LIMIT);
   if (rate.blocked) return rate.blocked;
 
-  const userMsg = "Book description:\n" + description + (genre ? "\n\nGenre: " + genre : "");
+  const isNF = isNonFiction(genre);
+  const label = genreLabel(genre);
+  const anchorLabel = culturalAnchorLabel(culturalAnchor);
+  const userMsg = "Book description:\n" + description
+    + (genre ? "\n\nGenre: " + (label || genre) : "")
+    + (anchorLabel ? "\n\nCultural anchor — surface tropes that resonate with this audience's bookshelf: " + anchorLabel : "");
 
   const claude = await callClaude(env, {
-    system: SYSTEM_PROMPT,
+    system: isNF ? NONFICTION_SYSTEM_PROMPT : FICTION_SYSTEM_PROMPT,
     user: userMsg,
     temperature: 0.5,
   });

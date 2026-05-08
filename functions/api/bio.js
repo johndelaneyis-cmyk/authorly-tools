@@ -10,6 +10,9 @@ import {
   bumpCounters,
   callClaude,
   methodNotAllowed,
+  validateGenre,
+  isNonFiction,
+  genreLabel,
 } from "./_lib.js";
 
 const SYSTEM_PROMPT = [
@@ -54,6 +57,7 @@ export async function onRequestPost(ctx) {
   const body = parsed.body;
 
   const facts = String(body.facts || "").trim();
+  const genre = validateGenre(body.genre);
 
   if (facts.length < MIN_FACTS_LEN) {
     return jsonResponse({ error: "Please share a few facts (30+ characters): name, what you write, location, anything relevant." }, 400);
@@ -69,7 +73,21 @@ export async function onRequestPost(ctx) {
   const rate = await rateCheck(env, TOOL, ipHash, PER_IP_DAILY_LIMIT, PER_TOOL_DAILY_LIMIT);
   if (rate.blocked) return rate.blocked;
 
-  const userMsg = "Author facts:\n" + facts;
+  const isNF = isNonFiction(genre);
+  const label = genreLabel(genre);
+  const penNameOnly = body.pen_name_only === true;
+  const authorVoice = String(body.author_voice || "").trim().slice(0, 120);
+  const genreSuffix = genre
+    ? ("\n\nWriting genre: " + (label || genre)
+       + (isNF
+         ? ". This is a non-fiction author — the bio should foreground credibility, lived experience, framework / domain expertise — not novelistic flourishes."
+         : ". The bio should suit a fiction author."))
+    : "";
+  const voiceSuffix = authorVoice ? "\n\nAuthor voice tag (match this tone): " + authorVoice : "";
+  const penSuffix = penNameOnly
+    ? "\n\nPEN NAME STRICT MODE: this author writes under a pen name only. Use ONLY the name(s) explicitly supplied in the facts above. Do NOT add, hallucinate, or substitute any other given name. Do NOT include hometown specifics that could expose the author's real identity unless the author explicitly listed them. The bio is about the writing career; keep biographical detail minimal and pen-name-safe."
+    : "";
+  const userMsg = "Author facts:\n" + facts + genreSuffix + voiceSuffix + penSuffix;
 
   const claude = await callClaude(env, {
     system: SYSTEM_PROMPT,
