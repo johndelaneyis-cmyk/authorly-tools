@@ -1,0 +1,27 @@
+name: Linkinator
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    - cron: '0 3 * * 0'
+
+jobs:
+  linkinator:
+    name: Crawl production for broken links
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Wait for CF Pages deploy
+        run: sleep 90
+
+      - name: Crawl with linkinator
+        uses: JustinBeckwith/linkinator-action@v1
+        with:
+          paths: https://authorly.tools/
+          recurse: true
+          retry: true
+          skip: 'linkedin\.com|twitter\.com|x\.com|facebook\.com|reddit\.com|instagram\.com|t\.co|news\.ycombinator\.com|amazon\.com|.*localhost.*|.*\.dev/.*|.*pages\.dev.*'
+          verbosity: error
