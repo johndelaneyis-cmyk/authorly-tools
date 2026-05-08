@@ -23,5 +23,5 @@ jobs:
           paths: https://authorly.tools/
           recurse: true
           retry: true
-          skip: 'linkedin\.com|twitter\.com|x\.com|facebook\.com|reddit\.com|instagram\.com|t\.co|news\.ycombinator\.com|amazon\.com|.*localhost.*|.*\.dev/.*|.*pages\.dev.*'
+          skip: 'linkedin\.com|twitter\.com|x\.com|facebook\.com|reddit\.com|instagram\.com|t\.co|news\.ycombinator\.com|amazon\.com|pexels\.com|cdn-cgi/l/email-protection|cloudflare\.com/sign-up.*email_protection|.*localhost.*|.*\.dev/.*|.*pages\.dev.*'
           verbosity: error
