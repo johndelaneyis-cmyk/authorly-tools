@@ -123,6 +123,15 @@ input::placeholder,textarea::placeholder{color:#8a857d;opacity:1;font-style:ital
 .char-count{text-align:right;font-size:12px;color:var(--ink-mute);margin-top:6px}
 
 .genre-row{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;align-items:flex-start}
+
+/* Universal tap-target wrapper — 44px floor for native radios/checkboxes
+   and small inline controls per WCAG 2.5.5 + Apple HIG. */
+.option-row{display:flex;align-items:center;gap:8px;min-height:44px;padding:6px 0;cursor:pointer}
+.option-row input[type="radio"],
+.option-row input[type="checkbox"]{width:18px;height:18px;margin:0;flex-shrink:0;cursor:pointer}
+.option-row label,
+.option-row > span{flex:1;cursor:pointer;line-height:1.4}
+
 .genre-chip{padding:10px 16px;min-height:44px;display:inline-flex;align-items:center;background:var(--paper-2);border:1px solid var(--rule);border-radius:999px;font-family:"Fraunces",serif;font-size:13px;color:var(--ink-mute);cursor:pointer;transition:all .2s}
 .genre-chip:hover{border-color:var(--accent);color:var(--ink)}
 .genre-chip.active{background:var(--accent);color:var(--paper);border-color:var(--accent);font-weight:600}
@@ -142,7 +151,7 @@ input::placeholder,textarea::placeholder{color:#8a857d;opacity:1;font-style:ital
 .genre-sub-row .genre-chip{font-size:12px;padding:8px 12px;min-height:40px}
 
 /* Cultural-anchor select (comp finder + tropes finder) — matches the chip aesthetic */
-.cultural-anchor-select{display:block;margin-top:14px;padding:9px 14px;background:var(--paper);border:1px solid var(--rule);border-radius:6px;font-family:"Fraunces",serif;font-size:14px;color:var(--ink);max-width:420px;width:100%;cursor:pointer}
+.cultural-anchor-select{display:block;margin-top:14px;padding:11px 14px;min-height:44px;background:var(--paper);border:1px solid var(--rule);border-radius:6px;font-family:"Fraunces",serif;font-size:16px;color:var(--ink);max-width:420px;width:100%;cursor:pointer}
 .cultural-anchor-select:hover,.cultural-anchor-select:focus{border-color:var(--accent);outline:none}
 .cultural-anchor-select:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 
@@ -158,7 +167,7 @@ input::placeholder,textarea::placeholder{color:#8a857d;opacity:1;font-style:ital
 .author-profile-panel{margin-top:12px;padding:14px 16px;background:var(--paper-2);border:1px solid var(--rule);border-radius:6px;max-width:520px}
 .author-profile-panel .ap-field{margin-bottom:10px;display:flex;flex-direction:column;gap:4px}
 .author-profile-panel .ap-field>label{font-size:12px;color:var(--ink-mute);font-weight:600}
-.author-profile-panel .ap-field>input,.author-profile-panel .ap-field>select{padding:7px 10px;background:var(--paper);border:1px solid var(--rule);border-radius:4px;font-family:"Fraunces",serif;font-size:13px;color:var(--ink)}
+.author-profile-panel .ap-field>input,.author-profile-panel .ap-field>select{padding:10px 12px;min-height:44px;background:var(--paper);border:1px solid var(--rule);border-radius:4px;font-family:"Fraunces",serif;font-size:16px;color:var(--ink)}
 .author-profile-panel .ap-field>input:focus,.author-profile-panel .ap-field>select:focus{border-color:var(--accent);outline:none}
 .author-profile-panel .ap-field>label.ap-checkbox{flex-direction:row;display:inline-flex;align-items:center;gap:6px;font-weight:400;color:var(--ink-2);font-size:13px}
 .author-profile-panel .ap-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
