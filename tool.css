@@ -90,6 +90,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 
 .site-header{display:flex;justify-content:space-between;align-items:center;padding-bottom:28px;border-bottom:1px solid var(--rule)}
 .logo{font-family:"Fraunces",serif;font-variation-settings:"opsz" 144,"SOFT" 100;font-weight:600;font-size:24px;letter-spacing:-.02em;color:var(--ink);text-decoration:none}
+.logo:focus-visible{outline:2px solid var(--accent);outline-offset:4px;border-radius:4px}
 .logo em{color:var(--accent);font-style:italic;font-weight:500;font-variation-settings:"opsz" 144,"WONK" 1}
 .nav{display:flex;gap:24px;font-size:15px}
 .nav a{color:var(--ink-mute);text-decoration:none;border-bottom:1px solid transparent;transition:border-color .2s,color .2s;display:inline-flex;align-items:center;padding:12px 8px;min-height:44px}
@@ -122,7 +123,7 @@ input::placeholder,textarea::placeholder{color:#8a857d;opacity:1;font-style:ital
 .char-count{text-align:right;font-size:12px;color:var(--ink-mute);margin-top:6px}
 
 .genre-row{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;align-items:flex-start}
-.genre-chip{padding:10px 16px;min-height:44px;display:inline-flex;align-items:center;background:var(--paper);border:1px solid var(--rule);border-radius:999px;font-family:"Fraunces",serif;font-size:13px;color:var(--ink-mute);cursor:pointer;transition:all .2s}
+.genre-chip{padding:10px 16px;min-height:44px;display:inline-flex;align-items:center;background:var(--paper-2);border:1px solid var(--rule);border-radius:999px;font-family:"Fraunces",serif;font-size:13px;color:var(--ink-mute);cursor:pointer;transition:all .2s}
 .genre-chip:hover{border-color:var(--accent);color:var(--ink)}
 .genre-chip.active{background:var(--accent);color:var(--paper);border-color:var(--accent);font-weight:600}
 
@@ -130,7 +131,7 @@ input::placeholder,textarea::placeholder{color:#8a857d;opacity:1;font-style:ital
    their sub-genres into a <details> wrapper. Click the parent to expand sub-chips.
    Default expanded group (Romance) is open via [open] attribute in HTML. */
 .genre-cluster{display:inline-block;margin:0;padding:0}
-.genre-cluster>summary{list-style:none;cursor:pointer;padding:7px 14px;background:var(--paper);border:1px solid var(--rule);border-radius:999px;font-family:"Fraunces",serif;font-size:13px;color:var(--ink-mute);transition:all .2s;display:inline-flex;align-items:center;gap:6px;-webkit-user-select:none;user-select:none}
+.genre-cluster>summary{list-style:none;cursor:pointer;padding:10px 14px;min-height:44px;background:var(--paper-2);border:1px solid var(--rule);border-radius:999px;font-family:"Fraunces",serif;font-size:13px;color:var(--ink-mute);transition:all .2s;display:inline-flex;align-items:center;gap:6px;-webkit-user-select:none;user-select:none}
 .genre-cluster>summary::-webkit-details-marker{display:none}
 .genre-cluster>summary::marker{content:""}
 .genre-cluster>summary:hover{border-color:var(--accent);color:var(--ink)}
@@ -138,7 +139,7 @@ input::placeholder,textarea::placeholder{color:#8a857d;opacity:1;font-style:ital
 .genre-cluster>summary .caret{font-style:normal;font-size:10px;line-height:1;transition:transform .2s}
 .genre-cluster[open]>summary .caret{transform:rotate(180deg)}
 .genre-sub-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;margin-bottom:4px;padding:8px 10px;background:var(--rule-soft);border-radius:6px;width:100%}
-.genre-sub-row .genre-chip{font-size:12px;padding:5px 11px}
+.genre-sub-row .genre-chip{font-size:12px;padding:8px 12px;min-height:40px}
 
 /* Cultural-anchor select (comp finder + tropes finder) — matches the chip aesthetic */
 .cultural-anchor-select{display:block;margin-top:14px;padding:9px 14px;background:var(--paper);border:1px solid var(--rule);border-radius:6px;font-family:"Fraunces",serif;font-size:14px;color:var(--ink);max-width:420px;width:100%;cursor:pointer}
