@@ -95,7 +95,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 .container{max-width:720px;margin:0 auto;padding:48px 24px}
 
 .site-header{display:flex;justify-content:space-between;align-items:center;padding-bottom:28px;border-bottom:1px solid var(--rule)}
-.logo{font-family:"Fraunces",serif;font-variation-settings:"opsz" 144,"SOFT" 100;font-weight:600;font-size:24px;letter-spacing:-.02em;color:var(--ink);text-decoration:none}
+.logo{font-family:"Fraunces",serif;font-variation-settings:"opsz" 144,"SOFT" 100;font-weight:600;font-size:24px;letter-spacing:-.02em;color:var(--ink);text-decoration:none;display:inline-flex;align-items:center;min-height:44px}
 .logo:focus-visible{outline:2px solid var(--accent);outline-offset:4px;border-radius:4px}
 .logo em{color:var(--accent);font-style:italic;font-weight:500;font-variation-settings:"opsz" 144,"WONK" 1}
 .nav{display:flex;gap:24px;font-size:15px}
