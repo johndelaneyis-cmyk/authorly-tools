@@ -119,6 +119,7 @@
     comment.className = "authorly-feedback-comment";
     comment.placeholder = "Anything we should fix? (optional)";
     comment.maxLength = 1000;
+    comment.setAttribute("aria-label", "Optional feedback note");
     wrap.appendChild(comment);
 
     const submit = document.createElement("button");
