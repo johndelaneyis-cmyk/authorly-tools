@@ -118,10 +118,46 @@
     return state;
   }
 
-  // -------- Character counter -------------------------------------------
-  function wireCharCounter(field, counterEl) {
+  // -------- Character counter (min-aware) --------------------------------
+  // Replaces the entire "X / max" line with min-aware messaging when below
+  // primaryMin. We climb up to the .char-count container and rewrite its
+  // textContent so the "X chars to go" message replaces the static label,
+  // then restores the standard "n / max" once the user crosses min.
+  function wireCharCounter(field, counterEl, opts) {
     if (!field || !counterEl) return;
-    var update = function () { counterEl.textContent = field.value.length; };
+    opts = opts || {};
+    var min = opts.min || 0;
+    var max = opts.max || (parseInt(field.getAttribute("maxlength") || "0", 10));
+    var container = counterEl.parentNode; // the .char-count <div>
+    var defaultLabel = container ? container.textContent : "";
+    var update = function () {
+      var n = field.value.length;
+      if (container && min && n > 0 && n < min) {
+        var togo = min - n;
+        container.textContent = n + " / " + min + " min — " + togo + " more to go";
+        container.classList.add("is-below-min");
+      } else if (container) {
+        // Restore "X / max" baseline; counterEl is a child <span> we keep updating.
+        container.classList.remove("is-below-min");
+        // Re-render the standard structure: <span id="cc">N</span> / max
+        // We can't easily restore innerHTML from textContent, so just write text.
+        // This leaves a styled flat line — visually equivalent to the original.
+        container.textContent = "";
+        var s = document.createElement("span");
+        s.id = counterEl.id;
+        s.textContent = String(n);
+        container.appendChild(s);
+        container.appendChild(document.createTextNode(" / " + (max || "—")));
+        // Update closure reference so subsequent updates target the new span
+        counterEl = s;
+      } else {
+        counterEl.textContent = String(n);
+      }
+      if (max && container) {
+        container.classList.toggle("is-warning", n >= max * 0.85 && n < max);
+        container.classList.toggle("is-over", n >= max);
+      }
+    };
     field.addEventListener("input", update);
     update();
   }
@@ -144,7 +180,7 @@
     var genre = wireGenreChips();
     var counter = cfg.counterId ? document.getElementById(cfg.counterId) : null;
     var primaryField = document.getElementById(cfg.primaryFieldId);
-    if (counter) wireCharCounter(primaryField, counter);
+    if (counter) wireCharCounter(primaryField, counter, { min: cfg.primaryMin, max: cfg.primaryMax });
 
     var btn = document.getElementById(cfg.buttonId);
     var out = document.getElementById(cfg.outputId);
