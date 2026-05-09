@@ -19,6 +19,9 @@
 // ignore the directive and the createPolicy call is a no-op.
 (() => {
   if (typeof window.trustedTypes === "undefined" || !window.trustedTypes.createPolicy) return;
+  // Idempotent: skip if a default policy is already installed (e.g. by tool.js
+  // on pages that load it before feedback.js). Avoids createPolicy churn.
+  if (window.trustedTypes.defaultPolicy) return;
   try {
     window.trustedTypes.createPolicy("default", {
       createHTML: (s) => String(s).replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, ""),
