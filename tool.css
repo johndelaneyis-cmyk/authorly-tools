@@ -92,7 +92,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 .logo{font-family:"Fraunces",serif;font-variation-settings:"opsz" 144,"SOFT" 100;font-weight:600;font-size:24px;letter-spacing:-.02em;color:var(--ink);text-decoration:none}
 .logo em{color:var(--accent);font-style:italic;font-weight:500;font-variation-settings:"opsz" 144,"WONK" 1}
 .nav{display:flex;gap:24px;font-size:15px}
-.nav a{color:var(--ink-mute);text-decoration:none;border-bottom:1px solid transparent;transition:border-color .2s,color .2s;display:inline-block;padding:6px 4px;min-height:24px}
+.nav a{color:var(--ink-mute);text-decoration:none;border-bottom:1px solid transparent;transition:border-color .2s,color .2s;display:inline-flex;align-items:center;padding:12px 8px;min-height:44px}
 .nav a:hover{border-bottom-color:var(--accent);color:var(--ink)}
 
 .hero{padding:64px 0 32px;text-align:center}
@@ -122,7 +122,7 @@ input::placeholder,textarea::placeholder{color:#8a857d;opacity:1;font-style:ital
 .char-count{text-align:right;font-size:12px;color:var(--ink-mute);margin-top:6px}
 
 .genre-row{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;align-items:flex-start}
-.genre-chip{padding:7px 14px;background:var(--paper);border:1px solid var(--rule);border-radius:999px;font-family:"Fraunces",serif;font-size:13px;color:var(--ink-mute);cursor:pointer;transition:all .2s}
+.genre-chip{padding:10px 16px;min-height:44px;display:inline-flex;align-items:center;background:var(--paper);border:1px solid var(--rule);border-radius:999px;font-family:"Fraunces",serif;font-size:13px;color:var(--ink-mute);cursor:pointer;transition:all .2s}
 .genre-chip:hover{border-color:var(--accent);color:var(--ink)}
 .genre-chip.active{background:var(--accent);color:var(--paper);border-color:var(--accent);font-weight:600}
 
@@ -414,6 +414,44 @@ body.is-404 .notfound .cta-arrow{font-style:italic;transition:transform .2s}
 body.is-404 .notfound .cta:hover .cta-arrow{transform:translateX(3px)}
 @media (max-width:520px){
   body.is-404 .notfound{padding:64px 0 48px}
+}
+
+/* ============================================================================
+   GUIDE LAYOUT HELPERS — replaces inline style="" in guides/*.html
+   Strict CSP `style-src 'self'` blocks inline styles silently. Frontend-design
+   audit 2026-05-09: 4 inline-style violations cleaned up here.
+   ============================================================================ */
+.section--no-top-rule {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+.also-useful--narrow {
+  max-width: 680px;
+}
+.guide-meta--space-above {
+  margin-top: 48px;
+}
+
+/* ============================================================================
+   LOADING BUTTON ELLIPSIS PULSE
+   Frontend-design audit 2026-05-09: text-swap exists, but ellipsis was static —
+   subtle opacity pulse signals the button is alive during 4-8s AI calls.
+   ============================================================================ */
+.btn[aria-busy="true"] .btn-arrow {
+  animation: btn-ellipsis-pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes btn-ellipsis-pulse {
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn[aria-busy="true"] .btn-arrow {
+    animation: none;
+    opacity: 0.7;
+  }
 }
 
 /* ============================================================================
