@@ -1,3 +1,6 @@
+# Host canonicalisation — www → apex (Pages serves the cert for both, this strips www)
+https://www.authorly.tools/*  https://authorly.tools/:splat  301!
+
 # Block internal docs and planning artifacts from being publicly served by Cloudflare Pages.
 # CF Pages serves any file in the deploy bucket by default — without these rules, anything at
 # the repo root that isn't gitignored ships at https://authorly.tools/<path>.
