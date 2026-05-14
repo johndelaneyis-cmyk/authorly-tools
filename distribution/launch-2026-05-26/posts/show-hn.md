@@ -1,19 +1,19 @@
-# Show HN — Wednesday May 27, 9am ET / 2pm UK SHARP
+# Show HN — Friday May 23, 9am ET / 2pm UK SHARP
 
 **Where:** `news.ycombinator.com/submit`
-**Account:** `Authorly` (or whichever HN username you registered)
+**Account:** shared `hn@slatework.tools` HN account (8-day gap from Slatework HN Fri May 15)
 
-**Critical:** timing is non-negotiable. 9am ET on a Wednesday is peak HN front-page traffic. Posting at 8:55am or 9:05am is fine; posting at 11am loses you the window.
+**Critical:** timing is non-negotiable. 9am ET on a Friday targets the lighter weekend-leadup HN front page (less competition than Tue/Wed). Posting at 8:55am or 9:05am is fine; posting at 11am loses you the window.
 
 ---
 
 ## Title
 
 ```
-Show HN: Authorly – Six free Amazon KDP tools for indie authors
+Show HN: Authorly – Seven free Amazon KDP tools for indie authors
 ```
 
-(en-dash between Authorly and "Six" — HN convention for "Show HN: [name] – [description]". Don't use a hyphen.)
+(en-dash between Authorly and "Seven" — HN convention for "Show HN: [name] – [description]". Don't use a hyphen.)
 
 ---
 
@@ -30,9 +30,9 @@ https://authorly.tools
 ```
 Hi HN,
 
-I'm an indie author who got tired of paying $25-50/mo per SaaS tool for things like comp-finding and blurb-writing. Built a small alternative: six tools, all free, no signup.
+I'm an indie author who got tired of paying $25-50/mo per SaaS tool for things like comp-finding and blurb-writing. Built a small alternative: seven tools, all free, no signup.
 
-Stack: Cloudflare Pages + Pages Functions, Anthropic Claude Sonnet 4.5 server-side via my API key, KV for per-IP rate limiting (5 generations/tool/day).
+Stack: Cloudflare Pages + Pages Functions, Anthropic Claude Sonnet 4.6 server-side via my API key, KV for per-IP rate limiting (5 generations/tool/day).
 
 Architectural notes for the curious:
 - Single repo, ~3000 LOC total. Static HTML + functions/api/*.js endpoints.
@@ -44,7 +44,7 @@ Architectural notes for the curious:
 What I'd love feedback on:
 1. Output quality on the comp finder — are the suggestions actually useful for your genre?
 2. Whether the prompt structure shows through too obviously (it's intentionally structured, but I don't want it to feel mechanical).
-3. What tool 7 should be.
+3. What tool 8 should be.
 
 https://authorly.tools
 ```
